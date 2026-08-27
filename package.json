@@ -1,0 +1,12 @@
+{
+  "name": "local-ai-global",
+  "private": true,
+  "packageManager": "pnpm@10.15.0",
+  "scripts": {
+    "build": "pnpm --filter @local-ai/site build",
+    "dev": "pnpm --filter @local-ai/site dev",
+    "test": "pnpm --filter @local-ai/registry test",
+    "typecheck": "pnpm -r typecheck",
+    "validate": "pnpm --filter @local-ai/submission-harness validate"
+  }
+}

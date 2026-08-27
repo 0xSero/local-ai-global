@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# omarchy:summary=Remove the local AI container, state, and agent wiring
+
+set -euo pipefail
+source "$OMARCHY_PATH/default/omarchy/local-ai-lib.sh"
+
+docker rm --force "$AI_CONTAINER" >/dev/null 2>&1 || true
+docker rm --force "${AI_CONTAINER}-previous" >/dev/null 2>&1 || true
+ai_unconfigure_agents
+rm -f "$AI_STATE_FILE"
+omarchy-shell -q omarchy.local-ai refresh 2>/dev/null || true
+echo "Local AI removed. Cached images and weights were kept."

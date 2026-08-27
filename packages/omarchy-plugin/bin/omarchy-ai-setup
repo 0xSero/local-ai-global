@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# omarchy:summary=Resolve, launch, verify, and configure a local AI model
+# omarchy:args=[recipe] [--gpus ids] [--port port] [--dry-run] [--json] [--set-default] [--no-configure]
+# omarchy:examples=omarchy ai setup | omarchy ai setup fast --dry-run | omarchy ai setup fast --gpus 0 --set-default
+
+exec "$OMARCHY_PATH/bin/omarchy-ai-run" "$@"

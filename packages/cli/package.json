@@ -1,0 +1,6 @@
+{
+  "name": "@local-ai/cli",
+  "private": true,
+  "bin": { "local-ai": "bin/local-ai" },
+  "scripts": { "typecheck": "bash -n bin/local-ai" }
+}

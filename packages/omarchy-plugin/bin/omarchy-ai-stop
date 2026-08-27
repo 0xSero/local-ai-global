@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# omarchy:summary=Stop the local AI model server without deleting it
+
+set -euo pipefail
+source "$OMARCHY_PATH/default/omarchy/local-ai-lib.sh"
+
+if docker inspect "$AI_CONTAINER" >/dev/null 2>&1; then
+  docker stop "$AI_CONTAINER" >/dev/null
+fi
+omarchy-shell -q omarchy.local-ai refresh 2>/dev/null || true
+echo "Local AI stopped."

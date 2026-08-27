@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# omarchy:summary=List local AI recipes, fit, and serving state
+# omarchy:args=[--json]
+
+set -euo pipefail
+source "$OMARCHY_PATH/default/omarchy/local-ai-lib.sh"
+
+catalog=$(ai_catalog_path)
+hardware=$(ai_hardware_json)
+status=$(ai_status_json)
+listing=$(jq -n --argjson hardware "$hardware" --argjson status "$status" --slurpfile catalog "$catalog" '
+  $catalog[0] as $catalog
+  | ($hardware.devices // []) as $devices
+  | ($status.recipe_id // "") as $active
+  | {
+      schema_version: 1,
+      hardware: $hardware,
+      vram_mb: ([$devices[].total_vram_mb] | max // 0),
+      gpus: [$devices[].total_vram_mb],
+      state: ($status.state // "not-setup"),
+      ready: ($status.ready // false),
+      active: $active,
+      model: ($status.model // ""),
+      endpoint: ($status.endpoint // ""),
+      port: ($status.port // $catalog.port // 8000),
+      recipes: ($catalog.recipes
+        | sort_by([-.min_vram_mb, -(.min_gpus // 1), .name])
+        | map(. as $recipe
+          | (([$devices[] | select(.total_vram_mb >= $recipe.min_vram_mb)] | length) >= ($recipe.min_gpus // 1)) as $compatible
+          | (([$devices[] | select(.free_vram_mb >= $recipe.min_vram_mb)] | length) >= ($recipe.min_gpus // 1)) as $capacity
+          | (($recipe.status // "candidate") == "validated") as $validated
+          | {
+              name: $recipe.name,
+              label: $recipe.label,
+              status: ($recipe.status // "candidate"),
+              min_vram_mb: $recipe.min_vram_mb,
+              min_gpus: ($recipe.min_gpus // 1),
+              source: ($recipe.source // "built-in"),
+              compatible: $compatible,
+              available: ($validated and $capacity),
+              fits: ($validated and $compatible),
+              active: ($recipe.name == $active),
+              reason: (if $validated | not then "candidate recipe is not validated" elif $compatible | not then "does not fit this hardware" elif $capacity | not then "not enough free VRAM" else "ready" end)
+            }
+        ))
+    }
+')
+
+if [[ ${1:-} == "--json" ]]; then
+  jq . <<<"$listing"
+else
+  jq -r '"state: \(.state)\(if .active == "" then "" else " (\(.active))" end) · hardware: \(.hardware.hardware_id) · \(.hardware.free_vram_mb / 1024 | floor) / \(.hardware.total_vram_mb / 1024 | floor) GB free", (.recipes[] | (if .active then "●" elif .available then "○" else "·" end) + " " + (.name + (" " * ([10 - (.name | length), 1] | max))) + .label + " [" + .status + "] — " + .reason)' <<<"$listing"
+fi

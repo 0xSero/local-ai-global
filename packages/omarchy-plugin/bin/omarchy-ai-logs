@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# omarchy:summary=Show local AI model server logs
+# omarchy:args=[--follow]
+
+set -euo pipefail
+source "$OMARCHY_PATH/default/omarchy/local-ai-lib.sh"
+
+args=(--tail 200)
+if [[ ${1:-} == "--follow" ]]; then
+  args+=(--follow)
+fi
+exec docker logs "${args[@]}" "$AI_CONTAINER"

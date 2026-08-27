@@ -1,0 +1,24 @@
+{
+  "name": "@local-ai/site",
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "start": "next start",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@local-ai/api": "workspace:*",
+    "@local-ai/registry": "workspace:*",
+    "@local-ai/sdk": "workspace:*",
+    "next": "16.3.3",
+    "react": "19.2.1",
+    "react-dom": "19.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.9.0"
+  }
+}

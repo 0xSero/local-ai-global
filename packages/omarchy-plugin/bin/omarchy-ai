@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# omarchy:summary=Choose a local AI model for this hardware
+
+set -euo pipefail
+
+exec omarchy-registry local "$@"
