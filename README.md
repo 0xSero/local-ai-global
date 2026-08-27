@@ -43,6 +43,10 @@ Open [http://localhost:3000](http://localhost:3000). The wiki is at `/docs`, the
 
 The published architecture and contribution wiki is available at [0xsero.github.io/local-ai-global](https://0xsero.github.io/local-ai-global/).
 
+## Deployment
+
+The `local-ai-registry` Vercel project watches `origin/main` and builds from `packages/site`. The Git repository is the deployment input; generated Vercel state and environment files remain local.
+
 ## Growth rule
 
 New data enters through `submission-harness`, passes schema and reference validation, and lands in `registry` as a reviewable diff. The API, SDK, CLI, site, and Omarchy plugin never mutate registry data. See [`CONTRIBUTING.md`](CONTRIBUTING.md), [`docs/architecture/ownership.md`](docs/architecture/ownership.md), and [`docs/guides/growing-the-registry.md`](docs/guides/growing-the-registry.md).
