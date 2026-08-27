@@ -164,6 +164,15 @@ function relationshipEntries(relationships: unknown): Array<[string, RecordLink[
   })
 }
 
+function relationshipSummary(key: string, links: RecordLink[]): string {
+  if (key === "recipes") {
+    const ready = links.filter((link) => getCompatibilityResult(link.id)?.launchable).length
+    return `${links.length.toLocaleString()} ${links.length === 1 ? "recipe" : "recipes"} · ${ready.toLocaleString()} Docker ready`
+  }
+  if (key === "speed_sweeps") return `${links.length.toLocaleString()} measured ${links.length === 1 ? "run" : "runs"}`
+  return `${links.length.toLocaleString()} ${links.length === 1 ? "record" : "records"}`
+}
+
 function Connections({ relationships }: { relationships: unknown }) {
   const groups = relationshipEntries(relationships)
   if (groups.length === 0) return null
@@ -173,8 +182,8 @@ function Connections({ relationships }: { relationships: unknown }) {
       <span className="mono-label">CONNECTED DATA</span>
       <div className="connection-groups">
         {groups.map(([key, links]) => (
-          <details className="connection-group" key={key}>
-            <summary><span>{relationshipLabel(key)}</span><small>{links.length.toLocaleString()} {links.length === 1 ? "record" : "records"}</small></summary>
+          <details className="connection-group" key={key} open={key === "recipes" || key === "speed_sweeps" || links.length <= 3}>
+            <summary><span>{relationshipLabel(key)}</span><small>{relationshipSummary(key, links)}</small></summary>
             <div className="connection-links">
               {[...links].sort((left, right) => Number(Boolean(getCompatibilityResult(right.id)?.launchable)) - Number(Boolean(getCompatibilityResult(left.id)?.launchable))).map((link) => {
                 const recipe = key === "recipes" ? getCompatibilityResult(link.id) : undefined
@@ -283,7 +292,7 @@ function ModelDetails({ modelInstances, record }: { modelInstances: ModelInstanc
 function ObservationRows({ observations, currency }: { currency: string; observations: PriceObservation[] }) {
   const sorted = [...observations].sort((left, right) => Number(right.in_stock) - Number(left.in_stock) || left.amount - right.amount)
   return (
-    <details className="record-section">
+    <details className="record-section" open>
       <summary><span>Market observations</span><small>{observations.length.toLocaleString()} listings</small></summary>
       <div className="observation-list">
         {sorted.map((observation, index) => (
@@ -338,7 +347,7 @@ function SpeedDetails({ record }: { record: Record<string, unknown> }) {
         ]}
         label="SPEED EVIDENCE"
       />
-      <details className="record-section">
+      <details className="record-section" open>
         <summary><span>Measured points</span><small>{sweep.rows.length.toLocaleString()} rows</small></summary>
         <div className="measurement-table" role="table" aria-label="Speed sweep measurements">
           <div role="row"><span role="columnheader">Context</span><span role="columnheader">Concurrency</span><span role="columnheader">Decode</span><span role="columnheader">TTFT</span></div>
@@ -373,7 +382,12 @@ export function RecordDetails({ compatibility, modelInstances, record, selectedH
       {topic === "models" && <ModelDetails modelInstances={modelInstances} record={record} />}
       {topic === "prices" && <PriceDetails record={record} />}
       {topic === "speed-sweeps" && <SpeedDetails record={record} />}
-      {topic === "recipes" && compatibility && <RecipeSummary result={compatibility} selectedHardware={selectedHardware} />}
+      {topic === "recipes" && compatibility && (
+        <>
+          <RecipeSummary result={compatibility} selectedHardware={selectedHardware} />
+          <Connections relationships={record.relationships} />
+        </>
+      )}
       <RawRecord record={record} />
     </>
   )

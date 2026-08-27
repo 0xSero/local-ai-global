@@ -72,7 +72,7 @@ export function DataTree({ nested = false, value }: { nested?: boolean; value: u
     return (
       <ol className="data-list">
         {value.map((item, index) => (
-          <li key={typeof item === "string" ? item : index}>
+          <li key={`${index}-${typeof item === "string" ? item : "record"}`}>
             {item !== null && typeof item === "object"
               ? <Branch value={item as unknown[] | Record<string, unknown>} />
               : <DataTree nested value={item} />}

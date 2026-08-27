@@ -336,7 +336,7 @@ code, pre, kbd, .mono-label, .row-status, .topic-total, .pagination { font-famil
 .record-modal {
   position: relative;
   display: grid;
-  width: min(1040px, 100%);
+  width: min(1160px, 100%);
   max-height: 90dvh;
   grid-template-rows: auto minmax(0, 1fr) auto;
   overflow: hidden;
@@ -405,8 +405,8 @@ code, pre, kbd, .mono-label, .row-status, .topic-total, .pagination { font-famil
 .record-facts { display: grid; margin: 20px 0 0; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid #3b3b38; border-left: 1px solid #3b3b38; }
 .record-facts > div { min-width: 0; min-height: 90px; padding: 13px; border-right: 1px solid #3b3b38; border-bottom: 1px solid #3b3b38; background: #151515; }
 .record-facts dt { color: var(--faint); font-family: var(--font-mono); font-size: 0.55rem; text-transform: uppercase; }
-.record-facts dd { margin: 13px 0 2px; overflow: hidden; color: #f0eee7; font-size: 0.76rem; font-weight: 560; text-overflow: ellipsis; white-space: nowrap; }
-.record-facts small { display: block; overflow: hidden; color: var(--muted); font-size: 0.58rem; text-overflow: ellipsis; white-space: nowrap; }
+.record-facts dd { margin: 13px 0 2px; color: #f0eee7; font-size: 0.76rem; font-weight: 560; line-height: 1.35; overflow-wrap: anywhere; }
+.record-facts small { display: block; color: var(--muted); font-size: 0.58rem; line-height: 1.4; overflow-wrap: anywhere; }
 
 .hardware-prices { padding: 22px 0 26px; border-bottom: 1px solid var(--line); }
 .section-heading { display: flex; align-items: center; justify-content: space-between; }
@@ -442,7 +442,7 @@ code, pre, kbd, .mono-label, .row-status, .topic-total, .pagination { font-famil
 .connection-group > summary::before, .record-section > summary::before, .raw-record > summary::before { width: 18px; content: "+"; color: var(--faint); font-family: var(--font-mono); }
 .connection-group[open] > summary::before, .record-section[open] > summary::before, .raw-record[open] > summary::before { content: "−"; }
 .connection-group > summary > span, .record-section > summary > span, .raw-record > summary > span { margin-right: auto; }
-.connection-group > summary small, .record-section > summary small, .raw-record > summary small { color: var(--faint); font-family: var(--font-mono); font-size: 0.57rem; }
+.connection-group > summary small, .record-section > summary small, .raw-record > summary small { color: var(--faint); font-family: var(--font-mono); font-size: 0.57rem; text-align: right; }
 .connection-links { max-height: 360px; overflow: auto; border-top: 1px solid #3b3b38; scrollbar-color: #4a4a47 var(--canvas); }
 .connection-link-row {
   display: flex;
@@ -534,8 +534,8 @@ code, pre, kbd, .mono-label, .row-status, .topic-total, .pagination { font-famil
 .recipe-facts { display: grid; margin: 20px 0 0; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
 .recipe-facts > div { min-width: 0; min-height: 92px; padding: 13px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .recipe-facts dt { color: var(--faint); font-family: var(--font-mono); font-size: 0.55rem; text-transform: uppercase; }
-.recipe-facts dd { margin: 13px 0 2px; overflow: hidden; font-size: 0.72rem; font-weight: 520; text-overflow: ellipsis; white-space: nowrap; }
-.recipe-facts small { display: block; overflow: hidden; color: var(--muted); font-size: 0.58rem; text-overflow: ellipsis; white-space: nowrap; }
+.recipe-facts dd { margin: 13px 0 2px; font-size: 0.72rem; font-weight: 520; line-height: 1.35; overflow-wrap: anywhere; }
+.recipe-facts small { display: block; color: var(--muted); font-size: 0.58rem; line-height: 1.4; overflow-wrap: anywhere; }
 .recipe-command-heading { display: flex; margin-top: 20px; align-items: flex-end; justify-content: space-between; gap: 20px; }
 .recipe-command-heading p { margin: 5px 0 0; color: var(--muted); font-size: 0.62rem; }
 .recipe-command-heading > div:last-child { display: flex; gap: 6px; flex: none; }
