@@ -7,7 +7,7 @@ function shellValue(value: string): string {
   return `'${value.replaceAll("'", `'"'"'`)}'`
 }
 
-function dockerCommand(result: CompatibilityResult): string | null {
+export function dockerCommand(result: CompatibilityResult): string | null {
   const launch = result.recipe.launch
   if (launch.kind !== "docker" || typeof launch.image !== "string") return null
   const lines = ["docker run --rm"]

@@ -3,9 +3,11 @@ import type { ReactNode } from "react"
 
 import { DataTree } from "@/app/components/data-tree"
 import { HuggingFaceCards } from "@/app/components/hugging-face-cards"
-import { RecipeSummary } from "@/app/components/recipe-summary"
+import { CopyButton } from "@/app/components/copy-button"
+import { dockerCommand, RecipeSummary } from "@/app/components/recipe-summary"
 import {
   getCompatibilityResult,
+  getEntityDetail,
   getSpeedSweep,
   type CompatibilityResult,
   type ModelInstanceResult,
@@ -129,7 +131,9 @@ function relationTitle(link: RecordLink): string {
 }
 
 function relationMeta(link: RecordLink): string {
+  const recipe = getCompatibilityResult(link.id)
   return [
+    recipe ? recipe.launchable ? "Docker ready" : "Reference only" : undefined,
     link.status,
     link.engine,
     typeof link.hardware_count === "number" ? `${link.hardware_count}× hardware` : undefined,
@@ -172,15 +176,47 @@ function Connections({ relationships }: { relationships: unknown }) {
           <details className="connection-group" key={key}>
             <summary><span>{relationshipLabel(key)}</span><small>{links.length.toLocaleString()} {links.length === 1 ? "record" : "records"}</small></summary>
             <div className="connection-links">
-              {links.map((link) => (
-                <Link href={relationHref(link)} key={`${key}-${link.id}`} scroll={false}>
-                  <span><strong>{relationTitle(link)}</strong>{relationMeta(link) && <small>{relationMeta(link)}</small>}</span>
-                  <span aria-hidden="true">View</span>
-                </Link>
-              ))}
+              {[...links].sort((left, right) => Number(Boolean(getCompatibilityResult(right.id)?.launchable)) - Number(Boolean(getCompatibilityResult(left.id)?.launchable))).map((link) => {
+                const recipe = key === "recipes" ? getCompatibilityResult(link.id) : undefined
+                const command = recipe?.launchable ? dockerCommand(recipe) : null
+                return (
+                  <div className="connection-link-row" key={`${key}-${link.id}`}>
+                    <Link href={relationHref(link)} scroll={false}>
+                      <span><strong>{relationTitle(link)}</strong>{relationMeta(link) && <small>{relationMeta(link)}</small>}</span>
+                      <span className="link-affordance" aria-hidden="true">Open <b>↗</b></span>
+                    </Link>
+                    {command && <CopyButton label="Copy Docker" value={command} />}
+                  </div>
+                )
+              })}
             </div>
           </details>
         ))}
+      </div>
+    </section>
+  )
+}
+
+function HardwarePrices({ links }: { links: RecordLink[] }) {
+  const prices = links.flatMap((link) => {
+    const record = getEntityDetail("prices", link.id) as unknown as PriceRecord | undefined
+    return record ? [{ link, record }] : []
+  })
+  if (prices.length === 0) return null
+
+  return (
+    <section className="hardware-prices" aria-label="Current market prices">
+      <div className="section-heading"><span className="mono-label">MARKET PRICES</span><small>{prices.length} {prices.length === 1 ? "region" : "regions"}</small></div>
+      <div className="hardware-price-list">
+        {prices.map(({ link, record }) => {
+          const lowest = record.summary.lowest_new ?? record.summary.lowest_refurbished ?? record.summary.lowest_used
+          return (
+            <Link href={relationHref(link)} key={record.id} scroll={false}>
+              <span><strong>{record.region.name}</strong><small>{record.summary.in_stock_count} in stock · {record.summary.listing_count} listings · observed {formatDate(record.observed_at)}</small></span>
+              <span><strong>{formatAmount(lowest, record.region.currency)}</strong><small>Open market record <b>↗</b></small></span>
+            </Link>
+          )
+        })}
       </div>
     </section>
   )
@@ -190,6 +226,16 @@ function HardwareDetails({ record }: { record: Record<string, unknown> }) {
   const hardware = record as unknown as Hardware & { relationships?: Relationships }
   const relationships = relationshipEntries(hardware.relationships)
   const count = (key: string) => relationships.find(([name]) => name === key)?.[1].length ?? 0
+  const priceLinks = relationships.find(([name]) => name === "prices")?.[1] ?? []
+  const recipeLinks = relationships.find(([name]) => name === "recipes")?.[1] ?? []
+  const dockerReady = recipeLinks.filter((link) => getCompatibilityResult(link.id)?.launchable).length
+  const lowestPrice = priceLinks.flatMap((link) => {
+    const price = getEntityDetail("prices", link.id) as unknown as PriceRecord | undefined
+    if (!price) return []
+    const amount = price.summary.lowest_new ?? price.summary.lowest_refurbished ?? price.summary.lowest_used
+    return amount === null ? [] : [{ amount, currency: price.region.currency }]
+  }).sort((left, right) => left.amount - right.amount)[0]
+  const connectedRelationships = Object.fromEntries(Object.entries(hardware.relationships ?? {}).filter(([key]) => key !== "prices"))
 
   return (
     <>
@@ -198,12 +244,13 @@ function HardwareDetails({ record }: { record: Record<string, unknown> }) {
         facts={[
           { label: "Memory", value: formatMemory(hardware.memory.vram_gb), detail: hardware.memory.vram_type ?? "Type unknown" },
           { label: "Bandwidth", value: formatBandwidth(hardware.memory.bandwidth_gb_per_s), detail: "memory bandwidth" },
-          { label: "Backend", value: hardware.accelerator_backend, detail: hardware.kind },
-          { label: "Registry coverage", value: `${count("recipes")} recipes`, detail: `${count("models")} models · ${count("prices")} price regions` },
+          { label: "Recipes", value: `${count("recipes")} total`, detail: `${dockerReady} Docker ready · ${count("models")} models` },
+          { label: "Market", value: lowestPrice ? formatAmount(lowestPrice.amount, lowestPrice.currency) : "No price yet", detail: `${count("prices")} price ${count("prices") === 1 ? "region" : "regions"}` },
         ]}
         label="HARDWARE PROFILE"
       />
-      <Connections relationships={hardware.relationships} />
+      <HardwarePrices links={priceLinks} />
+      <Connections relationships={connectedRelationships} />
     </>
   )
 }
