@@ -1,0 +1,63 @@
+{
+  "schema_version": "local-ai-registry/v1",
+  "id": "rtx-pro-6000-blackwell--us",
+  "product": {
+    "id": "rtx-pro-6000-blackwell",
+    "name": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition",
+    "category": "nvidia"
+  },
+  "region": {
+    "code": "US",
+    "name": "United States",
+    "currency": "USD"
+  },
+  "hardware": [
+    {
+      "id": "rtx-pro-6000-blackwell-96gb",
+      "match_scope": "exact"
+    }
+  ],
+  "observed_at": "2026-08-27T15:27:00.000Z",
+  "summary": {
+    "listing_count": 2,
+    "retailer_count": 1,
+    "in_stock_count": 2,
+    "lowest_new": 13899.99,
+    "lowest_refurbished": null,
+    "lowest_used": null
+  },
+  "observations": [
+    {
+      "retailer": "Micro Center",
+      "title": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition (OEM) — Indianapolis",
+      "condition": "new",
+      "amount": 13899.99,
+      "currency": "USD",
+      "in_stock": true,
+      "quantity": 8,
+      "url": "https://www.microcenter.com/product/711665/nvidia-rtx-pro-6000-blackwell-workstation-edition-dual-fan-ai-workstation-graphics-card-%28oem%29?osfs=false&storeid=165",
+      "observed_at": "2026-08-27T15:27:00.000Z"
+    },
+    {
+      "retailer": "Micro Center",
+      "title": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition (OEM) — Dallas",
+      "condition": "new",
+      "amount": 14399.99,
+      "currency": "USD",
+      "in_stock": true,
+      "quantity": 12,
+      "url": "https://www.microcenter.com/product/711665/nvidia-nvidia-rtx6000-blackwell?storeid=131",
+      "observed_at": "2026-08-27T15:27:00.000Z"
+    }
+  ],
+  "verification": {
+    "state": "candidate",
+    "method": "direct retailer product pages with store-specific price and inventory",
+    "rejected_observations": 0
+  },
+  "provenance": {
+    "scanner": "https://www.microcenter.com",
+    "snapshot_generated_at": "2026-08-27T15:27:00.000Z",
+    "source_error_count": 0
+  }
+}

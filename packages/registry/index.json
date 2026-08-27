@@ -665,7 +665,8 @@
       "rtx-5090--de",
       "rtx-5090--gb",
       "rtx-5090--pl",
-      "rtx-a6000--jp"
+      "rtx-a6000--jp",
+      "rtx-pro-6000-blackwell--us"
     ],
     "recipe": [
       "deepseek-fp8-rtx-pro-6000-blackwell-96gb-vllm-tp1",
@@ -3304,7 +3305,7 @@
     "hardware": 100,
     "model": 103,
     "model_instance": 372,
-    "price": 84,
+    "price": 85,
     "recipe": 1041,
     "speed_sweeps": 1587
   },
