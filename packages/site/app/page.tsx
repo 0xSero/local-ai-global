@@ -1,14 +1,14 @@
 import Link from "next/link"
 
-import { DataTree } from "@/app/components/data-tree"
-import { HuggingFaceCards } from "@/app/components/hugging-face-cards"
 import { ModalCloseButton, RecordModal } from "@/app/components/record-modal"
+import { RecordDetails } from "@/app/components/record-details"
 import { RegistrySearch, type SearchFilter } from "@/app/components/registry-search"
 import {
   collectionCounts,
   getCompatibilityResult,
   getEntityDetail,
   getFacets,
+  getHardware,
   getSpeedSweep,
   listHardware,
   listModelInstances,
@@ -131,7 +131,22 @@ function stateHref(state: URLSearchParams): string {
   return query ? `/?${query}` : "/"
 }
 
-function recordTitle(detail: Record<string, unknown>, fallback: string): string {
+function compatibilityTitle(id: string): string | null {
+  const result = getCompatibilityResult(id)
+  if (!result) return null
+  const hardware = result.recipe.hardware_count > 1
+    ? `${result.recipe.hardware_count}× ${result.hardware.name}`
+    : result.hardware.name
+  return `${result.model.name} on ${hardware}`
+}
+
+function recordTitle(detail: Record<string, unknown>, fallback: string, topic: Topic): string {
+  if (topic === "recipes") return compatibilityTitle(fallback) ?? fallback
+  if (topic === "speed-sweeps") {
+    const sweep = getSpeedSweep(fallback)
+    const title = sweep ? compatibilityTitle(sweep.recipe_id) : null
+    if (title) return `${title} · speed sweep`
+  }
   if (typeof detail.name === "string") return detail.name
   if (typeof detail.repository === "string") return detail.repository
   const product = detail.product
@@ -301,8 +316,10 @@ export default async function Home({ searchParams }: PageProps) {
   const selectedModelInstances = topic === "models" && value("record")
     ? listModelInstances({ model_id: value("record") }, { limit: 100, offset: 0 }).data
     : []
+  const selectedCompatibility = topic === "recipes" && value("record") ? getCompatibilityResult(value("record")) : undefined
+  const selectedHardware = value("hardware_id") ? getHardware(value("hardware_id")) : undefined
   const closeHref = stateHref(viewState)
-  const selectedTitle = selectedRecord ? recordTitle(selectedRecord, value("record")) : ""
+  const selectedTitle = selectedRecord && topic ? recordTitle(selectedRecord, value("record"), topic) : ""
   const total = topic === "recipes"
     ? recipeResults.total
     : topic === "hardware"
@@ -477,12 +494,21 @@ export default async function Home({ searchParams }: PageProps) {
       {selectedRecord && detailCollection && (
         <RecordModal closeHref={closeHref} titleId="record-modal-title">
           <header className="record-modal-header">
-            <div><span className="mono-label">{detailCollection.toUpperCase()} / RECORD</span><h2 id="record-modal-title">{selectedTitle}</h2></div>
+            <div>
+              <span className="mono-label">{detailCollection.toUpperCase()} / RECORD</span>
+              <h2 id="record-modal-title">{selectedTitle}</h2>
+              <code>{String(selectedRecord.id ?? value("record"))}</code>
+            </div>
             <ModalCloseButton className="modal-close" closeHref={closeHref} label="Close record details">Close</ModalCloseButton>
           </header>
           <div className="record-modal-body">
-            {selectedModelInstances.length > 0 && <HuggingFaceCards instances={selectedModelInstances} />}
-            <DataTree value={selectedRecord} />
+            <RecordDetails
+              compatibility={selectedCompatibility}
+              modelInstances={selectedModelInstances}
+              record={selectedRecord}
+              selectedHardware={selectedHardware}
+              topic={topic}
+            />
           </div>
           <footer className="record-modal-footer">
             <a href={`/api/v1/${detailCollection}/${value("record")}`}>JSON API</a>

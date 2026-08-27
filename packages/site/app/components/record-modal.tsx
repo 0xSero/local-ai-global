@@ -10,6 +10,7 @@ type RecordModalProps = {
 }
 
 type ModalCloseButtonProps = {
+  ariaHidden?: boolean
   children?: ReactNode
   className: string
   closeHref: string
@@ -26,11 +27,12 @@ const FOCUSABLE_SELECTOR = [
   "[tabindex]:not([tabindex='-1'])",
 ].join(",")
 
-export function ModalCloseButton({ children, className, closeHref, label, tabIndex }: ModalCloseButtonProps) {
+export function ModalCloseButton({ ariaHidden, children, className, closeHref, label, tabIndex }: ModalCloseButtonProps) {
   const router = useRouter()
   return (
     <button
-      aria-label={label}
+      aria-hidden={ariaHidden}
+      aria-label={ariaHidden ? undefined : label}
       className={className}
       onClick={() => router.replace(closeHref, { scroll: false })}
       tabIndex={tabIndex}
@@ -91,9 +93,10 @@ export function RecordModal({ children, closeHref, titleId }: RecordModalProps) 
   return (
     <div className="modal-layer">
       <ModalCloseButton
+        ariaHidden
         className="modal-scrim"
         closeHref={closeHref}
-        label="Close record details"
+        label="Dismiss record overlay"
         tabIndex={-1}
       />
       <section
