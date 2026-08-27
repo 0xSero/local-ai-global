@@ -1,5 +1,7 @@
 # Growing the registry
 
+The complete submission contract is in [`CONTRIBUTING.md`](../../CONTRIBUTING.md). Source-specific acquisition belongs in the submission harness; the observed `local.ai` boundary is documented in [`local-ai-source.md`](local-ai-source.md).
+
 ## Add evidence, not guesses
 
 Use the submission harness to import a source snapshot. Preserve the source URL, capture time, and the difference between known, unknown, unavailable, and not applicable. Do not invent a hardware generation, artifact revision, container digest, market price, or benchmark result.
