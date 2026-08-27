@@ -4,13 +4,14 @@ import argparse
 import hashlib
 import json
 import re
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 
 
 SCHEMA = "local-ai-registry/v1"
 SOURCE = "exo-postgres"
 HARDWARE = {
+    "gb10_121": "dgx-spark-gb10-128gb",
     "m3_24_10c": "apple-m3-24gb",
     "m3_max_128_40c": "apple-m3-max-128gb",
     "m3_ultra_96_60c": "apple-m3-ultra-96gb-60c",
@@ -20,6 +21,11 @@ HARDWARE = {
     "m4_max_128_40c": "apple-m4-max-128gb",
     "m5_pro_64_20c": "apple-m5-pro-64gb",
     "m5_max_128_40c": "apple-m5-max-128gb",
+    "rtx3090_24": "rtx-3090-24gb",
+    "rtx4090_24": "rtx-4090-24gb",
+    "rtx5090_32": "rtx-5090-32gb",
+    "rtx6000ada_48": "rtx-6000-ada-48gb",
+    "rtxpro6000_96": "rtx-pro-6000-blackwell-96gb",
 }
 
 
@@ -90,7 +96,9 @@ def import_publication(publication, root):
     manifest = json.loads((publication / "manifest.json").read_text())
     publication_id = manifest["publicationId"]
     model_rows = {row["model_id"]: row for row in rows(publication / "pg_read_models.jsonl")}
-    speed_rows = [row for row in rows(publication / "pg_read_speed_runs.jsonl") if row.get("hardware_key") in HARDWARE]
+    all_speed_rows = list(rows(publication / "pg_read_speed_runs.jsonl"))
+    speed_rows = [row for row in all_speed_rows if row.get("hardware_key") in HARDWARE]
+    unsupported = Counter(row.get("hardware_key") for row in all_speed_rows if row.get("hardware_key") not in HARDWARE)
     groups = defaultdict(list)
     instance_records = {}
     model_records = {}
@@ -213,7 +221,10 @@ def import_publication(publication, root):
     for path in (root / "speed-sweeps").glob("pg-*-sweep.json"):
         if path.stem not in wanted_sweeps:
             path.unlink()
-    print(f"imported {len(speed_rows)} Mac runs into {len(groups)} candidate recipes from {publication_id}")
+    print(f"imported {len(speed_rows)} runs into {len(groups)} candidate recipes from {publication_id}")
+    if unsupported:
+        detail = ", ".join(f"{key or '<missing>'}={count}" for key, count in sorted(unsupported.items(), key=lambda item: str(item[0])))
+        print(f"skipped {sum(unsupported.values())} unsupported runs: {detail}")
 
 
 def main():
