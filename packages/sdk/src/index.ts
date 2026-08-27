@@ -32,12 +32,20 @@ export type HuggingFaceConnection = {
 
 export type HuggingFaceModelCard = {
   author?: string
-  cardData?: { license?: string }
+  cardData?: { license?: string; language?: string | string[]; tags?: string[] }
+  config?: {
+    architectures?: string[]
+    model_type?: string
+    num_experts?: number
+    num_local_experts?: number
+  }
   downloads?: number
   id?: string
   library_name?: string
   likes?: number
   pipeline_tag?: string
+  tags?: string[]
+  transformersInfo?: { auto_model?: string; pipeline_tag?: string; processor?: string }
   usedStorage?: number
 }
 
@@ -57,6 +65,18 @@ export async function getHuggingFaceModelCard(
   return response.json() as Promise<HuggingFaceModelCard>
 }
 
+export async function getHuggingFaceModelReadme(
+  repository: string,
+  connection?: HuggingFaceConnection,
+  request: HuggingFaceRequest = {},
+): Promise<string> {
+  const headers = new Headers(request.headers)
+  if (connection) headers.set("Authorization", `Bearer ${connection.token}`)
+  const response = await fetch(`https://huggingface.co/${repository}/raw/main/README.md`, { ...request, headers })
+  if (!response.ok) throw new Error(`Hugging Face returned ${response.status}`)
+  return response.text()
+}
+
 export class HuggingFaceClient {
   constructor(private readonly connection: HuggingFaceConnection) {}
 
@@ -68,5 +88,9 @@ export class HuggingFaceClient {
 
   async modelCard(repository: string): Promise<HuggingFaceModelCard> {
     return getHuggingFaceModelCard(repository, this.connection)
+  }
+
+  async modelReadme(repository: string): Promise<string> {
+    return getHuggingFaceModelReadme(repository, this.connection)
   }
 }

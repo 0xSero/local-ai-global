@@ -1,5 +1,6 @@
 import Link from "next/link"
 
+import { HardwareMedia } from "@/app/components/hardware-media"
 import { ModalCloseButton, RecordModal } from "@/app/components/record-modal"
 import { RecordDetails } from "@/app/components/record-details"
 import { RegistrySearch, type SearchFilter } from "@/app/components/registry-search"
@@ -21,7 +22,7 @@ import {
   type CompatibilityResult,
   type PriceResult,
 } from "@local-ai/registry"
-import type { SpeedRow, SpeedSweep } from "@local-ai/registry/schema"
+import type { Hardware, SpeedRow, SpeedSweep } from "@local-ai/registry/schema"
 
 export const dynamic = "force-dynamic"
 
@@ -87,6 +88,16 @@ function formatDate(value: string | null): string {
   return Number.isNaN(date.valueOf())
     ? value
     : date.toLocaleDateString("en-US", { day: "numeric", month: "short", year: "numeric" })
+}
+
+function formatBandwidth(value: Hardware["memory"]["bandwidth_gb_per_s"]): string {
+  if (typeof value === "number") return `${value.toLocaleString()} GB/s`
+  if (value) return `${value.min.toLocaleString()}–${value.max.toLocaleString()} GB/s`
+  return "Bandwidth not published"
+}
+
+function formatParams(value: number | null): string {
+  return value === null ? "Not published" : `${value.toLocaleString(undefined, { maximumFractionDigits: 1 })}B`
 }
 
 function recipeEvidence(result: CompatibilityResult): EvidenceRow[] {
@@ -406,9 +417,10 @@ export default async function Home({ searchParams }: PageProps) {
 
           {topic === "recipes" && <RecipeRows by={recipeBrowse} data={recipeResults.data} state={viewState} />}
           {topic === "hardware" && (
-            <div className="browser-list collection-list">
+            <div className="browser-list hardware-catalog-list">
               {hardwareResults.data.map((hardware) => {
                 const hasPrices = marketPriceCount(hardware.id) > 0
+                const recipeCount = queryCompatibility({ hardware_id: hardware.id }, { limit: 1, offset: 0 }).total
                 const tags: RowTag[] = [
                   { label: hardware.vendor, name: "vendor", value: hardware.vendor },
                   { label: hardware.accelerator_backend, name: "backend", value: hardware.accelerator_backend },
@@ -416,12 +428,13 @@ export default async function Home({ searchParams }: PageProps) {
                   ...(hasPrices ? [{ label: "priced", name: "priced_only", value: "true" }] : []),
                 ]
                 return (
-                  <article className="browser-row collection-row" key={hardware.id}>
+                  <article className="browser-row hardware-catalog-row" key={hardware.id}>
                     <Link aria-label={`Open ${hardware.name}`} className="row-open" href={hrefWithRecord(viewState, hardware.id)} scroll={false} />
+                    <HardwareMedia hardware={hardware} />
                     <span className="row-primary"><strong>{hardware.name}</strong><small>{hardware.family ?? hardware.kind}</small></span>
-                    <span><strong>{hardware.vendor}</strong><small>{hardware.kind}</small></span>
                     <span><strong>{hardware.memory.vram_gb} GB</strong><small>{hardware.memory.vram_type ?? "Memory type unknown"}</small></span>
-                    <span><strong>{hardware.accelerator_backend}</strong><small>backend</small></span>
+                    <span><strong>{formatBandwidth(hardware.memory.bandwidth_gb_per_s)}</strong><small>{hardware.accelerator_backend}</small></span>
+                    <span><strong>{recipeCount} {recipeCount === 1 ? "recipe" : "recipes"}</strong><small>{marketPriceCount(hardware.id)} price {marketPriceCount(hardware.id) === 1 ? "region" : "regions"}</small></span>
                     <TaxonomyTags state={viewState} tags={tags} />
                     <svg aria-hidden="true" className="row-arrow" viewBox="0 0 20 20"><path d="m7 4 6 6-6 6" /></svg>
                   </article>
@@ -430,19 +443,22 @@ export default async function Home({ searchParams }: PageProps) {
             </div>
           )}
           {topic === "models" && (
-            <div className="browser-list collection-list">
+            <div className="browser-list model-catalog-list">
               {modelResults.data.map((model) => {
+                const instances = listModelInstances({ model_id: model.id }, { limit: 100, offset: 0 }).data
+                const recipeCount = queryCompatibility({ model_id: model.id }, { limit: 1, offset: 0 }).total
                 const tags: RowTag[] = [
                   { label: model.family, name: "family", value: model.family },
-                  { label: model.architecture ?? "unknown", name: "architecture", value: model.architecture ?? "unknown" },
+                  ...(model.architecture ? [{ label: model.architecture, name: "architecture", value: model.architecture }] : []),
                 ]
                 return (
-                  <article className="browser-row collection-row" key={model.id}>
+                  <article className="browser-row model-catalog-row" key={model.id}>
                     <Link aria-label={`Open ${model.name}`} className="row-open" href={hrefWithRecord(viewState, model.id)} scroll={false} />
+                    <span className="model-row-mark"><img alt="" src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" /></span>
                     <span className="row-primary"><strong>{model.name}</strong><small>{model.huggingface.repository ?? model.family}</small></span>
-                    <span><strong>{model.family}</strong><small>family</small></span>
-                    <span><strong>{model.architecture ?? "Unknown"}</strong><small>architecture</small></span>
-                    <span><strong>{model.params ?? "—"}</strong><small>parameters</small></span>
+                    <span><strong>{formatParams(model.params)}</strong><small>{model.active_params === null ? "parameter count" : `${formatParams(model.active_params)} active`}</small></span>
+                    <span><strong>{model.architecture ? model.architecture.toUpperCase() : model.family}</strong><small>{model.architecture ? "registry topology" : "model family"}</small></span>
+                    <span><strong>{recipeCount} {recipeCount === 1 ? "recipe" : "recipes"}</strong><small>{instances.length} published {instances.length === 1 ? "variant" : "variants"}</small></span>
                     <TaxonomyTags state={viewState} tags={tags} />
                     <svg aria-hidden="true" className="row-arrow" viewBox="0 0 20 20"><path d="m7 4 6 6-6 6" /></svg>
                   </article>

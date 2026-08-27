@@ -2,6 +2,7 @@ import Link from "next/link"
 import type { ReactNode } from "react"
 
 import { DataTree } from "@/app/components/data-tree"
+import { HardwareMedia } from "@/app/components/hardware-media"
 import { HuggingFaceCards } from "@/app/components/hugging-face-cards"
 import { CopyButton } from "@/app/components/copy-button"
 import { dockerCommand, RecipeSummary } from "@/app/components/recipe-summary"
@@ -59,7 +60,7 @@ function formatDate(value: string | null | undefined): string {
 }
 
 function formatParams(value: number | null | undefined): string {
-  if (value === null || value === undefined) return "Unknown"
+  if (value === null || value === undefined) return "Not published"
   return `${value.toLocaleString(undefined, { maximumFractionDigits: 1 })}B`
 }
 
@@ -91,22 +92,27 @@ function maxContext(rows: SpeedRow[]): number | null {
   return contexts.length > 0 ? Math.max(...contexts) : null
 }
 
-function Summary({ action, description, facts, label }: { action?: ReactNode; description: string; facts: Fact[]; label: string }) {
+function Summary({ action, description, facts, label, media }: { action?: ReactNode; description: string; facts: Fact[]; label: string; media?: ReactNode }) {
   return (
     <section className="record-summary" aria-label={label}>
-      <div className="record-summary-intro">
-        <div><span className="mono-label">{label}</span><p>{description}</p></div>
-        {action}
-      </div>
-      <dl className="record-facts">
-        {facts.map((fact) => (
-          <div key={fact.label}>
-            <dt>{fact.label}</dt>
-            <dd>{fact.value}</dd>
-            <small>{fact.detail}</small>
+      <div className={media ? "record-summary-layout" : undefined}>
+        {media}
+        <div className="record-summary-content">
+          <div className="record-summary-intro">
+            <div><span className="mono-label">{label}</span><p>{description}</p></div>
+            {action}
           </div>
-        ))}
-      </dl>
+          <dl className="record-facts">
+            {facts.map((fact) => (
+              <div key={fact.label}>
+                <dt>{fact.label}</dt>
+                <dd>{fact.value}</dd>
+                <small>{fact.detail}</small>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
     </section>
   )
 }
@@ -184,10 +190,23 @@ function Connections({ relationships }: { relationships: unknown }) {
         {groups.map(([key, links]) => (
           <details className="connection-group" key={key} open={key === "recipes" || key === "speed_sweeps" || links.length <= 3}>
             <summary><span>{relationshipLabel(key)}</span><small>{relationshipSummary(key, links)}</small></summary>
-            <div className="connection-links">
+            <div className={key === "recipes" ? "recipe-connection-grid" : "connection-links"}>
               {[...links].sort((left, right) => Number(Boolean(getCompatibilityResult(right.id)?.launchable)) - Number(Boolean(getCompatibilityResult(left.id)?.launchable))).map((link) => {
                 const recipe = key === "recipes" ? getCompatibilityResult(link.id) : undefined
                 const command = recipe?.launchable ? dockerCommand(recipe) : null
+                if (recipe) {
+                  return (
+                    <article className="recipe-connection-card" key={`${key}-${link.id}`}>
+                      <Link href={relationHref(link)} scroll={false}>
+                        <HardwareMedia hardware={recipe.hardware} />
+                        <span className="recipe-connection-name"><strong>{recipe.model.name}</strong><small>{recipe.model_instance.repository}</small></span>
+                        <span><strong>{recipe.recipe.hardware_count > 1 ? `${recipe.recipe.hardware_count}× ` : ""}{recipe.hardware.name}</strong><small>{recipe.hardware.memory.vram_gb} GB · {recipe.recipe.engine.name}</small></span>
+                        <span className={`recipe-status ${recipe.recipe.status}`}>{recipe.recipe.status}</span>
+                      </Link>
+                      {command && <CopyButton label="Copy Docker" value={command} />}
+                    </article>
+                  )
+                }
                 return (
                   <div className="connection-link-row" key={`${key}-${link.id}`}>
                     <Link href={relationHref(link)} scroll={false}>
@@ -257,6 +276,7 @@ function HardwareDetails({ record }: { record: Record<string, unknown> }) {
           { label: "Market", value: lowestPrice ? formatAmount(lowestPrice.amount, lowestPrice.currency) : "No price yet", detail: `${count("prices")} price ${count("prices") === 1 ? "region" : "regions"}` },
         ]}
         label="HARDWARE PROFILE"
+        media={<HardwareMedia hardware={hardware} size="hero" />}
       />
       <HardwarePrices links={priceLinks} />
       <Connections relationships={connectedRelationships} />
@@ -277,13 +297,13 @@ function ModelDetails({ modelInstances, record }: { modelInstances: ModelInstanc
         description={`${model.family} model${model.architecture ? ` with a ${model.architecture} architecture` : ""}.`}
         facts={[
           { label: "Parameters", value: formatParams(model.params), detail: `${formatParams(model.active_params)} active` },
-          { label: "Architecture", value: model.architecture ?? "Unknown", detail: model.family },
+          { label: model.architecture ? "Topology" : "Family", value: model.architecture?.toUpperCase() ?? model.family, detail: model.architecture ? "registry classification" : "topology not asserted" },
           { label: "Published variants", value: modelInstances.length.toLocaleString(), detail: "model instances" },
           { label: "Registry coverage", value: `${count("recipes")} recipes`, detail: `${count("hardware")} hardware targets` },
         ]}
         label="MODEL PROFILE"
       />
-      {modelInstances.length > 0 && <HuggingFaceCards instances={modelInstances} />}
+      {(modelInstances.length > 0 || model.huggingface.repository) && <HuggingFaceCards instances={modelInstances} preferredRepository={model.huggingface.repository ?? undefined} />}
       <Connections relationships={model.relationships} />
     </>
   )

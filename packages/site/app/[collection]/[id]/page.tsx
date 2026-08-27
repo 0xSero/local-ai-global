@@ -4,7 +4,8 @@ import { notFound } from "next/navigation"
 
 import { DataTree } from "@/app/components/data-tree"
 import { HuggingFaceCards } from "@/app/components/hugging-face-cards"
-import { getEntityDetail, listModelInstances, modelInstanceResult, getModelInstance } from "@local-ai/registry"
+import { RecordDetails } from "@/app/components/record-details"
+import { getCompatibilityResult, getEntityDetail, listModelInstances, modelInstanceResult, getModelInstance } from "@local-ai/registry"
 
 export const dynamic = "force-dynamic"
 
@@ -19,6 +20,12 @@ const COLLECTION_LABELS: Record<string, string> = {
 
 type DetailProps = {
   params: Promise<{ collection: string; id: string }>
+}
+
+type RecordTopic = "hardware" | "models" | "prices" | "recipes" | "speed-sweeps"
+
+function recordTopic(value: string): RecordTopic | null {
+  return value === "hardware" || value === "models" || value === "prices" || value === "recipes" || value === "speed-sweeps" ? value : null
 }
 
 type HuggingFaceDisplay = {
@@ -64,6 +71,8 @@ export default async function DetailPage({ params }: DetailProps) {
       ? [getModelInstance(id)].flatMap((record) => record ? [modelInstanceResult(record)] : [])
       : []
   const huggingFace = instance ? readHuggingFace(instance) : null
+  const topic = recordTopic(collection)
+  const compatibility = collection === "recipes" ? getCompatibilityResult(id) : undefined
   if (instance && !huggingFace) {
     throw new Error(`Model instance '${id}' lacks its authoritative Hugging Face identity`)
   }
@@ -100,15 +109,22 @@ export default async function DetailPage({ params }: DetailProps) {
         </section>
       )}
 
-      {modelInstances.length > 0 && <HuggingFaceCards instances={modelInstances} />}
-
-      <section className="record-sheet">
-        <div className="record-sheet-heading">
-          <h2>Complete normalized record</h2>
-          <p>Null values are explicit unknowns. Nested enrichment is shown whenever it is present.</p>
-        </div>
-        <DataTree value={detail} />
-      </section>
+      {topic ? (
+        <section className="record-sheet semantic-record-sheet">
+          <RecordDetails compatibility={compatibility} modelInstances={modelInstances} record={detail} topic={topic} />
+        </section>
+      ) : (
+        <>
+          {modelInstances.length > 0 && <HuggingFaceCards instances={modelInstances} />}
+          <section className="record-sheet">
+            <div className="record-sheet-heading">
+              <h2>Complete normalized record</h2>
+              <p>Null values are explicit unknowns. Nested enrichment is shown whenever it is present.</p>
+            </div>
+            <DataTree value={detail} />
+          </section>
+        </>
+      )}
     </main>
   )
 }
