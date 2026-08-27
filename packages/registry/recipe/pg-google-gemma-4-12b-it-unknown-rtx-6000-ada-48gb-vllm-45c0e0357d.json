@@ -1,0 +1,180 @@
+{
+  "capabilities": {
+    "chat": null,
+    "reasoning": null,
+    "tools": null,
+    "vision": null
+  },
+  "description": "Measured compatibility from the local.ai Postgres publication. Launch arguments are not promoted into an executable contract.",
+  "engine": {
+    "graph_mode": null,
+    "name": "vllm",
+    "version": null
+  },
+  "facts": {
+    "capabilities.chat": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "capabilities.reasoning": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "capabilities.tools": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "capabilities.vision": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "engine.graph_mode": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "runtime-detail-not-published",
+      "state": "unknown"
+    },
+    "engine.version": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "runtime-detail-not-published",
+      "state": "unknown"
+    },
+    "serving.kv_cache_tokens": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "kv-cache-capacity-not-published",
+      "state": "unknown"
+    }
+  },
+  "hardware_count": 1,
+  "hardware_id": "rtx-6000-ada-48gb",
+  "id": "pg-google-gemma-4-12b-it-unknown-rtx-6000-ada-48gb-vllm-45c0e0357d",
+  "launch": {
+    "container": {
+      "captured_at": "2026-08-27T06:04:13.773Z",
+      "compose_file": null,
+      "digest": null,
+      "image": null,
+      "reason": "reference-only-launch",
+      "runtime": null,
+      "source": [
+        {
+          "captured_at": "2026-08-27T06:04:13.773Z",
+          "kind": "recipe-launch",
+          "url": "https://local.ai"
+        }
+      ],
+      "state": "none"
+    },
+    "kind": "reference",
+    "publication_id": "pg-20260827T060320709Z",
+    "run_ids": [
+      "019f682d-193c-740a-8997-0bae0e407b0c",
+      "019f7583-45b2-746e-8ed8-a19f99668a10",
+      "019f7583-4800-7ecc-88e3-9cd7435c7ebf",
+      "019f7583-4a8a-7810-b69c-672612f0ce85",
+      "019f7583-4cf7-7e53-9a66-f5fb562b2519"
+    ],
+    "source": "exo-postgres"
+  },
+  "metadata": {
+    "postgres": {
+      "hardware_key": "rtx6000ada_48",
+      "publication_id": "pg-20260827T060320709Z",
+      "run_count": 5,
+      "source_model_id": "google/gemma-4-12B-it"
+    }
+  },
+  "model_instance_id": "google-gemma-4-12b-it--unknown",
+  "provenance": {
+    "captured_at": "2026-08-27T06:04:13.773Z",
+    "sources": [
+      {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "kind": "normalized-recipe",
+        "url": "https://local.ai"
+      }
+    ]
+  },
+  "recipe_source": "exo-postgres",
+  "schema_version": "local-ai-registry/v1",
+  "serving": {
+    "kv_cache_tokens": null,
+    "max_concurrency": 1,
+    "max_context_tokens": 130960,
+    "tensor_parallel": 1
+  },
+  "speed_sweeps_ids": [
+    "pg-019f682d-193c-740a-8997-0bae0e407b0c-sweep",
+    "pg-019f7583-45b2-746e-8ed8-a19f99668a10-sweep",
+    "pg-019f7583-4800-7ecc-88e3-9cd7435c7ebf-sweep",
+    "pg-019f7583-4a8a-7810-b69c-672612f0ce85-sweep",
+    "pg-019f7583-4cf7-7e53-9a66-f5fb562b2519-sweep"
+  ],
+  "status": "candidate"
+}

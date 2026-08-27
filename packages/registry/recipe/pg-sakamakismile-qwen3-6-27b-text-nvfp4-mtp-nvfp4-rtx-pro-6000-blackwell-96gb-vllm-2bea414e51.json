@@ -1,0 +1,170 @@
+{
+  "capabilities": {
+    "chat": null,
+    "reasoning": null,
+    "tools": null,
+    "vision": null
+  },
+  "description": "Measured compatibility from the local.ai Postgres publication. Launch arguments are not promoted into an executable contract.",
+  "engine": {
+    "graph_mode": null,
+    "name": "vllm",
+    "version": "0.23.0"
+  },
+  "facts": {
+    "capabilities.chat": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "capabilities.reasoning": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "capabilities.tools": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "capabilities.vision": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "engine.graph_mode": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "runtime-detail-not-published",
+      "state": "unknown"
+    },
+    "serving.kv_cache_tokens": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "kv-cache-capacity-not-published",
+      "state": "unknown"
+    }
+  },
+  "hardware_count": 1,
+  "hardware_id": "rtx-pro-6000-blackwell-96gb",
+  "id": "pg-sakamakismile-qwen3-6-27b-text-nvfp4-mtp-nvfp4-rtx-pro-6000-blackwell-96gb-vllm-2bea414e51",
+  "launch": {
+    "container": {
+      "captured_at": "2026-08-27T06:04:13.773Z",
+      "compose_file": null,
+      "digest": null,
+      "image": null,
+      "reason": "reference-only-launch",
+      "runtime": null,
+      "source": [
+        {
+          "captured_at": "2026-08-27T06:04:13.773Z",
+          "kind": "recipe-launch",
+          "url": "https://local.ai"
+        }
+      ],
+      "state": "none"
+    },
+    "kind": "reference",
+    "publication_id": "pg-20260827T060320709Z",
+    "run_ids": [
+      "019f48f9-94aa-7cff-9a42-599538da8284",
+      "019f7583-631d-7aff-86b7-29c42495caac",
+      "019f7583-6ead-782d-b8d6-2cf89c9d10cb",
+      "01a013a0-6d91-74b1-ad26-dd66d5276853",
+      "01a013a0-7e4d-7bb2-9d37-2363f2990b66",
+      "01a026ac-2bcd-7393-96ac-b6c4a7ab3f1d",
+      "01a026ac-5120-70fc-884e-238f4950ff79"
+    ],
+    "source": "exo-postgres"
+  },
+  "metadata": {
+    "postgres": {
+      "hardware_key": "rtxpro6000_96",
+      "publication_id": "pg-20260827T060320709Z",
+      "run_count": 7,
+      "source_model_id": "sakamakismile/Qwen3.6-27B-Text-NVFP4-MTP"
+    }
+  },
+  "model_instance_id": "sakamakismile-qwen3-6-27b-text-nvfp4-mtp--nvfp4",
+  "provenance": {
+    "captured_at": "2026-08-27T06:04:13.773Z",
+    "sources": [
+      {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "kind": "normalized-recipe",
+        "url": "https://local.ai"
+      }
+    ]
+  },
+  "recipe_source": "exo-postgres",
+  "schema_version": "local-ai-registry/v1",
+  "serving": {
+    "kv_cache_tokens": null,
+    "max_concurrency": 1,
+    "max_context_tokens": 262032,
+    "tensor_parallel": 1
+  },
+  "speed_sweeps_ids": [
+    "pg-019f48f9-94aa-7cff-9a42-599538da8284-sweep",
+    "pg-019f7583-631d-7aff-86b7-29c42495caac-sweep",
+    "pg-019f7583-6ead-782d-b8d6-2cf89c9d10cb-sweep",
+    "pg-01a013a0-6d91-74b1-ad26-dd66d5276853-sweep",
+    "pg-01a013a0-7e4d-7bb2-9d37-2363f2990b66-sweep",
+    "pg-01a026ac-2bcd-7393-96ac-b6c4a7ab3f1d-sweep",
+    "pg-01a026ac-5120-70fc-884e-238f4950ff79-sweep"
+  ],
+  "status": "candidate"
+}

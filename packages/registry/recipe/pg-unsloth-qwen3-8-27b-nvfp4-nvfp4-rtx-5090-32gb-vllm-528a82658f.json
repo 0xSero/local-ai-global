@@ -1,0 +1,192 @@
+{
+  "capabilities": {
+    "chat": null,
+    "reasoning": null,
+    "tools": null,
+    "vision": null
+  },
+  "description": "Measured compatibility from the local.ai Postgres publication. Launch arguments are not promoted into an executable contract.",
+  "engine": {
+    "graph_mode": null,
+    "name": "vllm",
+    "version": "0.27.1"
+  },
+  "facts": {
+    "capabilities.chat": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "capabilities.reasoning": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "capabilities.tools": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "capabilities.vision": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "engine.graph_mode": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "runtime-detail-not-published",
+      "state": "unknown"
+    },
+    "serving.kv_cache_tokens": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "kv-cache-capacity-not-published",
+      "state": "unknown"
+    }
+  },
+  "hardware_count": 1,
+  "hardware_id": "rtx-5090-32gb",
+  "id": "pg-unsloth-qwen3-8-27b-nvfp4-nvfp4-rtx-5090-32gb-vllm-528a82658f",
+  "launch": {
+    "container": {
+      "captured_at": "2026-08-27T06:04:13.773Z",
+      "compose_file": null,
+      "digest": null,
+      "image": null,
+      "reason": "reference-only-launch",
+      "runtime": null,
+      "source": [
+        {
+          "captured_at": "2026-08-27T06:04:13.773Z",
+          "kind": "recipe-launch",
+          "url": "https://local.ai"
+        }
+      ],
+      "state": "none"
+    },
+    "kind": "reference",
+    "publication_id": "pg-20260827T060320709Z",
+    "run_ids": [
+      "01a011ef-1ff7-70a9-8473-1b31760e9bcb",
+      "01a011ef-2914-7cf2-99b0-eaf96c2460ba",
+      "01a011ef-314b-718a-89dd-fa3ee87c401a",
+      "01a011ef-34a0-7992-89a7-cb904422201e",
+      "01a011ef-3c05-70ab-addf-e48b4adc4d78",
+      "01a011ef-3c2a-7b8f-801a-f369e25d8a31",
+      "01a011ef-3c4d-7525-a3d6-99815b8cfe9a",
+      "01a011ef-3c6f-7b5a-8486-34e0834126c1",
+      "01a011ef-3c91-74a6-975e-e9f2e4455f81",
+      "01a026ab-967e-7fac-ba72-9e2e00dec6f6",
+      "01a026ab-9bf4-7492-84d6-8079b7175ee7",
+      "01a026ab-a532-77fa-8128-0fc7248a985f",
+      "01a026ab-a778-7a21-9663-9edb88e633db",
+      "01a026ab-b005-7072-9ddb-4deed5773a94",
+      "01a026ab-b0cb-7736-97eb-97c654cd838c",
+      "01a026ab-b185-7c5c-b27b-dba740c1330a",
+      "01a026ab-b243-796e-9098-d8f42f417645",
+      "01a026ab-b306-7602-9764-d8169c97b7ec"
+    ],
+    "source": "exo-postgres"
+  },
+  "metadata": {
+    "postgres": {
+      "hardware_key": "rtx5090_32",
+      "publication_id": "pg-20260827T060320709Z",
+      "run_count": 18,
+      "source_model_id": "unsloth/Qwen3.8-27B-NVFP4"
+    }
+  },
+  "model_instance_id": "unsloth-qwen3-8-27b-nvfp4--nvfp4",
+  "provenance": {
+    "captured_at": "2026-08-27T06:04:13.773Z",
+    "sources": [
+      {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "kind": "normalized-recipe",
+        "url": "https://local.ai"
+      }
+    ]
+  },
+  "recipe_source": "exo-postgres",
+  "schema_version": "local-ai-registry/v1",
+  "serving": {
+    "kv_cache_tokens": null,
+    "max_concurrency": 1,
+    "max_context_tokens": 90000,
+    "tensor_parallel": 1
+  },
+  "speed_sweeps_ids": [
+    "pg-01a011ef-1ff7-70a9-8473-1b31760e9bcb-sweep",
+    "pg-01a011ef-2914-7cf2-99b0-eaf96c2460ba-sweep",
+    "pg-01a011ef-314b-718a-89dd-fa3ee87c401a-sweep",
+    "pg-01a011ef-34a0-7992-89a7-cb904422201e-sweep",
+    "pg-01a011ef-3c05-70ab-addf-e48b4adc4d78-sweep",
+    "pg-01a011ef-3c2a-7b8f-801a-f369e25d8a31-sweep",
+    "pg-01a011ef-3c4d-7525-a3d6-99815b8cfe9a-sweep",
+    "pg-01a011ef-3c6f-7b5a-8486-34e0834126c1-sweep",
+    "pg-01a011ef-3c91-74a6-975e-e9f2e4455f81-sweep",
+    "pg-01a026ab-967e-7fac-ba72-9e2e00dec6f6-sweep",
+    "pg-01a026ab-9bf4-7492-84d6-8079b7175ee7-sweep",
+    "pg-01a026ab-a532-77fa-8128-0fc7248a985f-sweep",
+    "pg-01a026ab-a778-7a21-9663-9edb88e633db-sweep",
+    "pg-01a026ab-b005-7072-9ddb-4deed5773a94-sweep",
+    "pg-01a026ab-b0cb-7736-97eb-97c654cd838c-sweep",
+    "pg-01a026ab-b185-7c5c-b27b-dba740c1330a-sweep",
+    "pg-01a026ab-b243-796e-9098-d8f42f417645-sweep",
+    "pg-01a026ab-b306-7602-9764-d8169c97b7ec-sweep"
+  ],
+  "status": "candidate"
+}

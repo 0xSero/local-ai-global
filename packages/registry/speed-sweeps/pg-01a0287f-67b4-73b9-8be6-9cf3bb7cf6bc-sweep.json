@@ -1,0 +1,80 @@
+{
+  "accepted_at": null,
+  "id": "pg-01a0287f-67b4-73b9-8be6-9cf3bb7cf6bc-sweep",
+  "measured_at": "2026-08-22T08:03:53.377Z",
+  "metrics": {
+    "base_memory_bytes": "23685234688",
+    "base_memory_context_tokens": 192,
+    "concurrency": 1,
+    "decode32k_context_tokens": 25664,
+    "decode32k_tps": 225.8760764966979,
+    "decode8k_context_tokens": 8256,
+    "decode8k_tps": 226.94688002074943,
+    "decode_max_context_tokens": 25664,
+    "decode_max_context_tps": 225.8760764966979,
+    "decode_mode": "non-mtp",
+    "inference_engine_version": "0.2.0-dev (build 1, commit d775b89)",
+    "latest_point_at": "2026-08-22T08:03:53.377Z",
+    "max_context_tokens": 25664,
+    "max_prompt_tokens": 25600,
+    "memory8k_bytes": "23685234688",
+    "memory8k_context_tokens": 8256,
+    "memory_max_context_bytes": "23685234688",
+    "memory_max_context_tokens": 25664,
+    "peak_generation_tps": 231.42025919069027,
+    "peak_memory_bytes": "23685234688",
+    "peak_prompt_tps": 7303.730068387853,
+    "point_count": 25,
+    "ttft32k_cached_prompt_tokens": 25084,
+    "ttft32k_context_tokens": 25600,
+    "ttft32k_seconds": 7.013903875968992
+  },
+  "recipe_id": "pg-qwen3-6-35b-a3b-ud-iq4xs-unknown-rtx-5090-32gb-llama-cpp-ce1020cc53",
+  "rows": [
+    {
+      "concurrency": 1,
+      "context_tokens": 8256,
+      "decode_tok_s": 226.94688002074943,
+      "decode_tok_s_per_stream": null,
+      "output_tokens": null,
+      "peak_vram_gb": 22.05859375,
+      "prefill_tok_s": null,
+      "samples": 1,
+      "status": "observed",
+      "ttft_ms_p50": null
+    },
+    {
+      "concurrency": 1,
+      "context_tokens": 25664,
+      "decode_tok_s": 225.8760764966979,
+      "decode_tok_s_per_stream": null,
+      "output_tokens": null,
+      "peak_vram_gb": 22.05859375,
+      "prefill_tok_s": null,
+      "samples": 1,
+      "status": "observed",
+      "ttft_ms_p50": 7013.903875968992
+    },
+    {
+      "concurrency": 1,
+      "context_tokens": 25664,
+      "decode_tok_s": 225.8760764966979,
+      "decode_tok_s_per_stream": null,
+      "output_tokens": null,
+      "peak_vram_gb": 22.05859375,
+      "prefill_tok_s": null,
+      "samples": 1,
+      "status": "observed",
+      "ttft_ms_p50": null
+    }
+  ],
+  "schema_version": "local-ai-registry/v1",
+  "source": {
+    "commit": null,
+    "paths": [
+      "publication:pg-20260827T060320709Z",
+      "run:01a0287f-67b4-73b9-8be6-9cf3bb7cf6bc"
+    ],
+    "repository": "https://local.ai"
+  }
+}

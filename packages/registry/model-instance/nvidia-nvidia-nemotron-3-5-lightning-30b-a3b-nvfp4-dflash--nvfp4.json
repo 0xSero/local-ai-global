@@ -1,0 +1,89 @@
+{
+  "facts": {
+    "revision": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "artifact-revision-not-pinned",
+      "state": "unknown"
+    },
+    "weights.format": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "not-observed",
+      "state": "unknown"
+    },
+    "weights.size_gb": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "artifact-size-not-published",
+      "state": "unknown"
+    }
+  },
+  "huggingface": {
+    "link_type": "repository",
+    "provenance": {
+      "captured_at": "2026-08-27T06:04:13.773Z",
+      "sources": [
+        {
+          "captured_at": "2026-08-27T06:04:13.773Z",
+          "kind": "huggingface-api",
+          "url": "https://huggingface.co/api/models/nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4-dflash"
+        }
+      ]
+    },
+    "reason": "hf-api-confirmed-public",
+    "repository": "nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4-dflash",
+    "status": "known",
+    "url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4-dflash"
+  },
+  "id": "nvidia-nvidia-nemotron-3-5-lightning-30b-a3b-nvfp4-dflash--nvfp4",
+  "kind": "quant",
+  "model_id": "nvidia-nvidia-nemotron-3-5-lightning-30b-a3b-nvfp4-dflash",
+  "provenance": {
+    "captured_at": "2026-08-27T06:04:13.773Z",
+    "sources": [
+      {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "kind": "normalized-model-instance",
+        "url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4-dflash"
+      }
+    ]
+  },
+  "repository": "nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4-dflash",
+  "revision": null,
+  "schema_version": "local-ai-registry/v1",
+  "served_name": "NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4-dflash",
+  "url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4-dflash",
+  "weights": {
+    "artifact": "nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4-dflash",
+    "format": null,
+    "precision": "nvfp4",
+    "publication_id": "pg-20260827T060320709Z",
+    "size_gb": null,
+    "source": "exo-postgres"
+  }
+}

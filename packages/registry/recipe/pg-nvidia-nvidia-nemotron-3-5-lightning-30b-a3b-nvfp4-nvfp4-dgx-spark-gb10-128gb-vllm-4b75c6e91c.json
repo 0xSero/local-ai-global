@@ -1,0 +1,372 @@
+{
+  "capabilities": {
+    "chat": null,
+    "reasoning": null,
+    "tools": null,
+    "vision": null
+  },
+  "description": "Measured compatibility from the local.ai Postgres publication. Launch arguments are not promoted into an executable contract.",
+  "engine": {
+    "graph_mode": null,
+    "name": "vllm",
+    "version": null
+  },
+  "facts": {
+    "capabilities.chat": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "capabilities.reasoning": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "capabilities.tools": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "capabilities.vision": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "engine.graph_mode": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "runtime-detail-not-published",
+      "state": "unknown"
+    },
+    "engine.version": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "runtime-detail-not-published",
+      "state": "unknown"
+    },
+    "serving.kv_cache_tokens": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "kv-cache-capacity-not-published",
+      "state": "unknown"
+    }
+  },
+  "hardware_count": 1,
+  "hardware_id": "dgx-spark-gb10-128gb",
+  "id": "pg-nvidia-nvidia-nemotron-3-5-lightning-30b-a3b-nvfp4-nvfp4-dgx-spark-gb10-128gb-vllm-4b75c6e91c",
+  "launch": {
+    "container": {
+      "captured_at": "2026-08-27T06:04:13.773Z",
+      "compose_file": null,
+      "digest": null,
+      "image": null,
+      "reason": "reference-only-launch",
+      "runtime": null,
+      "source": [
+        {
+          "captured_at": "2026-08-27T06:04:13.773Z",
+          "kind": "recipe-launch",
+          "url": "https://local.ai"
+        }
+      ],
+      "state": "none"
+    },
+    "kind": "reference",
+    "publication_id": "pg-20260827T060320709Z",
+    "run_ids": [
+      "019fd539-c65c-72bd-8d20-8ba218934a57",
+      "019fd539-c68d-7895-bc9c-759279e386f2",
+      "019fd54c-d08f-7ae4-a888-ee332149d1b6",
+      "019fd7f9-abbe-77c7-9b32-65544ee37035",
+      "019fd7f9-ac08-7874-a060-a6864121256e",
+      "019fd925-5fb1-778f-915a-4a0e5def538f",
+      "019fd925-5fe1-7937-8843-17eb829a109d",
+      "019fd925-600f-7ee2-a4f8-db8db7705bc8",
+      "019fd925-603d-7221-b850-4d55f3a389b0",
+      "019fd925-6068-792b-a2f3-ac9a3fdf5678",
+      "019fd925-60bf-7b6c-ac3c-4f5c1af11317",
+      "019fd925-60f1-7fa9-96b5-83e16d09ded8",
+      "019fd925-611f-791c-a278-4be70c918038",
+      "019fd925-614a-703c-8a63-d3e4537fe04c",
+      "019fd925-6177-7130-82e2-0ecf368c781e",
+      "019fd925-61b5-7dcb-a4c2-d44ae24057a4",
+      "019fd925-61e1-738d-872a-52b1d87af229",
+      "01a011ed-dfae-764a-8d5c-e11142a06beb",
+      "01a011ed-e095-7d4f-a995-449c0b40ab9f",
+      "01a011ed-e0da-70ec-9ef7-1a4b526ba3c3",
+      "01a011ed-e1b0-7db3-84ad-0a80a70f24e6",
+      "01a011ed-e1f8-7e4b-8aea-123ab3cf90b0",
+      "01a011ed-e240-756b-ae03-fda4cd4541d8",
+      "01a011ed-e286-71e0-bed7-972b32016aef",
+      "01a011ed-e2ca-773a-8b43-8074a8e8efa8",
+      "01a011ed-e30d-78af-ac7b-80b2cf591671",
+      "01a011ed-e356-7ac7-93c9-28a974153c3c",
+      "01a011ed-e39c-70c7-ba47-7aa450585f40",
+      "01a011ed-e3e2-7a3c-8e82-9c93a7b65c5c",
+      "01a011ed-e42b-758f-be0b-f4f81ff07b65",
+      "01a011ed-e471-7029-9fd0-2b254276056d",
+      "01a011ed-f837-707d-8081-bf4ba281725b",
+      "01a011ed-f876-7ae2-81ec-6f0163a56d4a",
+      "01a011ed-f8bc-7023-ba4f-222c327f8af2",
+      "01a011ee-226a-7558-bc79-1b5129fb24cf",
+      "01a011ee-22aa-78f3-acda-f72a3fa26a85",
+      "01a011ee-22e7-7418-87ef-555f436a69f4",
+      "01a011ee-40d0-797e-a8e8-af014e7603dd",
+      "01a0139f-957b-76e2-a318-366d16f0c12c",
+      "01a0139f-9638-7319-8916-d0b66881518a",
+      "01a0139f-a079-7502-a25d-29fd0e0c381d",
+      "01a0139f-c91c-7a7c-b7f6-89e1827bdcd8",
+      "01a026aa-ba86-7cc5-b691-b8e2143f8d99",
+      "01a026aa-bb54-7203-b73c-e65c690adffc",
+      "01a026aa-bc1e-79d0-ba67-0ba1879cce83",
+      "01a026aa-bcee-7dae-a9db-ec3fb87539b1",
+      "01a026aa-bdba-7bfb-9271-946e42d3b155",
+      "01a026aa-be87-7ed1-b6cd-c0d4014f7899",
+      "01a026aa-bf56-74b9-8a21-f7ec2b0411bf",
+      "01a026aa-c029-7ff4-a502-712cd2f279a7",
+      "01a026aa-c0f4-79f8-81a9-f9f11eda50f0",
+      "01a026aa-c1ce-7421-8a20-fa3a74057ca6",
+      "01a026aa-c2a0-7fdc-a074-9689989054d1",
+      "01a026aa-c36d-7e46-a785-5f7f6bf619e3",
+      "01a026aa-c442-7c35-8ce8-7d71eb2e416b",
+      "01a026aa-c510-7bea-a6ee-e4a4f72a5bec",
+      "01a026aa-c5dc-7300-9f62-7307c771c1ad",
+      "01a026aa-c6a3-79ab-996e-77ad05ceab59",
+      "01a026aa-c774-76f6-9d0f-f3be135a6902",
+      "01a026aa-c844-7925-84e6-b16d19aa6e29",
+      "01a026aa-c912-7bee-8d3b-130033244508",
+      "01a026aa-c9e6-7f7c-8ea9-2ec5d7642c8b",
+      "01a026aa-cac4-77f0-9899-0c588efdde22",
+      "01a026aa-cba0-7a88-9dd9-63de9c34e4bc",
+      "01a026aa-cc71-7a73-955f-8848f4eb051f",
+      "01a026aa-cd48-7169-95e4-0fab32361018",
+      "01a026aa-d221-7df9-815e-7bef6f94beb8",
+      "01a026aa-d2ea-7e27-8ca3-cfa9175ec0b0",
+      "01a026aa-d3b5-70f8-bbc8-ed35ff8f5cec",
+      "01a026aa-d486-7917-bc53-48023aed17dc",
+      "01a026aa-d56b-765e-808d-cae6f0ff33b7",
+      "01a026aa-d63e-72ec-a897-3b7bb53d14a2",
+      "01a026aa-d70b-733c-a955-695851fdd87c",
+      "01a026aa-d7e7-7c6b-af1a-8603ee549f3f",
+      "01a026aa-d8bf-7f84-b36d-1710a5488499",
+      "01a026aa-d9a0-7e53-90da-200a7bf3d776",
+      "01a026aa-da73-797f-9d8c-d89d61fc4b2e",
+      "01a026aa-db50-754e-b1c1-58634eab2e12",
+      "01a026aa-dd91-70cd-837e-a46e9611627f",
+      "01a026aa-de7d-7389-8b06-659a60e8457e",
+      "01a026aa-df59-741a-a09f-720e06b62e01",
+      "01a026aa-e03f-794a-8dfc-e7634ff00d8a",
+      "01a026aa-e12c-7270-a637-0fbda3734fca",
+      "01a026aa-e208-7cbe-a651-42f072cf27a3",
+      "01a026aa-edbd-758e-9d82-5ef89a05912e",
+      "01a026aa-eea6-7424-8547-fe5b0c85a6b5",
+      "01a026aa-ef80-7f29-828f-d858d0d65c13",
+      "01a026aa-f064-7e22-98d2-40b7c4b0bba3",
+      "01a026ab-054d-7ffc-9549-468a177a8736",
+      "01a026ab-0624-7c0f-97bb-943f3e7a5c50",
+      "01a026ab-06fc-7484-aa68-397aa72129e4",
+      "01a026ab-1612-7911-8b98-2c7ce196ba6e",
+      "01a026ab-2c24-7cb8-800a-e933a5f7c229",
+      "01a026ab-2d0d-766c-ac3f-ccb0d05e6926",
+      "01a03457-e92c-7973-b196-eebe3bdf57f3",
+      "01a03457-eeaf-7ba5-9732-f1fdca594a27",
+      "01a0348f-0e6f-7901-98dd-ad697cac2cd5",
+      "01a0348f-1103-7c7a-960d-de2294c70939",
+      "01a0348f-138f-7c70-9470-b79b6147d515",
+      "01a0348f-15ff-7cc4-8fc3-603317d24f8b",
+      "01a0348f-187d-7edd-9f17-a26c0e8a71ea"
+    ],
+    "source": "exo-postgres"
+  },
+  "metadata": {
+    "postgres": {
+      "hardware_key": "gb10_121",
+      "publication_id": "pg-20260827T060320709Z",
+      "run_count": 101,
+      "source_model_id": "nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4"
+    }
+  },
+  "model_instance_id": "nvidia-nvidia-nemotron-3-5-lightning-30b-a3b-nvfp4--nvfp4",
+  "provenance": {
+    "captured_at": "2026-08-27T06:04:13.773Z",
+    "sources": [
+      {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "kind": "normalized-recipe",
+        "url": "https://local.ai"
+      }
+    ]
+  },
+  "recipe_source": "exo-postgres",
+  "schema_version": "local-ai-registry/v1",
+  "serving": {
+    "kv_cache_tokens": null,
+    "max_concurrency": 1,
+    "max_context_tokens": 262032,
+    "tensor_parallel": 1
+  },
+  "speed_sweeps_ids": [
+    "pg-019fd539-c65c-72bd-8d20-8ba218934a57-sweep",
+    "pg-019fd539-c68d-7895-bc9c-759279e386f2-sweep",
+    "pg-019fd54c-d08f-7ae4-a888-ee332149d1b6-sweep",
+    "pg-019fd7f9-abbe-77c7-9b32-65544ee37035-sweep",
+    "pg-019fd7f9-ac08-7874-a060-a6864121256e-sweep",
+    "pg-019fd925-5fb1-778f-915a-4a0e5def538f-sweep",
+    "pg-019fd925-5fe1-7937-8843-17eb829a109d-sweep",
+    "pg-019fd925-600f-7ee2-a4f8-db8db7705bc8-sweep",
+    "pg-019fd925-603d-7221-b850-4d55f3a389b0-sweep",
+    "pg-019fd925-6068-792b-a2f3-ac9a3fdf5678-sweep",
+    "pg-019fd925-60bf-7b6c-ac3c-4f5c1af11317-sweep",
+    "pg-019fd925-60f1-7fa9-96b5-83e16d09ded8-sweep",
+    "pg-019fd925-611f-791c-a278-4be70c918038-sweep",
+    "pg-019fd925-614a-703c-8a63-d3e4537fe04c-sweep",
+    "pg-019fd925-6177-7130-82e2-0ecf368c781e-sweep",
+    "pg-019fd925-61b5-7dcb-a4c2-d44ae24057a4-sweep",
+    "pg-019fd925-61e1-738d-872a-52b1d87af229-sweep",
+    "pg-01a011ed-dfae-764a-8d5c-e11142a06beb-sweep",
+    "pg-01a011ed-e095-7d4f-a995-449c0b40ab9f-sweep",
+    "pg-01a011ed-e0da-70ec-9ef7-1a4b526ba3c3-sweep",
+    "pg-01a011ed-e1b0-7db3-84ad-0a80a70f24e6-sweep",
+    "pg-01a011ed-e1f8-7e4b-8aea-123ab3cf90b0-sweep",
+    "pg-01a011ed-e240-756b-ae03-fda4cd4541d8-sweep",
+    "pg-01a011ed-e286-71e0-bed7-972b32016aef-sweep",
+    "pg-01a011ed-e2ca-773a-8b43-8074a8e8efa8-sweep",
+    "pg-01a011ed-e30d-78af-ac7b-80b2cf591671-sweep",
+    "pg-01a011ed-e356-7ac7-93c9-28a974153c3c-sweep",
+    "pg-01a011ed-e39c-70c7-ba47-7aa450585f40-sweep",
+    "pg-01a011ed-e3e2-7a3c-8e82-9c93a7b65c5c-sweep",
+    "pg-01a011ed-e42b-758f-be0b-f4f81ff07b65-sweep",
+    "pg-01a011ed-e471-7029-9fd0-2b254276056d-sweep",
+    "pg-01a011ed-f837-707d-8081-bf4ba281725b-sweep",
+    "pg-01a011ed-f876-7ae2-81ec-6f0163a56d4a-sweep",
+    "pg-01a011ed-f8bc-7023-ba4f-222c327f8af2-sweep",
+    "pg-01a011ee-226a-7558-bc79-1b5129fb24cf-sweep",
+    "pg-01a011ee-22aa-78f3-acda-f72a3fa26a85-sweep",
+    "pg-01a011ee-22e7-7418-87ef-555f436a69f4-sweep",
+    "pg-01a011ee-40d0-797e-a8e8-af014e7603dd-sweep",
+    "pg-01a0139f-957b-76e2-a318-366d16f0c12c-sweep",
+    "pg-01a0139f-9638-7319-8916-d0b66881518a-sweep",
+    "pg-01a0139f-a079-7502-a25d-29fd0e0c381d-sweep",
+    "pg-01a0139f-c91c-7a7c-b7f6-89e1827bdcd8-sweep",
+    "pg-01a026aa-ba86-7cc5-b691-b8e2143f8d99-sweep",
+    "pg-01a026aa-bb54-7203-b73c-e65c690adffc-sweep",
+    "pg-01a026aa-bc1e-79d0-ba67-0ba1879cce83-sweep",
+    "pg-01a026aa-bcee-7dae-a9db-ec3fb87539b1-sweep",
+    "pg-01a026aa-bdba-7bfb-9271-946e42d3b155-sweep",
+    "pg-01a026aa-be87-7ed1-b6cd-c0d4014f7899-sweep",
+    "pg-01a026aa-bf56-74b9-8a21-f7ec2b0411bf-sweep",
+    "pg-01a026aa-c029-7ff4-a502-712cd2f279a7-sweep",
+    "pg-01a026aa-c0f4-79f8-81a9-f9f11eda50f0-sweep",
+    "pg-01a026aa-c1ce-7421-8a20-fa3a74057ca6-sweep",
+    "pg-01a026aa-c2a0-7fdc-a074-9689989054d1-sweep",
+    "pg-01a026aa-c36d-7e46-a785-5f7f6bf619e3-sweep",
+    "pg-01a026aa-c442-7c35-8ce8-7d71eb2e416b-sweep",
+    "pg-01a026aa-c510-7bea-a6ee-e4a4f72a5bec-sweep",
+    "pg-01a026aa-c5dc-7300-9f62-7307c771c1ad-sweep",
+    "pg-01a026aa-c6a3-79ab-996e-77ad05ceab59-sweep",
+    "pg-01a026aa-c774-76f6-9d0f-f3be135a6902-sweep",
+    "pg-01a026aa-c844-7925-84e6-b16d19aa6e29-sweep",
+    "pg-01a026aa-c912-7bee-8d3b-130033244508-sweep",
+    "pg-01a026aa-c9e6-7f7c-8ea9-2ec5d7642c8b-sweep",
+    "pg-01a026aa-cac4-77f0-9899-0c588efdde22-sweep",
+    "pg-01a026aa-cba0-7a88-9dd9-63de9c34e4bc-sweep",
+    "pg-01a026aa-cc71-7a73-955f-8848f4eb051f-sweep",
+    "pg-01a026aa-cd48-7169-95e4-0fab32361018-sweep",
+    "pg-01a026aa-d221-7df9-815e-7bef6f94beb8-sweep",
+    "pg-01a026aa-d2ea-7e27-8ca3-cfa9175ec0b0-sweep",
+    "pg-01a026aa-d3b5-70f8-bbc8-ed35ff8f5cec-sweep",
+    "pg-01a026aa-d486-7917-bc53-48023aed17dc-sweep",
+    "pg-01a026aa-d56b-765e-808d-cae6f0ff33b7-sweep",
+    "pg-01a026aa-d63e-72ec-a897-3b7bb53d14a2-sweep",
+    "pg-01a026aa-d70b-733c-a955-695851fdd87c-sweep",
+    "pg-01a026aa-d7e7-7c6b-af1a-8603ee549f3f-sweep",
+    "pg-01a026aa-d8bf-7f84-b36d-1710a5488499-sweep",
+    "pg-01a026aa-d9a0-7e53-90da-200a7bf3d776-sweep",
+    "pg-01a026aa-da73-797f-9d8c-d89d61fc4b2e-sweep",
+    "pg-01a026aa-db50-754e-b1c1-58634eab2e12-sweep",
+    "pg-01a026aa-dd91-70cd-837e-a46e9611627f-sweep",
+    "pg-01a026aa-de7d-7389-8b06-659a60e8457e-sweep",
+    "pg-01a026aa-df59-741a-a09f-720e06b62e01-sweep",
+    "pg-01a026aa-e03f-794a-8dfc-e7634ff00d8a-sweep",
+    "pg-01a026aa-e12c-7270-a637-0fbda3734fca-sweep",
+    "pg-01a026aa-e208-7cbe-a651-42f072cf27a3-sweep",
+    "pg-01a026aa-edbd-758e-9d82-5ef89a05912e-sweep",
+    "pg-01a026aa-eea6-7424-8547-fe5b0c85a6b5-sweep",
+    "pg-01a026aa-ef80-7f29-828f-d858d0d65c13-sweep",
+    "pg-01a026aa-f064-7e22-98d2-40b7c4b0bba3-sweep",
+    "pg-01a026ab-054d-7ffc-9549-468a177a8736-sweep",
+    "pg-01a026ab-0624-7c0f-97bb-943f3e7a5c50-sweep",
+    "pg-01a026ab-06fc-7484-aa68-397aa72129e4-sweep",
+    "pg-01a026ab-1612-7911-8b98-2c7ce196ba6e-sweep",
+    "pg-01a026ab-2c24-7cb8-800a-e933a5f7c229-sweep",
+    "pg-01a026ab-2d0d-766c-ac3f-ccb0d05e6926-sweep",
+    "pg-01a03457-e92c-7973-b196-eebe3bdf57f3-sweep",
+    "pg-01a03457-eeaf-7ba5-9732-f1fdca594a27-sweep",
+    "pg-01a0348f-0e6f-7901-98dd-ad697cac2cd5-sweep",
+    "pg-01a0348f-1103-7c7a-960d-de2294c70939-sweep",
+    "pg-01a0348f-138f-7c70-9470-b79b6147d515-sweep",
+    "pg-01a0348f-15ff-7cc4-8fc3-603317d24f8b-sweep",
+    "pg-01a0348f-187d-7edd-9f17-a26c0e8a71ea-sweep"
+  ],
+  "status": "candidate"
+}

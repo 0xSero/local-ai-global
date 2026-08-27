@@ -1,0 +1,38 @@
+{
+  "active_params": 3.0,
+  "architecture": "moe",
+  "facts": {},
+  "family": "nvidia",
+  "huggingface": {
+    "link_type": "repository",
+    "provenance": {
+      "captured_at": "2026-08-27T06:04:13.773Z",
+      "sources": [
+        {
+          "captured_at": "2026-08-27T06:04:13.773Z",
+          "kind": "huggingface-api",
+          "url": "https://huggingface.co/api/models/NVIDIA-Nemotron/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4"
+        }
+      ]
+    },
+    "reason": "hf-api-confirmed-public",
+    "repository": "NVIDIA-Nemotron/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4",
+    "status": "known",
+    "url": "https://huggingface.co/NVIDIA-Nemotron/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4"
+  },
+  "id": "nvidia-nemotron-nvidia-nemotron-3-5-lightning-30b-a3b-nvfp4",
+  "name": "NVIDIA-Nemotron/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4",
+  "params": 30.0,
+  "provenance": {
+    "captured_at": "2026-08-27T06:04:13.773Z",
+    "sources": [
+      {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "kind": "normalized-model",
+        "url": "https://huggingface.co/NVIDIA-Nemotron/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4"
+      }
+    ]
+  },
+  "schema_version": "local-ai-registry/v1",
+  "url": "https://huggingface.co/NVIDIA-Nemotron/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4"
+}

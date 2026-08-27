@@ -1,0 +1,178 @@
+{
+  "capabilities": {
+    "chat": null,
+    "reasoning": null,
+    "tools": null,
+    "vision": null
+  },
+  "description": "Measured compatibility from the local.ai Postgres publication. Launch arguments are not promoted into an executable contract.",
+  "engine": {
+    "graph_mode": null,
+    "name": "vllm",
+    "version": "0.23.0"
+  },
+  "facts": {
+    "capabilities.chat": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "capabilities.reasoning": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "capabilities.tools": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "capabilities.vision": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "engine.graph_mode": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "runtime-detail-not-published",
+      "state": "unknown"
+    },
+    "serving.kv_cache_tokens": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "kv-cache-capacity-not-published",
+      "state": "unknown"
+    }
+  },
+  "hardware_count": 1,
+  "hardware_id": "dgx-spark-gb10-128gb",
+  "id": "pg-unsloth-qwen3-6-35b-a3b-nvfp4-nvfp4-dgx-spark-gb10-128gb-vllm-7afa6f02a9",
+  "launch": {
+    "container": {
+      "captured_at": "2026-08-27T06:04:13.773Z",
+      "compose_file": null,
+      "digest": null,
+      "image": null,
+      "reason": "reference-only-launch",
+      "runtime": null,
+      "source": [
+        {
+          "captured_at": "2026-08-27T06:04:13.773Z",
+          "kind": "recipe-launch",
+          "url": "https://local.ai"
+        }
+      ],
+      "state": "none"
+    },
+    "kind": "reference",
+    "publication_id": "pg-20260827T060320709Z",
+    "run_ids": [
+      "019f682c-ce02-7f74-ad1c-07a62fc76680",
+      "01a0139f-a478-7528-b278-7729cde5ebb6",
+      "01a0139f-b612-72cb-8570-1d6c1c40695e",
+      "01a0139f-be4c-73e4-823b-3e475075d271",
+      "01a0139f-ce67-74b8-baf9-4207556df9c1",
+      "01a026aa-f57c-74bb-bdc1-414a0907d151",
+      "01a026ab-0e56-7748-ade0-bf55f6950f5f",
+      "01a026ab-0f2b-76bb-8303-ecb668d12a74",
+      "01a026ab-1b09-7fd2-aab0-06f838fc2296",
+      "01a026ab-323b-7a2a-940f-ca312ddefeb0",
+      "01a026ab-3314-7918-83bf-040ebe42c868"
+    ],
+    "source": "exo-postgres"
+  },
+  "metadata": {
+    "postgres": {
+      "hardware_key": "gb10_121",
+      "publication_id": "pg-20260827T060320709Z",
+      "run_count": 11,
+      "source_model_id": "unsloth/Qwen3.6-35B-A3B-NVFP4"
+    }
+  },
+  "model_instance_id": "unsloth-qwen3-6-35b-a3b-nvfp4--nvfp4",
+  "provenance": {
+    "captured_at": "2026-08-27T06:04:13.773Z",
+    "sources": [
+      {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "kind": "normalized-recipe",
+        "url": "https://local.ai"
+      }
+    ]
+  },
+  "recipe_source": "exo-postgres",
+  "schema_version": "local-ai-registry/v1",
+  "serving": {
+    "kv_cache_tokens": null,
+    "max_concurrency": 1,
+    "max_context_tokens": 262032,
+    "tensor_parallel": 1
+  },
+  "speed_sweeps_ids": [
+    "pg-019f682c-ce02-7f74-ad1c-07a62fc76680-sweep",
+    "pg-01a0139f-a478-7528-b278-7729cde5ebb6-sweep",
+    "pg-01a0139f-b612-72cb-8570-1d6c1c40695e-sweep",
+    "pg-01a0139f-be4c-73e4-823b-3e475075d271-sweep",
+    "pg-01a0139f-ce67-74b8-baf9-4207556df9c1-sweep",
+    "pg-01a026aa-f57c-74bb-bdc1-414a0907d151-sweep",
+    "pg-01a026ab-0e56-7748-ade0-bf55f6950f5f-sweep",
+    "pg-01a026ab-0f2b-76bb-8303-ecb668d12a74-sweep",
+    "pg-01a026ab-1b09-7fd2-aab0-06f838fc2296-sweep",
+    "pg-01a026ab-323b-7a2a-940f-ca312ddefeb0-sweep",
+    "pg-01a026ab-3314-7918-83bf-040ebe42c868-sweep"
+  ],
+  "status": "candidate"
+}

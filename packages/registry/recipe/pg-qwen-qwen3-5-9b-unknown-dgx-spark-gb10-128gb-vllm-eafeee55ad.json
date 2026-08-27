@@ -1,0 +1,206 @@
+{
+  "capabilities": {
+    "chat": null,
+    "reasoning": null,
+    "tools": null,
+    "vision": null
+  },
+  "description": "Measured compatibility from the local.ai Postgres publication. Launch arguments are not promoted into an executable contract.",
+  "engine": {
+    "graph_mode": null,
+    "name": "vllm",
+    "version": null
+  },
+  "facts": {
+    "capabilities.chat": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "capabilities.reasoning": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "capabilities.tools": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "capabilities.vision": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "capability-not-verified",
+      "state": "unknown"
+    },
+    "engine.graph_mode": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "runtime-detail-not-published",
+      "state": "unknown"
+    },
+    "engine.version": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "runtime-detail-not-published",
+      "state": "unknown"
+    },
+    "serving.kv_cache_tokens": {
+      "provenance": {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "sources": [
+          {
+            "captured_at": "2026-08-27T06:04:13.773Z",
+            "kind": "registry-enrichment",
+            "url": "https://github.com/0xSero/local-ai-registry"
+          }
+        ]
+      },
+      "reason": "kv-cache-capacity-not-published",
+      "state": "unknown"
+    }
+  },
+  "hardware_count": 1,
+  "hardware_id": "dgx-spark-gb10-128gb",
+  "id": "pg-qwen-qwen3-5-9b-unknown-dgx-spark-gb10-128gb-vllm-eafeee55ad",
+  "launch": {
+    "container": {
+      "captured_at": "2026-08-27T06:04:13.773Z",
+      "compose_file": null,
+      "digest": null,
+      "image": null,
+      "reason": "reference-only-launch",
+      "runtime": null,
+      "source": [
+        {
+          "captured_at": "2026-08-27T06:04:13.773Z",
+          "kind": "recipe-launch",
+          "url": "https://local.ai"
+        }
+      ],
+      "state": "none"
+    },
+    "kind": "reference",
+    "publication_id": "pg-20260827T060320709Z",
+    "run_ids": [
+      "019f3295-d594-7351-8b03-4723cb0d0f69",
+      "019f5c2a-f2ce-7ef5-9cf4-b0adafe77fcd",
+      "019f5c2a-f3bb-7bb8-bbc4-87d496a5fa7c",
+      "019f61a7-2063-7e40-93c2-09495921427e",
+      "019f61a7-219f-75b7-8a95-b0bf3a926d7a",
+      "019f61a7-22e6-7091-b5e4-6a78a7569579",
+      "019f61a7-242d-7deb-9ce9-f30aad443472",
+      "019f61a7-2573-7974-9d3a-e2c04a033fb9",
+      "019f61a7-26ab-73da-a5bc-8918ca3b700b",
+      "019f61a7-29be-7ea2-a544-947808c27df3",
+      "019f61a7-2b85-75a0-8509-51fb16ca96cf",
+      "019f61a7-2d00-7274-bd6e-0e0c83de17df",
+      "019f7582-adde-7782-b6a8-c94f5c4aa066",
+      "019f7582-c1ee-7104-9bbb-21bb1a371ef4",
+      "01a0139f-a629-74e4-9c39-b05b04792428",
+      "01a0139f-bf8d-7832-aad1-8301bf3af38b",
+      "01a026aa-f80d-7ed0-8cc6-3eb036b9b3a4",
+      "01a026ab-1d91-793a-bf4e-c3bf8897c49b"
+    ],
+    "source": "exo-postgres"
+  },
+  "metadata": {
+    "postgres": {
+      "hardware_key": "gb10_121",
+      "publication_id": "pg-20260827T060320709Z",
+      "run_count": 18,
+      "source_model_id": "Qwen/Qwen3.5-9B"
+    }
+  },
+  "model_instance_id": "qwen-qwen3-5-9b--unknown",
+  "provenance": {
+    "captured_at": "2026-08-27T06:04:13.773Z",
+    "sources": [
+      {
+        "captured_at": "2026-08-27T06:04:13.773Z",
+        "kind": "normalized-recipe",
+        "url": "https://local.ai"
+      }
+    ]
+  },
+  "recipe_source": "exo-postgres",
+  "schema_version": "local-ai-registry/v1",
+  "serving": {
+    "kv_cache_tokens": null,
+    "max_concurrency": 1,
+    "max_context_tokens": 262032,
+    "tensor_parallel": 1
+  },
+  "speed_sweeps_ids": [
+    "pg-019f3295-d594-7351-8b03-4723cb0d0f69-sweep",
+    "pg-019f5c2a-f2ce-7ef5-9cf4-b0adafe77fcd-sweep",
+    "pg-019f5c2a-f3bb-7bb8-bbc4-87d496a5fa7c-sweep",
+    "pg-019f61a7-2063-7e40-93c2-09495921427e-sweep",
+    "pg-019f61a7-219f-75b7-8a95-b0bf3a926d7a-sweep",
+    "pg-019f61a7-22e6-7091-b5e4-6a78a7569579-sweep",
+    "pg-019f61a7-242d-7deb-9ce9-f30aad443472-sweep",
+    "pg-019f61a7-2573-7974-9d3a-e2c04a033fb9-sweep",
+    "pg-019f61a7-26ab-73da-a5bc-8918ca3b700b-sweep",
+    "pg-019f61a7-29be-7ea2-a544-947808c27df3-sweep",
+    "pg-019f61a7-2b85-75a0-8509-51fb16ca96cf-sweep",
+    "pg-019f61a7-2d00-7274-bd6e-0e0c83de17df-sweep",
+    "pg-019f7582-adde-7782-b6a8-c94f5c4aa066-sweep",
+    "pg-019f7582-c1ee-7104-9bbb-21bb1a371ef4-sweep",
+    "pg-01a0139f-a629-74e4-9c39-b05b04792428-sweep",
+    "pg-01a0139f-bf8d-7832-aad1-8301bf3af38b-sweep",
+    "pg-01a026aa-f80d-7ed0-8cc6-3eb036b9b3a4-sweep",
+    "pg-01a026ab-1d91-793a-bf4e-c3bf8897c49b-sweep"
+  ],
+  "status": "candidate"
+}

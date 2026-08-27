@@ -1,0 +1,81 @@
+{
+  "accepted_at": null,
+  "id": "pg-019f7583-6e69-73d4-96ec-134b8cdd959d-sweep",
+  "measured_at": null,
+  "metrics": {
+    "concurrency": 1,
+    "decode_mode": "spec:eagle3:k=3",
+    "inference_engine_version": "unknown",
+    "point_count": 0,
+    "serve_args": [
+      "vllm",
+      "--model",
+      "openai/gpt-oss-120b",
+      "--served-model-name",
+      "openai/gpt-oss-120b",
+      "--host",
+      "0.0.0.0",
+      "--port",
+      "8000",
+      "--tensor-parallel-size",
+      "1",
+      "--pipeline-parallel-size",
+      "1",
+      "--trust-remote-code",
+      "--enable-chunked-prefill",
+      "--enable-prefix-caching",
+      "--enable-auto-tool-choice",
+      "--enable-prompt-tokens-details",
+      "--enable-force-include-usage",
+      "--enable-request-id-headers",
+      "--enable-log-requests",
+      "--max-num-seqs",
+      "1",
+      "--gpu-memory-utilization",
+      "0.90",
+      "--block-size",
+      "16",
+      "--async-scheduling",
+      "--enable-auto-tool-choice",
+      "--language-model-only",
+      "--max-model-len",
+      "131072",
+      "--tool-call-parser",
+      "openai",
+      "--kv-cache-dtype",
+      "fp8",
+      "--max-cudagraph-capture-size",
+      "2048",
+      "--max-num-batched-tokens",
+      "8192",
+      "--stream-interval",
+      "20",
+      "--speculative-config",
+      "{\"model\":\"nvidia/gpt-oss-120b-Eagle3-v3\",\"method\":\"eagle3\",\"num_speculative_tokens\":3,\"draft_tensor_parallel_size\":1,\"rejection_sample_method\":\"synthetic\",\"synthetic_acceptance_rates\":[0,0,0]}"
+    ]
+  },
+  "recipe_id": "pg-openai-gpt-oss-120b-unknown-rtx-pro-6000-blackwell-96gb-vllm-43bb51b4db",
+  "rows": [
+    {
+      "concurrency": 1,
+      "context_tokens": null,
+      "decode_tok_s": null,
+      "decode_tok_s_per_stream": null,
+      "output_tokens": null,
+      "peak_vram_gb": null,
+      "prefill_tok_s": null,
+      "samples": 1,
+      "status": "observed",
+      "ttft_ms_p50": null
+    }
+  ],
+  "schema_version": "local-ai-registry/v1",
+  "source": {
+    "commit": null,
+    "paths": [
+      "publication:pg-20260827T060320709Z",
+      "run:019f7583-6e69-73d4-96ec-134b8cdd959d"
+    ],
+    "repository": "https://local.ai"
+  }
+}
