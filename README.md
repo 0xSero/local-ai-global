@@ -41,6 +41,8 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000). The wiki is at `/docs`, the registry browser is at `/`, and the read-only API is at `/api/v1`.
 
+The published architecture and contribution wiki is available at [0xsero.github.io/local-ai-global](https://0xsero.github.io/local-ai-global/).
+
 ## Growth rule
 
 New data enters through `submission-harness`, passes schema and reference validation, and lands in `registry` as a reviewable diff. The API, SDK, CLI, site, and Omarchy plugin never mutate registry data. See [`docs/architecture/ownership.md`](docs/architecture/ownership.md) and [`docs/guides/growing-the-registry.md`](docs/guides/growing-the-registry.md).

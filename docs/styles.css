@@ -1,0 +1,131 @@
+:root {
+  color-scheme: dark;
+  --black: #0d0d0d;
+  --canvas: #141414;
+  --surface: #191919;
+  --surface-2: #202020;
+  --ink: #f4f2ec;
+  --muted: #9a9a96;
+  --line: #30302f;
+  --cream: #f1eee7;
+  --cream-ink: #232323;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; background: var(--canvas); }
+body {
+  min-width: 320px;
+  margin: 0;
+  color: var(--ink);
+  background: var(--canvas);
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-underline-offset: 0.18em; }
+a:hover { color: white; }
+:focus-visible { outline: 2px solid var(--cream); outline-offset: 3px; }
+h1, h2, p { margin-top: 0; }
+code, pre, .mono-label, .wordmark-mark { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
+
+.site-header {
+  position: sticky;
+  z-index: 20;
+  top: 0;
+  display: flex;
+  min-height: 54px;
+  padding: 0 clamp(18px, 3vw, 42px);
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  background: rgba(13, 13, 13, 0.94);
+  backdrop-filter: blur(14px);
+}
+.wordmark { display: inline-flex; gap: 11px; align-items: center; font-size: 0.72rem; font-weight: 650; letter-spacing: 0.08em; text-decoration: none; text-transform: uppercase; }
+.wordmark-mark { display: grid; width: 30px; height: 30px; place-items: center; color: var(--cream-ink); background: var(--cream); border-radius: 50%; font-size: 0.64rem; font-weight: 650; letter-spacing: -0.04em; }
+.site-header nav { display: flex; gap: 20px; color: #c4c3be; font-size: 0.72rem; }
+.site-header nav a { text-decoration: none; }
+
+.wiki-shell { display: grid; width: min(1360px, calc(100% - 40px)); margin: 0 auto; grid-template-columns: 210px minmax(0, 880px); gap: clamp(48px, 8vw, 120px); justify-content: center; }
+.wiki-nav { position: sticky; top: 90px; height: max-content; padding: 72px 0; }
+.wiki-nav nav { display: grid; margin: 24px 0 34px; }
+.wiki-nav nav a { padding: 7px 0; color: var(--muted); font-size: 0.76rem; text-decoration: none; }
+.wiki-nav nav a:hover { color: white; }
+.nav-cta { font-size: 0.7rem; }
+.wiki-content { min-width: 0; }
+.wiki-content > section { padding: 78px 0; border-top: 1px solid var(--line); scroll-margin-top: 53px; }
+.mono-label { color: var(--muted); font-size: 0.61rem; font-weight: 560; letter-spacing: 0.09em; }
+
+.wiki-hero { min-height: 620px; padding: 114px 0 90px; display: flex; flex-direction: column; justify-content: center; scroll-margin-top: 53px; }
+.wiki-hero h1 { max-width: 800px; margin: 18px 0 24px; font-size: clamp(2.8rem, 6.6vw, 5.7rem); font-weight: 500; letter-spacing: -0.065em; line-height: 0.96; }
+.wiki-hero > p { max-width: 660px; color: #b6b5b0; font-size: clamp(0.9rem, 1.3vw, 1.03rem); line-height: 1.65; }
+.hero-actions { display: flex; gap: 18px; margin-top: 24px; align-items: center; font-size: 0.74rem; }
+.primary-action { padding: 9px 13px; color: var(--cream-ink); background: var(--cream); border-radius: 3px; text-decoration: none; }
+.primary-action:hover { color: #000; background: white; }
+
+section h2 { max-width: 720px; margin: 11px 0 30px; font-size: clamp(1.7rem, 3.8vw, 2.7rem); font-weight: 510; letter-spacing: -0.045em; line-height: 1.05; }
+section > p { max-width: 720px; color: #adaca7; line-height: 1.7; }
+.flow { display: flex; margin: 12px 0 24px; align-items: center; overflow-x: auto; border: 1px solid var(--line); background: var(--surface); }
+.flow span { min-width: max-content; padding: 18px 15px; font-family: "SFMono-Regular", Consolas, monospace; font-size: 0.65rem; }
+.flow i { color: #686864; font-style: normal; }
+.split-note { display: grid; margin-top: 34px; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.split-note > div { padding: 19px 20px 14px 0; }
+.split-note > div + div { padding-left: 20px; border-left: 1px solid var(--line); }
+.split-note p { margin: 8px 0 0; color: var(--muted); font-size: 0.73rem; }
+
+.package-grid { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.package-grid > div { min-height: 145px; padding: 20px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--surface); }
+.package-grid code { display: block; color: var(--muted); font-size: 0.62rem; }
+.package-grid strong { display: block; margin-top: 26px; font-size: 0.88rem; font-weight: 520; }
+.package-grid p { margin: 7px 0 0; color: var(--muted); font-size: 0.7rem; }
+
+.interface-list { border-top: 1px solid var(--line); }
+.interface-list details { border-bottom: 1px solid var(--line); }
+.interface-list summary { display: flex; padding: 17px 4px; align-items: center; justify-content: space-between; gap: 18px; cursor: pointer; list-style: none; }
+.interface-list summary::-webkit-details-marker { display: none; }
+.interface-list summary span { font-size: 0.85rem; font-weight: 520; }
+.interface-list summary code { color: var(--muted); font-size: 0.61rem; }
+.interface-list details[open] { padding-bottom: 18px; }
+.interface-list details[open] summary { color: var(--cream-ink); background: var(--cream); padding-right: 14px; padding-left: 14px; }
+.interface-list details[open] summary code { color: #686660; }
+.interface-list details > p { max-width: 680px; margin: 16px 14px; color: var(--muted); font-size: 0.76rem; }
+.interface-list pre { margin: 14px; padding: 16px; overflow-x: auto; border: 1px solid var(--line); background: #101010; color: #d8d6cf; font-size: 0.68rem; line-height: 1.65; }
+
+.tree, .commands { margin: 0 0 25px; padding: 24px; overflow-x: auto; border: 1px solid var(--line); background: #101010; color: #d8d6cf; font-size: 0.69rem; line-height: 1.75; }
+.record-types { display: grid; margin-top: 36px; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.record-types > div { padding: 16px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.record-types code { font-size: 0.63rem; }
+.record-types p { margin: 12px 0 0; color: var(--muted); font-size: 0.68rem; }
+
+section ul { max-width: 740px; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+section ul li { padding: 14px 0 14px 20px; border-bottom: 1px solid var(--line); color: #bbb9b3; font-size: 0.76rem; }
+section ul li::before { display: inline-block; width: 20px; margin-left: -20px; color: #66635e; content: "—"; }
+.steps { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.steps li { display: grid; min-height: 62px; padding: 13px 0; grid-template-columns: 46px 1fr; align-items: center; border-bottom: 1px solid var(--line); }
+.steps span { color: #6e6e69; font-family: "SFMono-Regular", Consolas, monospace; font-size: 0.6rem; }
+.steps p { margin: 0; color: #bbb9b3; font-size: 0.76rem; }
+.commands { width: min(100%, 440px); margin-top: 30px; }
+
+footer { display: flex; min-height: 130px; align-items: center; justify-content: space-between; color: var(--muted); border-top: 1px solid var(--line); font-size: 0.68rem; }
+
+@media (max-width: 850px) {
+  .wiki-shell { display: block; width: min(100% - 32px, 760px); }
+  .wiki-nav { position: static; padding: 36px 0 14px; }
+  .wiki-nav nav { display: flex; margin: 14px 0 20px; gap: 6px 18px; overflow-x: auto; }
+  .wiki-nav nav a { white-space: nowrap; }
+  .wiki-hero { min-height: 480px; padding-top: 70px; }
+  .wiki-content > section { padding: 62px 0; }
+}
+
+@media (max-width: 560px) {
+  .site-header { padding: 0 14px; }
+  .site-header nav a:first-child { display: none; }
+  .wordmark > span:last-child { font-size: 0.64rem; }
+  .wiki-hero h1 { font-size: clamp(2.55rem, 14vw, 4.2rem); }
+  .package-grid, .split-note { grid-template-columns: 1fr; }
+  .split-note > div + div { padding-left: 0; border-top: 1px solid var(--line); border-left: 0; }
+  .record-types { grid-template-columns: repeat(2, 1fr); }
+  .interface-list summary { align-items: flex-start; flex-direction: column; gap: 5px; }
+  footer { align-items: flex-start; flex-direction: column; justify-content: center; gap: 8px; }
+}

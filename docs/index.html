@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Architecture, ownership, interfaces, and contribution guide for Local AI Global.">
+    <meta name="theme-color" content="#111111">
+    <title>Local AI Global — Documentation</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="wordmark" href="#what" aria-label="Local AI Global documentation">
+        <span class="wordmark-mark" aria-hidden="true">LAI</span>
+        <span>Local AI Global</span>
+      </a>
+      <nav aria-label="Project links">
+        <a href="https://local-ai-registry.vercel.app/">Registry</a>
+        <a href="https://github.com/0xSero/local-ai-global">GitHub</a>
+      </nav>
+    </header>
+
+    <main class="wiki-shell">
+      <aside class="wiki-nav">
+        <span class="mono-label">LOCAL AI / WIKI</span>
+        <nav aria-label="Documentation sections">
+          <a href="#what">What this is</a>
+          <a href="#flow">System flow</a>
+          <a href="#packages">Packages</a>
+          <a href="#interfaces">Interfaces</a>
+          <a href="#registry">Registry tree</a>
+          <a href="#huggingface">Hugging Face</a>
+          <a href="#grow">How to grow it</a>
+        </nav>
+        <a class="nav-cta" href="https://local-ai-registry.vercel.app/">Open registry ↗</a>
+      </aside>
+
+      <article class="wiki-content">
+        <header class="wiki-hero" id="what">
+          <span class="mono-label">PROJECT / LOCAL AI GLOBAL</span>
+          <h1>One graph from hardware to a working local model.</h1>
+          <p>Local AI Global turns detected hardware into a small set of compatible model artifacts and validated runtime recipes. Every answer stays traceable to normalized records, source links, launch contracts, prices, and measured speed.</p>
+          <div class="hero-actions">
+            <a class="primary-action" href="https://local-ai-registry.vercel.app/">Browse the registry</a>
+            <a href="https://github.com/0xSero/local-ai-global">View source</a>
+          </div>
+        </header>
+
+        <section id="flow">
+          <span class="mono-label">01 / SYSTEM FLOW</span>
+          <h2>Discovery is progressive.</h2>
+          <div class="flow" role="img" aria-label="User hardware resolves through the registry to a model, recipe, local runtime, and evidence">
+            <span>User hardware</span><i>→</i><span>Registry match</span><i>→</i><span>Model choice</span><i>→</i><span>Recipe</span><i>→</i><span>Local runtime</span><i>→</i><span>Evidence</span>
+          </div>
+          <p>The index carries compact discovery rows. Full model, artifact, hardware, recipe, price, and sweep bodies are opened only when requested. Consumers never flatten the graph into their own database.</p>
+          <div class="split-note">
+            <div><span class="mono-label">READ PATH</span><p>Hardware ID → compatible recipes → selected model instance → immutable launch contract → measured evidence.</p></div>
+            <div><span class="mono-label">WRITE PATH</span><p>Source material → submission harness → normalized candidate → validation → registry-only review → merge.</p></div>
+          </div>
+        </section>
+
+        <section id="packages">
+          <span class="mono-label">02 / PACKAGE OWNERSHIP</span>
+          <h2>One monorepo, hard boundaries.</h2>
+          <div class="package-grid">
+            <div><code>packages/registry</code><strong>Authority</strong><p>Normalized JSON, schemas, types, and recursive resolution.</p></div>
+            <div><code>packages/api</code><strong>Read surface</strong><p>Versioned GET endpoints over the registry package.</p></div>
+            <div><code>packages/sdk</code><strong>Client surface</strong><p>Typed registry access and opt-in provider connections.</p></div>
+            <div><code>packages/cli</code><strong>Local workflow</strong><p>Hardware detection, TUI selection, and recipe resolution.</p></div>
+            <div><code>packages/site</code><strong>Human surface</strong><p>Searchable registry, linked records, and this wiki.</p></div>
+            <div><code>packages/omarchy-plugin</code><strong>OS adapter</strong><p>Omarchy panel, lifecycle commands, and agent wiring.</p></div>
+            <div><code>packages/submission-harness</code><strong>Write gate</strong><p>Imports, normalization, validation, and reviewable diffs.</p></div>
+          </div>
+        </section>
+
+        <section id="interfaces">
+          <span class="mono-label">03 / INTERFACES</span>
+          <h2>Each surface does one job.</h2>
+          <div class="interface-list">
+            <details open>
+              <summary><span>Registry library</span><code>local JSON → typed graph</code></summary>
+              <p>Deterministic reads and recursive record resolution. It owns the canonical schemas and never calls providers or starts runtimes.</p>
+              <pre><code>getHardware(id)
+getModel(id)
+getModelInstance(id)
+getRecipe(id)
+listCompatibleRecipes(hardwareId)</code></pre>
+            </details>
+            <details>
+              <summary><span>Read-only API</span><code>HTTP GET → registry representation</code></summary>
+              <p>Search, filtering, pagination, linked record expansion, and cache headers. There are no mutation endpoints.</p>
+              <pre><code>GET /api/v1/hardware
+GET /api/v1/models
+GET /api/v1/recipes?hardware_id=&lt;id&gt;
+GET /api/v1/recipes/&lt;id&gt;
+GET /api/v1/speed-sweeps
+GET /api/v1/prices</code></pre>
+            </details>
+            <details>
+              <summary><span>CLI</span><code>local hardware → selected recipe</code></summary>
+              <p>Detects the machine, shows compatible models in a TUI, resolves the selected recipe, and performs explicit local actions.</p>
+            </details>
+            <details>
+              <summary><span>Omarchy plugin</span><code>desktop UI → CLI and local endpoint</code></summary>
+              <p>Adds Omarchy-native discovery, lifecycle controls, and agent configuration without creating an Omarchy-specific copy of registry data.</p>
+            </details>
+            <details>
+              <summary><span>Submission harness</span><code>source evidence → reviewable JSON diff</code></summary>
+              <p>Imports, normalizes, validates, and stages additions. It is the only path allowed to propose changes to the registry tree.</p>
+            </details>
+          </div>
+        </section>
+
+        <section id="registry">
+          <span class="mono-label">04 / SOURCE OF TRUTH</span>
+          <h2>The registry is a recursive tree.</h2>
+          <pre class="tree"><code>index.json
+└── recipe/&lt;id&gt;.json
+    ├── model_instance_id → model-instance/&lt;id&gt;.json
+    │   └── model_id      → model/&lt;id&gt;.json
+    ├── hardware_id       → hardware/&lt;id&gt;.json
+    └── speed_sweeps_ids  → speed-sweeps/&lt;id&gt;.json
+
+price/&lt;product&gt;/&lt;region&gt;.json
+└── hardware[].id         → hardware/&lt;id&gt;.json</code></pre>
+          <p>Registry IDs are stable machine keys. Human interfaces resolve them into model names, hardware names, publishers, engines, memory, storage size, dates, and measured rates. Raw IDs remain available in record detail and JSON.</p>
+          <div class="record-types">
+            <div><code>hardware</code><p>A distinct accelerator and memory configuration.</p></div>
+            <div><code>model</code><p>The canonical model family and publisher identity.</p></div>
+            <div><code>model-instance</code><p>An exact downloadable artifact, quantization, or fine-tune.</p></div>
+            <div><code>recipe</code><p>One artifact, hardware target, engine, topology, and launch contract.</p></div>
+            <div><code>speed-sweeps</code><p>Measured performance evidence attached to a recipe.</p></div>
+            <div><code>price</code><p>A regional market observation with currency, condition, source, and time.</p></div>
+          </div>
+        </section>
+
+        <section id="huggingface">
+          <span class="mono-label">05 / HUGGING FACE</span>
+          <h2>Provider data enriches the graph. It does not own it.</h2>
+          <ul>
+            <li>Each model instance supplies its authoritative Hugging Face URL.</li>
+            <li>Public model-card metadata, publisher identity, repository storage, license, downloads, and likes resolve from that URL.</li>
+            <li>A user connection adds identity and gated-repository access without storing the token in registry JSON.</li>
+            <li>The CLI may inspect the local Hugging Face cache and download a selected artifact after explicit user action.</li>
+            <li>Remote failure degrades to normalized registry metadata; recipe resolution still works offline.</li>
+          </ul>
+        </section>
+
+        <section id="grow">
+          <span class="mono-label">06 / CONTRIBUTION PATH</span>
+          <h2>Grow evidence first.</h2>
+          <ol class="steps">
+            <li><span>01</span><p>Submit source material to the submission harness.</p></li>
+            <li><span>02</span><p>Normalize it into existing schema fields and explicit unknowns.</p></li>
+            <li><span>03</span><p>Validate IDs, references, provenance, and launch-safety rules.</p></li>
+            <li><span>04</span><p>Review the generated registry-only diff.</p></li>
+            <li><span>05</span><p>Merge candidate compatibility or validated launch evidence.</p></li>
+            <li><span>06</span><p>Let the API, SDK, CLI, site, and Omarchy plugin discover it automatically.</p></li>
+          </ol>
+          <pre class="commands"><code>pnpm install
+pnpm validate
+pnpm test
+pnpm typecheck</code></pre>
+        </section>
+
+        <footer>
+          <span>Local AI Global</span>
+          <a href="https://github.com/0xSero/local-ai-global">Source and contributions ↗</a>
+        </footer>
+      </article>
+    </main>
+  </body>
+</html>
