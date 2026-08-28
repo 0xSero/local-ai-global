@@ -158,6 +158,7 @@ function registryRoot(): string {
   const candidates = [
     process.env.LOCAL_AI_REGISTRY_DIR,
     path.join(process.cwd(), "packages", "registry", "source", "registry"),
+    path.join(process.cwd(), "..", "registry", "source", "registry"),
     path.join(process.cwd(), "source", "registry"),
   ].filter((candidate): candidate is string => Boolean(candidate))
   const root = candidates.find((candidate) => existsSync(path.join(candidate, "index.json")))
