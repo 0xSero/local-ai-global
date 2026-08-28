@@ -5,6 +5,7 @@ import { notFound } from "next/navigation"
 import { DataTree } from "@/app/components/data-tree"
 import { HuggingFaceCards } from "@/app/components/hugging-face-cards"
 import { RecordDetails } from "@/app/components/record-details"
+import { RecordSearch } from "@/app/components/record-search"
 import { getCompatibilityResult, getEntityDetail, listModelInstances, modelInstanceResult, getModelInstance } from "@local-ai/registry"
 
 export const dynamic = "force-dynamic"
@@ -21,6 +22,7 @@ const COLLECTION_LABELS: Record<string, string> = {
 
 type DetailProps = {
   params: Promise<{ collection: string; id: string }>
+  searchParams: Promise<{ q?: string | string[] }>
 }
 
 type RecordTopic = "hardware" | "models" | "prices" | "recipes" | "benchmarks" | "speed-sweeps"
@@ -56,8 +58,10 @@ export async function generateMetadata({ params }: DetailProps): Promise<Metadat
   return { title: `${title} · Local AI Registry` }
 }
 
-export default async function DetailPage({ params }: DetailProps) {
+export default async function DetailPage({ params, searchParams }: DetailProps) {
   const { collection, id } = await params
+  const search = await searchParams
+  const query = (Array.isArray(search.q) ? search.q[0] : search.q ?? "").trim()
   const collectionLabel = COLLECTION_LABELS[collection]
   if (!collectionLabel) notFound()
   const detail = getEntityDetail(collection, id)
@@ -81,18 +85,21 @@ export default async function DetailPage({ params }: DetailProps) {
   return (
     <main className="detail-page">
       <nav className="breadcrumbs" aria-label="Breadcrumb">
-        <Link href="/">Search</Link><span>/</span><span>{collectionLabel}</span>
+        <Link href="/">Registry</Link><span>/</span><Link href={`/?topic=${collection}`}>{collectionLabel}</Link><span>/</span><span>{title}</span>
       </nav>
       <header className="detail-header">
-        <p className="eyebrow">{collectionLabel}</p>
-        <h1>{title}</h1>
+        <div>
+          <p className="eyebrow">{collectionLabel} / permanent record</p>
+          <h1>{title}</h1>
+          <code>{id}</code>
+        </div>
         <div className="detail-actions">
+          <Link href={`/?topic=${collection}`}>All {collection}</Link>
           <a href={`/api/v1/${collection}/${id}`}>JSON API</a>
-          <Link href={`/?q=${encodeURIComponent(title)}`}>
-            Find compatibility
-          </Link>
         </div>
       </header>
+
+      {(collection === "hardware" || collection === "models") && <RecordSearch query={query} />}
 
       {huggingFace && (
         <section className="artifact-resolution" aria-label="Hugging Face identity">
@@ -112,7 +119,7 @@ export default async function DetailPage({ params }: DetailProps) {
 
       {topic ? (
         <section className="record-sheet semantic-record-sheet">
-          <RecordDetails compatibility={compatibility} modelInstances={modelInstances} record={detail} topic={topic} />
+          <RecordDetails compatibility={compatibility} modelInstances={modelInstances} query={query} record={detail} topic={topic} />
         </section>
       ) : (
         <>

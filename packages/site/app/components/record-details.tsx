@@ -35,6 +35,7 @@ type Relationships = Record<string, RelatedRecord | RelatedRecord[]>
 type RecordDetailsProps = {
   compatibility?: CompatibilityResult
   modelInstances: ModelInstanceResult[]
+  query?: string
   record: Record<string, unknown>
   selectedHardware?: Hardware
   topic: RecordTopic
@@ -119,9 +120,7 @@ function Summary({ action, description, facts, label, media }: { action?: ReactN
 }
 
 function relationHref(link: RecordLink): string {
-  const match = link.href?.match(/^\/(recipes|hardware|models|prices|speed-sweeps)\/([^/]+)$/)
-  if (!match) return link.href ?? link.api ?? "#"
-  return `/?topic=${match[1]}&record=${encodeURIComponent(match[2])}`
+  return link.href ?? link.api ?? "#"
 }
 
 function relationTitle(link: RecordLink): string {
@@ -180,9 +179,36 @@ function relationshipSummary(key: string, links: RecordLink[]): string {
   return `${links.length.toLocaleString()} ${links.length === 1 ? "record" : "records"}`
 }
 
-function Connections({ relationships }: { relationships: unknown }) {
-  const groups = relationshipEntries(relationships)
-  if (groups.length === 0) return null
+function searchableLinkText(link: RecordLink): string {
+  const recipe = getCompatibilityResult(link.id)
+  return [
+    link.id,
+    link.name,
+    link.status,
+    link.engine,
+    link.match_scope,
+    relationTitle(link),
+    relationMeta(link),
+    recipe?.hardware.name,
+    recipe?.hardware.vendor,
+    recipe?.model.name,
+    recipe?.model.family,
+    recipe?.model_instance.repository,
+    recipe?.model_instance.weights.format,
+    recipe?.model_instance.weights.precision,
+    recipe?.recipe.engine.name,
+  ].filter(Boolean).join(" ").toLowerCase()
+}
+
+function Connections({ query = "", relationships }: { query?: string; relationships: unknown }) {
+  const normalizedQuery = query.toLowerCase()
+  const groups = relationshipEntries(relationships).flatMap(([key, links]) => {
+    const filtered = normalizedQuery ? links.filter((link) => searchableLinkText(link).includes(normalizedQuery)) : links
+    return filtered.length > 0 ? [[key, filtered] as [string, RecordLink[]]] : []
+  })
+  if (groups.length === 0) {
+    return query ? <div className="record-search-empty"><strong>No connected records match “{query}”.</strong><span>Try a model, hardware, engine, precision, region, or repository name.</span></div> : null
+  }
 
   return (
     <section className="record-connections" aria-label="Connected registry records">
@@ -198,7 +224,7 @@ function Connections({ relationships }: { relationships: unknown }) {
                 if (recipe) {
                   return (
                     <article className="recipe-connection-card" key={`${key}-${link.id}`}>
-                      <Link href={relationHref(link)} scroll={false}>
+                      <Link href={relationHref(link)}>
                         <HardwareMedia hardware={recipe.hardware} />
                         <span className="recipe-connection-name"><strong>{recipe.model.name}</strong><small>{recipe.model_instance.repository}</small></span>
                         <span><strong>{recipe.recipe.hardware_count > 1 ? `${recipe.recipe.hardware_count}× ` : ""}{recipe.hardware.name}</strong><small>{recipe.hardware.memory.vram_gb} GB · {recipe.recipe.engine.name}</small></span>
@@ -210,7 +236,7 @@ function Connections({ relationships }: { relationships: unknown }) {
                 }
                 return (
                   <div className="connection-link-row" key={`${key}-${link.id}`}>
-                    <Link href={relationHref(link)} scroll={false}>
+                    <Link href={relationHref(link)}>
                       <span><strong>{relationTitle(link)}</strong>{relationMeta(link) && <small>{relationMeta(link)}</small>}</span>
                       <span className="link-affordance" aria-hidden="true">Open <b>↗</b></span>
                     </Link>
@@ -226,10 +252,11 @@ function Connections({ relationships }: { relationships: unknown }) {
   )
 }
 
-function HardwarePrices({ links }: { links: RecordLink[] }) {
+function HardwarePrices({ links, query = "" }: { links: RecordLink[]; query?: string }) {
   const prices = links.flatMap((link) => {
     const record = getEntityDetail("prices", link.id) as unknown as PriceRecord | undefined
-    return record ? [{ link, record }] : []
+    const searchable = record ? [record.id, record.product.name, record.region.code, record.region.name, record.region.currency, ...record.observations.flatMap((observation) => [observation.retailer, observation.condition])].join(" ").toLowerCase() : ""
+    return record && (!query || searchable.includes(query.toLowerCase())) ? [{ link, record }] : []
   })
   if (prices.length === 0) return null
 
@@ -240,7 +267,7 @@ function HardwarePrices({ links }: { links: RecordLink[] }) {
         {prices.map(({ link, record }) => {
           const lowest = record.summary.lowest_new ?? record.summary.lowest_refurbished ?? record.summary.lowest_used
           return (
-            <Link href={relationHref(link)} key={record.id} scroll={false}>
+            <Link href={relationHref(link)} key={record.id}>
               <span><strong>{record.region.name}</strong><small>{record.summary.in_stock_count} in stock · {record.summary.listing_count} listings · observed {formatDate(record.observed_at)}</small></span>
               <span><strong>{formatAmount(lowest, record.region.currency)}</strong><small>Open market record <b>↗</b></small></span>
             </Link>
@@ -251,7 +278,7 @@ function HardwarePrices({ links }: { links: RecordLink[] }) {
   )
 }
 
-function HardwareDetails({ record }: { record: Record<string, unknown> }) {
+function HardwareDetails({ query, record }: { query: string; record: Record<string, unknown> }) {
   const hardware = record as unknown as Hardware & { relationships?: Relationships }
   const relationships = relationshipEntries(hardware.relationships)
   const count = (key: string) => relationships.find(([name]) => name === key)?.[1].length ?? 0
@@ -279,13 +306,13 @@ function HardwareDetails({ record }: { record: Record<string, unknown> }) {
         label="HARDWARE PROFILE"
         media={<HardwareMedia hardware={hardware} size="hero" />}
       />
-      <HardwarePrices links={priceLinks} />
-      <Connections relationships={connectedRelationships} />
+      <HardwarePrices links={priceLinks} query={query} />
+      <Connections query={query} relationships={connectedRelationships} />
     </>
   )
 }
 
-function ModelDetails({ modelInstances, record }: { modelInstances: ModelInstanceResult[]; record: Record<string, unknown> }) {
+function ModelDetails({ modelInstances, query, record }: { modelInstances: ModelInstanceResult[]; query: string; record: Record<string, unknown> }) {
   const model = record as unknown as Model & { relationships?: Relationships }
   const relationships = relationshipEntries(model.relationships)
   const count = (key: string) => relationships.find(([name]) => name === key)?.[1].length ?? 0
@@ -304,8 +331,8 @@ function ModelDetails({ modelInstances, record }: { modelInstances: ModelInstanc
         ]}
         label="MODEL PROFILE"
       />
-      {(modelInstances.length > 0 || model.huggingface.repository) && <HuggingFaceCards instances={modelInstances} preferredRepository={model.huggingface.repository ?? undefined} />}
-      <Connections relationships={model.relationships} />
+      {(modelInstances.length > 0 || model.huggingface.repository) && <HuggingFaceCards instances={query ? modelInstances.filter((instance) => JSON.stringify(instance).toLowerCase().includes(query.toLowerCase())) : modelInstances} preferredRepository={model.huggingface.repository ?? undefined} />}
+      <Connections query={query} relationships={model.relationships} />
     </>
   )
 }
@@ -415,11 +442,11 @@ function RawRecord({ record }: { record: Record<string, unknown> }) {
   )
 }
 
-export function RecordDetails({ compatibility, modelInstances, record, selectedHardware, topic }: RecordDetailsProps) {
+export function RecordDetails({ compatibility, modelInstances, query = "", record, selectedHardware, topic }: RecordDetailsProps) {
   return (
     <>
-      {topic === "hardware" && <HardwareDetails record={record} />}
-      {topic === "models" && <ModelDetails modelInstances={modelInstances} record={record} />}
+      {topic === "hardware" && <HardwareDetails query={query} record={record} />}
+      {topic === "models" && <ModelDetails modelInstances={modelInstances} query={query} record={record} />}
       {topic === "prices" && <PriceDetails record={record} />}
       {topic === "benchmarks" && <BenchmarkDetails record={record} />}
       {topic === "speed-sweeps" && <SpeedDetails record={record} />}

@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { redirect } from "next/navigation"
 
 import { HardwareMedia } from "@/app/components/hardware-media"
 import { ModalCloseButton, RecordModal } from "@/app/components/record-modal"
@@ -299,6 +300,8 @@ export default async function Home({ searchParams }: PageProps) {
   }
 
   const topic = validTopic(value("topic"))
+  const record = value("record")
+  if ((topic === "hardware" || topic === "models") && record) redirect(`/${topic}/${encodeURIComponent(record)}`)
   const query = value("q")
   const validation = value("validation")
   const recipeBrowse = value("by") === "model" ? "model" : "hardware"
@@ -469,7 +472,7 @@ export default async function Home({ searchParams }: PageProps) {
                 ]
                 return (
                   <article className="browser-row hardware-catalog-row" key={hardware.id}>
-                    <Link aria-label={`Open ${hardware.name}`} className="row-open" href={hrefWithRecord(viewState, hardware.id)} scroll={false} />
+                    <Link aria-label={`Open ${hardware.name}`} className="row-open" href={`/hardware/${hardware.id}`} />
                     <HardwareMedia hardware={hardware} />
                     <span className="row-primary"><strong>{hardware.name}</strong><small>{hardware.family ?? hardware.kind}</small></span>
                     <span><strong>{hardware.memory.vram_gb} GB</strong><small>{hardware.memory.vram_type ?? "Memory type unknown"}</small></span>
@@ -495,7 +498,7 @@ export default async function Home({ searchParams }: PageProps) {
                 ]
                 return (
                   <article className="browser-row model-catalog-row" key={model.id}>
-                    <Link aria-label={`Open ${model.name}`} className="row-open" href={hrefWithRecord(viewState, model.id)} scroll={false} />
+                    <Link aria-label={`Open ${model.name}`} className="row-open" href={`/models/${model.id}`} />
                     <ModelPublisherMark fallback={model.family || model.name} publisher={publisher} />
                     <span className="row-primary"><strong>{model.name}</strong><small>{model.huggingface.repository ?? model.family}</small></span>
                     <span className="model-param-count"><strong>{formatParams(model.params)}</strong><small>{model.active_params === null ? "parameter count" : `${formatParams(model.active_params)} active`}</small></span>

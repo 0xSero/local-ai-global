@@ -625,18 +625,30 @@ code, pre, kbd, .mono-label, .row-status, .topic-total, .pagination { font-famil
 .recipe-command { max-height: 220px; margin: 9px 0 0; padding: 15px; border: 1px solid var(--line); color: #d8d7d1; background: var(--black); font-size: 0.62rem; line-height: 1.6; white-space: pre; }
 
 .detail-page {
-  width: min(1120px, calc(100% - 32px));
+  width: min(1240px, calc(100% - 32px));
   min-height: calc(100dvh - 112px);
   margin: 0 auto;
   padding: 38px 0 64px;
 }
-.breadcrumbs { display: flex; gap: 7px; margin-bottom: 28px; color: var(--muted); font-family: var(--font-mono); font-size: 0.64rem; }
-.detail-header { padding-bottom: 24px; border-bottom: 1px solid var(--line); }
+.breadcrumbs { display: flex; gap: 7px; margin-bottom: 28px; overflow: hidden; color: var(--muted); font-family: var(--font-mono); font-size: 0.64rem; white-space: nowrap; }
+.breadcrumbs span:last-child { overflow: hidden; text-overflow: ellipsis; }
+.detail-header { display: flex; padding-bottom: 28px; align-items: flex-end; justify-content: space-between; gap: 24px; border-bottom: 1px solid var(--line); }
 .eyebrow { margin-bottom: 8px; color: var(--muted); font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; }
 .detail-header h1 { margin-bottom: 9px; font-size: clamp(1.7rem, 4.5vw, 3rem); font-weight: 540; line-height: 1; letter-spacing: -0.045em; overflow-wrap: anywhere; }
-.detail-header > code { color: var(--muted); font-size: 0.68rem; overflow-wrap: anywhere; }
-.detail-actions { display: flex; gap: 8px; margin-top: 18px; }
+.detail-header code { color: var(--muted); font-size: 0.68rem; overflow-wrap: anywhere; }
+.detail-actions { display: flex; flex: none; gap: 8px; }
 .detail-actions a { padding: 6px 9px; border: 1px solid #444441; border-radius: 3px; font-size: 0.7rem; text-decoration: none; }
+.detail-actions a:hover { color: var(--cream-ink); border-color: var(--cream); background: var(--cream); }
+.record-search { display: grid; padding: 18px 0; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 6px 18px; border-bottom: 1px solid var(--line); }
+.record-search label { position: relative; display: flex; min-width: 0; align-items: center; }
+.record-search svg { position: absolute; left: 13px; width: 17px; height: 17px; fill: none; stroke: var(--muted); stroke-width: 1.4; pointer-events: none; }
+.record-search input { width: 100%; height: 44px; padding: 0 14px 0 42px; border: 1px solid #40403d; border-radius: 3px; outline: 0; color: var(--ink); background: #111; font-size: 0.74rem; }
+.record-search input:focus { border-color: #77766f; box-shadow: inset 0 0 0 1px #77766f; }
+.record-search > span { color: var(--faint); font-family: var(--font-mono); font-size: 0.56rem; }
+.record-search[aria-busy="true"] input { opacity: 0.72; }
+.record-search-empty { display: flex; min-height: 150px; padding: 30px; align-items: center; justify-content: center; flex-direction: column; gap: 7px; border-bottom: 1px solid var(--line); text-align: center; }
+.record-search-empty strong { font-size: 0.8rem; font-weight: 540; }
+.record-search-empty span { color: var(--muted); font-size: 0.66rem; }
 .artifact-resolution { margin: 20px 0; padding: 16px; border: 1px solid var(--line); background: var(--surface-2); }
 .artifact-resolution p:last-child { margin-bottom: 0; }
 .artifact-fields { display: flex; gap: 22px; margin: 11px 0; }
@@ -645,6 +657,7 @@ code, pre, kbd, .mono-label, .row-status, .topic-total, .pagination { font-famil
 .artifact-fields dd { margin: 0; font-family: var(--font-mono); font-size: 0.68rem; }
 .link-explanation { color: var(--muted); }
 .record-sheet { margin-top: 26px; padding: clamp(16px, 3vw, 30px); border: 1px solid var(--line); background: var(--surface); }
+.semantic-record-sheet { margin-top: 0; padding: 0; border: 0; background: transparent; }
 .semantic-record-sheet > .record-summary:first-child { padding-top: 0; }
 .record-sheet-heading { display: flex; margin-bottom: 24px; gap: 24px; align-items: end; justify-content: space-between; }
 .record-sheet-heading h2 { margin: 0; font-size: clamp(1.35rem, 3vw, 2rem); font-weight: 530; }
@@ -724,6 +737,10 @@ body > footer p { margin: 0; }
   .site-header { padding-inline: 12px; }
   .wordmark > span:last-child { display: none; }
   .site-header nav { gap: 12px; }
+  .detail-page { width: min(100% - 24px, 1240px); padding-top: 24px; }
+  .detail-header { align-items: flex-start; flex-direction: column; }
+  .detail-actions { flex-wrap: wrap; }
+  .record-search { grid-template-columns: 1fr; }
   .registry-main { width: min(100% - 20px, 1440px); padding-top: 10px; }
   .topic-tabs { top: 6px; margin-inline: auto; }
   .topic-tabs a { padding-inline: 10px; font-size: 0.67rem; }
