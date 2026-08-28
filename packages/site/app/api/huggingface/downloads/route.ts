@@ -9,7 +9,10 @@ export async function GET(request: Request): Promise<Response> {
   const entries = await Promise.all(repositories.map(async (repository) => {
     try {
       const metrics = await getHuggingFaceModelDownloads(repository, undefined, { next: { revalidate: 3600 } })
-      return [repository, metrics.downloadsAllTime ?? null] as const
+      return [repository, {
+        downloadsAllTime: metrics.downloadsAllTime ?? null,
+        publishedAt: metrics.createdAt ?? null,
+      }] as const
     } catch {
       return [repository, null] as const
     }

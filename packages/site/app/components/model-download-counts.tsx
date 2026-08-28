@@ -2,12 +2,24 @@
 
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react"
 
-type DownloadCounts = Record<string, number | null>
+type ModelMetrics = {
+  downloadsAllTime: number | null
+  publishedAt: string | null
+}
+
+type DownloadCounts = Record<string, ModelMetrics | null>
 
 const DownloadContext = createContext<DownloadCounts | null>(null)
 
 function compact(value: number): string {
   return new Intl.NumberFormat("en-US", { maximumFractionDigits: 1, notation: "compact" }).format(value)
+}
+
+function published(value: string | null): string {
+  if (!value) return "Publication date unavailable"
+  const date = new Date(value)
+  if (Number.isNaN(date.valueOf())) return "Publication date unavailable"
+  return `Published ${date.toLocaleDateString("en-US", { day: "numeric", month: "short", year: "numeric" })}`
 }
 
 export function ModelDownloadProvider({ children, repositories }: { children: ReactNode; repositories: string[] }) {
@@ -36,12 +48,13 @@ export function ModelDownloadProvider({ children, repositories }: { children: Re
 
 export function ModelDownloadCount({ repository }: { repository: string | null }) {
   const counts = useContext(DownloadContext)
-  const value = repository && counts ? counts[repository] : undefined
+  const metrics = repository && counts ? counts[repository] : undefined
   const pending = repository !== null && counts === null
+  const downloads = metrics?.downloadsAllTime
   return (
     <span className="model-download-count">
-      <strong>{pending ? "…" : typeof value === "number" ? compact(value) : "—"}</strong>
-      <small>{pending ? "loading HF lifetime" : typeof value === "number" ? "HF lifetime downloads" : "not published"}</small>
+      <strong>{pending ? "…" : typeof downloads === "number" ? `${compact(downloads)} downloads` : "—"}</strong>
+      <small>{pending ? "Loading HF metadata" : metrics ? published(metrics.publishedAt) : repository ? "HF metadata unavailable" : "Not published on HF"}</small>
     </span>
   )
 }

@@ -498,7 +498,7 @@ export default async function Home({ searchParams }: PageProps) {
                     <Link aria-label={`Open ${model.name}`} className="row-open" href={hrefWithRecord(viewState, model.id)} scroll={false} />
                     <ModelPublisherMark fallback={model.family || model.name} publisher={publisher} />
                     <span className="row-primary"><strong>{model.name}</strong><small>{model.huggingface.repository ?? model.family}</small></span>
-                    <span><strong>{formatParams(model.params)}</strong><small>{model.active_params === null ? "parameter count" : `${formatParams(model.active_params)} active`}</small></span>
+                    <span className="model-param-count"><strong>{formatParams(model.params)}</strong><small>{model.active_params === null ? "parameter count" : `${formatParams(model.active_params)} active`}</small></span>
                     <span><strong>{model.architecture ? model.architecture.toUpperCase() : model.family}</strong><small>{model.architecture ? "registry topology" : "model family"}</small></span>
                     <span><strong>{recipeCount} {recipeCount === 1 ? "recipe" : "recipes"}</strong><small>{instances.length} published {instances.length === 1 ? "variant" : "variants"}</small></span>
                     <ModelDownloadCount repository={model.huggingface.repository} />

@@ -121,6 +121,7 @@ const downloads = await getHuggingFaceModelDownloads("Qwen/Qwen3.5-122B-A10B")
 
 console.log(downloads.downloads)
 console.log(downloads.downloadsAllTime)
+console.log(downloads.createdAt)
 ```
 
 Publisher profiles expose the avatar and display identity used by model catalogs:

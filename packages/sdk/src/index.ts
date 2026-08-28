@@ -50,6 +50,7 @@ export type HuggingFaceModelCard = {
 }
 
 export type HuggingFaceModelDownloads = {
+  createdAt?: string
   downloads?: number
   downloadsAllTime?: number
   id: string
@@ -85,6 +86,7 @@ export async function getHuggingFaceModelDownloads(
   const headers = new Headers(request.headers)
   if (connection) headers.set("Authorization", `Bearer ${connection.token}`)
   const url = new URL(`https://huggingface.co/api/models/${repository}`)
+  url.searchParams.append("expand[]", "createdAt")
   url.searchParams.append("expand[]", "downloads")
   url.searchParams.append("expand[]", "downloadsAllTime")
   const response = await fetch(url, { ...request, headers })
