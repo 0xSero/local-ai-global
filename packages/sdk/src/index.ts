@@ -49,6 +49,12 @@ export type HuggingFaceModelCard = {
   usedStorage?: number
 }
 
+export type HuggingFaceModelDownloads = {
+  downloads?: number
+  downloadsAllTime?: number
+  id: string
+}
+
 export type HuggingFacePublisherProfile = {
   avatarUrl?: string
   fullname?: string
@@ -69,6 +75,21 @@ export async function getHuggingFaceModelCard(
   const response = await fetch(`https://huggingface.co/api/models/${repository}`, { ...request, headers })
   if (!response.ok) throw new Error(`Hugging Face returned ${response.status}`)
   return response.json() as Promise<HuggingFaceModelCard>
+}
+
+export async function getHuggingFaceModelDownloads(
+  repository: string,
+  connection?: HuggingFaceConnection,
+  request: HuggingFaceRequest = {},
+): Promise<HuggingFaceModelDownloads> {
+  const headers = new Headers(request.headers)
+  if (connection) headers.set("Authorization", `Bearer ${connection.token}`)
+  const url = new URL(`https://huggingface.co/api/models/${repository}`)
+  url.searchParams.append("expand[]", "downloads")
+  url.searchParams.append("expand[]", "downloadsAllTime")
+  const response = await fetch(url, { ...request, headers })
+  if (!response.ok) throw new Error(`Hugging Face returned ${response.status}`)
+  return response.json() as Promise<HuggingFaceModelDownloads>
 }
 
 export async function getHuggingFaceModelReadme(
@@ -110,6 +131,10 @@ export class HuggingFaceClient {
 
   async modelCard(repository: string): Promise<HuggingFaceModelCard> {
     return getHuggingFaceModelCard(repository, this.connection)
+  }
+
+  async modelDownloads(repository: string): Promise<HuggingFaceModelDownloads> {
+    return getHuggingFaceModelDownloads(repository, this.connection)
   }
 
   async modelReadme(repository: string): Promise<string> {

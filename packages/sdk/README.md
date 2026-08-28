@@ -112,6 +112,17 @@ console.log(card.usedStorage)
 
 The helper returns live metadata including the repository ID, author, license, task, library, download count, likes, and repository storage when Hugging Face provides those fields.
 
+Hugging Face exposes recent and lifetime repository downloads separately:
+
+```ts
+import { getHuggingFaceModelDownloads } from "@local-ai/sdk"
+
+const downloads = await getHuggingFaceModelDownloads("Qwen/Qwen3.5-122B-A10B")
+
+console.log(downloads.downloads)
+console.log(downloads.downloadsAllTime)
+```
+
 Publisher profiles expose the avatar and display identity used by model catalogs:
 
 ```ts

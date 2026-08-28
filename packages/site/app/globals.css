@@ -287,7 +287,7 @@ code, pre, kbd, .mono-label, .row-status, .topic-total, .pagination { font-famil
 .recipe-browser-row { grid-template-columns: 10px minmax(180px, 1.5fr) minmax(155px, 1.15fr) minmax(90px, 0.7fr) minmax(68px, 0.5fr) minmax(90px, 0.65fr) minmax(220px, 1.25fr) 20px; }
 .collection-row { grid-template-columns: minmax(220px, 1.5fr) repeat(3, minmax(105px, 0.65fr)) minmax(210px, 1.15fr) 20px; }
 .hardware-catalog-row { grid-template-columns: 64px minmax(210px, 1.4fr) repeat(3, minmax(115px, 0.68fr)) minmax(210px, 1.15fr) 20px; }
-.model-catalog-row { grid-template-columns: 44px minmax(230px, 1.5fr) repeat(3, minmax(110px, 0.68fr)) minmax(190px, 1.05fr) 20px; }
+.model-catalog-row { grid-template-columns: 44px minmax(210px, 1.35fr) repeat(4, minmax(96px, 0.6fr)) minmax(165px, 0.9fr) 20px; }
 .price-row { grid-template-columns: minmax(220px, 1.45fr) minmax(90px, 0.55fr) minmax(160px, 0.9fr) minmax(105px, 0.6fr) minmax(125px, 0.7fr) minmax(250px, 1.35fr) 20px; }
 .benchmark-row { grid-template-columns: minmax(190px, 1.35fr) minmax(165px, 1fr) minmax(80px, 0.55fr) minmax(90px, 0.6fr) minmax(90px, 0.6fr) minmax(100px, 0.65fr) minmax(185px, 1fr) 20px; }
 .row-open { position: absolute; z-index: 1; inset: 0; }
@@ -715,8 +715,9 @@ body > footer p { margin: 0; }
   .collection-row, .price-row { grid-template-columns: minmax(200px, 1.35fr) repeat(2, minmax(100px, 0.65fr)) minmax(190px, 1fr) 20px; }
   .benchmark-row { grid-template-columns: minmax(185px, 1.3fr) minmax(150px, 1fr) minmax(85px, 0.55fr) minmax(95px, 0.6fr) minmax(180px, 1fr) 20px; }
   .collection-row > span:nth-of-type(4), .price-row > span:nth-of-type(4), .price-row > span:nth-of-type(5), .benchmark-row > span:nth-of-type(3), .benchmark-row > span:nth-of-type(5) { display: none; }
-  .hardware-catalog-row, .model-catalog-row { grid-template-columns: 58px minmax(200px, 1.35fr) repeat(2, minmax(105px, 0.65fr)) minmax(180px, 1fr) 20px; }
-  .hardware-catalog-row > span:nth-of-type(5), .model-catalog-row > span:nth-of-type(5) { display: none; }
+  .hardware-catalog-row { grid-template-columns: 58px minmax(200px, 1.35fr) repeat(2, minmax(105px, 0.65fr)) minmax(180px, 1fr) 20px; }
+  .model-catalog-row { grid-template-columns: 44px minmax(190px, 1.25fr) repeat(3, minmax(92px, 0.6fr)) minmax(160px, 0.9fr) 20px; }
+  .hardware-catalog-row > span:nth-of-type(5), .model-catalog-row > span:nth-of-type(4) { display: none; }
 }
 
 @media (max-width: 700px) {

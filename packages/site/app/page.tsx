@@ -2,6 +2,7 @@ import Link from "next/link"
 
 import { HardwareMedia } from "@/app/components/hardware-media"
 import { ModalCloseButton, RecordModal } from "@/app/components/record-modal"
+import { ModelDownloadCount, ModelDownloadProvider } from "@/app/components/model-download-counts"
 import { ModelPublisherMark } from "@/app/components/model-publisher-mark"
 import { RecordDetails } from "@/app/components/record-details"
 import { RegistrySearch, type SearchFilter } from "@/app/components/registry-search"
@@ -482,6 +483,7 @@ export default async function Home({ searchParams }: PageProps) {
             </div>
           )}
           {topic === "models" && (
+            <ModelDownloadProvider repositories={modelResults.data.flatMap((model) => model.huggingface.repository ? [model.huggingface.repository] : [])}>
             <div className="browser-list model-catalog-list">
               {modelResults.data.map((model) => {
                 const instances = listModelInstances({ model_id: model.id }, { limit: 100, offset: 0 }).data
@@ -499,12 +501,14 @@ export default async function Home({ searchParams }: PageProps) {
                     <span><strong>{formatParams(model.params)}</strong><small>{model.active_params === null ? "parameter count" : `${formatParams(model.active_params)} active`}</small></span>
                     <span><strong>{model.architecture ? model.architecture.toUpperCase() : model.family}</strong><small>{model.architecture ? "registry topology" : "model family"}</small></span>
                     <span><strong>{recipeCount} {recipeCount === 1 ? "recipe" : "recipes"}</strong><small>{instances.length} published {instances.length === 1 ? "variant" : "variants"}</small></span>
+                    <ModelDownloadCount repository={model.huggingface.repository} />
                     <TaxonomyTags state={viewState} tags={tags} />
                     <svg aria-hidden="true" className="row-arrow" viewBox="0 0 20 20"><path d="m7 4 6 6-6 6" /></svg>
                   </article>
                 )
               })}
             </div>
+            </ModelDownloadProvider>
           )}
           {topic === "prices" && <PriceRows data={priceResults.data} state={viewState} />}
           {topic === "benchmarks" && <BenchmarkRows data={benchmarkResults.data} state={viewState} />}
