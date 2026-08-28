@@ -23,7 +23,7 @@ The CLI requires Bash 5 and `jq`. `search` also requires `rg`. `choose` uses `gu
 detect hardware -> list compatible recipes -> choose a recipe -> resolve its registry graph
 ```
 
-The CLI reads `packages/registry` directly. It does not call the hosted API, download model weights, build containers, or launch an inference server yet.
+The CLI reads the pinned `packages/registry/source/registry` checkout directly. It does not call the hosted API, download model weights, build containers, or launch an inference server yet.
 
 ## Commands
 
@@ -94,7 +94,7 @@ local-ai get model-instance qwen-qwen3-8-27b--nvfp4
 local-ai get recipe deepseek-fp8-rtx-pro-6000-blackwell-96gb-vllm-tp1
 ```
 
-The collection name maps directly to a directory under `packages/registry`.
+The collection name maps directly to a directory under `packages/registry/source/registry`.
 
 ### Search the registry
 
@@ -109,7 +109,7 @@ Searches hardware, models, model instances, and recipes. Results are printed as 
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
-| `LOCAL_AI_REGISTRY_DIR` | Workspace `packages/registry` | Read a different registry checkout |
+| `LOCAL_AI_REGISTRY_DIR` | Workspace `packages/registry/source/registry` | Read a different registry data directory |
 | `LOCAL_AI_HARDWARE` | Automatically detected | Force a specific hardware ID |
 | `LOCAL_AI_HARDWARE_COUNT` | Detected identical GPU count or `1` | Override the number of available accelerators |
 

@@ -3,9 +3,9 @@
 The only write path into the registry. Importers normalize external evidence into candidate records; the validator checks schemas, references, provenance, launch safety, and evidence constraints. A human reviews the resulting registry diff before merge.
 
 ```bash
-python3 packages/submission-harness/scripts/import_postgres_publication.py <snapshot> --root packages/registry
-python3 packages/submission-harness/scripts/enrich_registry.py packages/registry
-python3 packages/submission-harness/scripts/curate_registry.py packages/registry --index-only
+python3 packages/submission-harness/scripts/import_postgres_publication.py <snapshot> --root packages/registry/source/registry
+python3 packages/submission-harness/scripts/enrich_registry.py packages/registry/source/registry
+python3 packages/submission-harness/scripts/curate_registry.py packages/registry/source/registry --index-only
 pnpm validate
 ```
 

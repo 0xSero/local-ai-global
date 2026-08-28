@@ -1,27 +1,23 @@
-# Local AI Global
+# Local AI Tools
 
 One monorepo for discovering local hardware, resolving compatible model artifacts, launching validated inference recipes, and preserving the evidence behind every recommendation.
 
 ## Source of truth
 
-[`packages/registry`](packages/registry) is the only data authority. It contains the normalized JSON tree, JSON Schemas, TypeScript types, and deterministic read/query library. No other package owns or copies registry records.
+[`local-ai-registry`](https://github.com/0xSero/local-ai-registry) is the only data authority. This repository pins it as a Git submodule at [`packages/registry/source`](packages/registry/source); it does not copy registry records.
 
 ```text
 packages/registry
-  index.json
-  hardware/<id>.json
-  model/<id>.json
-  model-instance/<id>.json
-  recipe/<id>.json
-  speed-sweeps/<id>.json
-  price/<product-id>/<region>.json
+  source/               pinned local-ai-registry submodule
+    registry/            normalized JSON, schemas, and types
+  src/                   deterministic read/query adapter
 ```
 
 Everything else is a consumer or controlled contributor:
 
 ```text
 packages/
-  registry/            normalized JSON and read contract
+  registry/            pinned registry reference and read adapter
   api/                 read-only HTTP representation
   sdk/                 typed client and provider integrations
   cli/                 local hardware detection and terminal workflow
@@ -33,6 +29,7 @@ packages/
 ## Start
 
 ```bash
+git submodule update --init --recursive
 pnpm install
 pnpm validate
 pnpm test
@@ -41,12 +38,12 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000). The wiki is at `/docs`, the registry browser is at `/`, and the read-only API is at `/api/v1`.
 
-The published architecture and contribution wiki is available at [0xsero.github.io/local-ai-global](https://0xsero.github.io/local-ai-global/).
+The source repository is [github.com/0xSero/local-ai-tools](https://github.com/0xSero/local-ai-tools).
 
 ## Deployment
 
-The `local-ai-registry` Vercel project watches `origin/main` and builds from `packages/site`. The Git repository is the deployment input; generated Vercel state and environment files remain local.
+Deployments must initialize the pinned submodule before building `packages/site`. Generated Vercel state and environment files remain local.
 
 ## Growth rule
 
-New data enters through `submission-harness`, passes schema and reference validation, and lands in `registry` as a reviewable diff. The API, SDK, CLI, site, and Omarchy plugin never mutate registry data. See [`CONTRIBUTING.md`](CONTRIBUTING.md), [`docs/architecture/ownership.md`](docs/architecture/ownership.md), and [`docs/guides/growing-the-registry.md`](docs/guides/growing-the-registry.md).
+New data is committed to `local-ai-registry`, then this repository advances its pinned submodule commit. The API, SDK, CLI, site, and Omarchy plugin never own or mutate registry data. See [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`docs/architecture/ownership.md`](docs/architecture/ownership.md).

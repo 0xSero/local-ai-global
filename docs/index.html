@@ -3,20 +3,20 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Architecture, ownership, interfaces, and contribution guide for Local AI Global.">
+    <meta name="description" content="Architecture, ownership, interfaces, and contribution guide for Local AI Tools.">
     <meta name="theme-color" content="#111111">
-    <title>Local AI Global — Documentation</title>
+    <title>Local AI Tools — Documentation</title>
     <link rel="stylesheet" href="./styles.css">
   </head>
   <body>
     <header class="site-header">
-      <a class="wordmark" href="#what" aria-label="Local AI Global documentation">
+      <a class="wordmark" href="#what" aria-label="Local AI Tools documentation">
         <span class="wordmark-mark" aria-hidden="true">LAI</span>
-        <span>Local AI Global</span>
+        <span>Local AI Tools</span>
       </a>
       <nav aria-label="Project links">
         <a href="https://local-ai-registry.vercel.app/">Registry</a>
-        <a href="https://github.com/0xSero/local-ai-global">GitHub</a>
+        <a href="https://github.com/0xSero/local-ai-tools">GitHub</a>
       </nav>
     </header>
 
@@ -40,10 +40,10 @@
         <header class="wiki-hero" id="what">
           <span class="mono-label">PROJECT / LOCAL AI GLOBAL</span>
           <h1>One graph from hardware to a working local model.</h1>
-          <p>Local AI Global turns detected hardware into a small set of compatible model artifacts and validated runtime recipes. Every answer stays traceable to normalized records, source links, launch contracts, prices, and measured speed.</p>
+          <p>Local AI Tools turns detected hardware into a small set of compatible model artifacts and validated runtime recipes. Every answer stays traceable to normalized records, source links, launch contracts, prices, and measured speed.</p>
           <div class="hero-actions">
             <a class="primary-action" href="https://local-ai-registry.vercel.app/">Browse the registry</a>
-            <a href="https://github.com/0xSero/local-ai-global">View source</a>
+            <a href="https://github.com/0xSero/local-ai-tools">View source</a>
           </div>
         </header>
 
@@ -64,7 +64,7 @@
           <span class="mono-label">02 / PACKAGE OWNERSHIP</span>
           <h2>One monorepo, hard boundaries.</h2>
           <div class="package-grid">
-            <div><code>packages/registry</code><strong>Authority</strong><p>Normalized JSON, schemas, types, and recursive resolution.</p></div>
+            <div><code>packages/registry/source</code><strong>Pinned authority</strong><p>Git reference to normalized JSON, schemas, types, and evidence.</p></div>
             <div><code>packages/api</code><strong>Read surface</strong><p>Versioned GET endpoints over the registry package.</p></div>
             <div><code>packages/sdk</code><strong>Client surface</strong><p>Typed registry access and opt-in provider connections.</p></div>
             <div><code>packages/cli</code><strong>Local workflow</strong><p>Hardware detection, TUI selection, and recipe resolution.</p></div>
@@ -162,19 +162,19 @@ price/&lt;product&gt;/&lt;region&gt;.json
 pnpm validate
 pnpm test
 pnpm typecheck</code></pre>
-          <p><a href="https://github.com/0xSero/local-ai-global/blob/main/CONTRIBUTING.md">Read the exact submission contract ↗</a></p>
+          <p><a href="https://github.com/0xSero/local-ai-tools/blob/main/CONTRIBUTING.md">Read the exact submission contract ↗</a></p>
         </section>
 
         <section id="sources">
           <span class="mono-label">07 / DATA SOURCES</span>
           <h2>Discovery is not validation.</h2>
           <p>The signed-in <code>local.ai/api/search/catalog</code> endpoint enumerates model and hardware routes. Full Quick Start evidence lives on the model pages, while bulk measured data enters through a read-only Postgres publication. Both paths create candidates until an immutable launch and real completion pass acceptance.</p>
-          <p><a href="https://github.com/0xSero/local-ai-global/blob/main/docs/guides/local-ai-source.md">Read the local.ai source contract ↗</a></p>
+          <p><a href="https://github.com/0xSero/local-ai-tools/blob/main/docs/guides/local-ai-source.md">Read the local.ai source contract ↗</a></p>
         </section>
 
         <footer>
-          <span>Local AI Global</span>
-          <a href="https://github.com/0xSero/local-ai-global">Source and contributions ↗</a>
+          <span>Local AI Tools</span>
+          <a href="https://github.com/0xSero/local-ai-tools">Source and contributions ↗</a>
         </footer>
       </article>
     </main>

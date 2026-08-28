@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-ROOT=${LOCAL_AI_REGISTRY_DIR:-$(cd "${BASH_SOURCE[0]%/*}/../.." && pwd)/registry}
+ROOT=${LOCAL_AI_REGISTRY_DIR:-$(cd "${BASH_SOURCE[0]%/*}/../.." && pwd)/registry/source/registry}
 
 fail() {
   printf 'local-ai: %s\n' "$*" >&2

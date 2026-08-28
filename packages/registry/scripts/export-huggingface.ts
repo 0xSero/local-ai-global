@@ -5,8 +5,10 @@ import { fileURLToPath } from "node:url"
 
 import { getRegistryIndex, listBenchmarks } from "../src/index"
 
-const registryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
-const output = path.join(registryRoot, "dist", "huggingface")
+const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
+const sourceRoot = path.join(packageRoot, "source")
+const registryRoot = path.join(sourceRoot, "registry")
+const output = path.join(packageRoot, "dist", "huggingface")
 const dataDirectory = path.join(output, "data")
 
 function readJson(file: string): unknown {
@@ -50,11 +52,11 @@ writeJsonl("prices", collection("price"))
 writeJsonl("speed-sweeps", collection("speed-sweeps"))
 writeJsonl("benchmarks", benchmarks())
 
-const revision = execFileSync("git", ["rev-parse", "HEAD"], { cwd: path.resolve(registryRoot, "../.."), encoding: "utf8" }).trim()
+const revision = execFileSync("git", ["rev-parse", "HEAD"], { cwd: sourceRoot, encoding: "utf8" }).trim()
 writeFileSync(path.join(output, "source.json"), `${JSON.stringify({
   exported_at: new Date().toISOString(),
   schema_version: getRegistryIndex().schema_version,
-  source_repository: "https://github.com/0xSero/local-ai-global",
+  source_repository: "https://github.com/0xSero/local-ai-registry",
   source_revision: revision,
 }, null, 2)}\n`)
 

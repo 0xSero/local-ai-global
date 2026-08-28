@@ -10,8 +10,8 @@ The project previously mixed normalized data, a website, API handlers, CLI code,
 
 ## Decision
 
-Use a pnpm monorepo. Keep normalized JSON and its recursive read contract in `packages/registry`. Mount API handlers from `packages/api`, consume them through `packages/sdk`, and keep every local or visual integration in its own package. All proposed writes pass through `packages/submission-harness`.
+Keep normalized JSON and schemas only in `0xSero/local-ai-registry`. Pin that repository as the `packages/registry/source` Git submodule and keep only the recursive read adapter in this pnpm monorepo. Mount API handlers from `packages/api`, consume them through `packages/sdk`, and keep every local or visual integration in its own package.
 
 ## Consequences
 
-The registry can be used from disk, HTTP, the CLI, or the site without translation. Package boundaries become enforceable. Deployment must include registry JSON in the server trace. Provider credentials and runtime state cannot be committed to the data tree.
+The registry has one Git history and can be used from disk, HTTP, the CLI, or the site without translation. Clones and deployments must initialize the pinned submodule. Registry changes land upstream first; this repository advances the reference only after validation.

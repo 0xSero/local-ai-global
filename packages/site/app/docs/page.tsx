@@ -29,7 +29,7 @@ export default function DocsPage() {
         <header className="wiki-hero" id="what">
           <span className="mono-label">PROJECT / LOCAL AI GLOBAL</span>
           <h1>One graph from hardware to a working local model.</h1>
-          <p>Local AI Global turns detected hardware into a small set of compatible model artifacts and validated runtime recipes. Every answer stays traceable to normalized records, source links, launch contracts, prices, and measured speed.</p>
+          <p>Local AI Tools turns detected hardware into a small set of compatible model artifacts and validated runtime recipes. Every answer stays traceable to normalized records, source links, launch contracts, prices, and measured speed.</p>
         </header>
 
         <section id="flow">

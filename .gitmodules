@@ -1,0 +1,3 @@
+[submodule "packages/registry/source"]
+	path = packages/registry/source
+	url = https://github.com/0xSero/local-ai-registry.git

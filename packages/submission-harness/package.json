@@ -3,6 +3,6 @@
   "private": true,
   "scripts": {
     "typecheck": "python3 -m py_compile scripts/*.py",
-    "validate": "python3 scripts/validate_registry.py ../registry"
+    "validate": "python3 scripts/validate_registry.py ../registry/source/registry"
   }
 }

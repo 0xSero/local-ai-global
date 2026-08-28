@@ -55,9 +55,9 @@ Do not parse a display label into a Hugging Face identity. Confirm the exact `ow
 The stable ingestion path is the read-only Postgres publication exported as `manifest.json`, `pg_read_models.jsonl`, and `pg_read_speed_runs.jsonl`.
 
 ```bash
-python3 packages/submission-harness/scripts/import_postgres_publication.py <snapshot> --root packages/registry
-python3 packages/submission-harness/scripts/enrich_registry.py packages/registry
-python3 packages/submission-harness/scripts/curate_registry.py packages/registry --index-only
+python3 packages/submission-harness/scripts/import_postgres_publication.py <snapshot> --root packages/registry/source/registry
+python3 packages/submission-harness/scripts/enrich_registry.py packages/registry/source/registry
+python3 packages/submission-harness/scripts/curate_registry.py packages/registry/source/registry --index-only
 pnpm validate
 ```
 

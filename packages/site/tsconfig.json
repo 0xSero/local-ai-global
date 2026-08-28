@@ -29,7 +29,7 @@
       ],
       "@local-ai/api": ["../api/src/index.ts"],
       "@local-ai/registry": ["../registry/src/index.ts"],
-      "@local-ai/registry/schema": ["../registry/schema/types.ts"],
+      "@local-ai/registry/schema": ["../registry/source/registry/schema/types.ts"],
       "@local-ai/sdk": ["../sdk/src/index.ts"]
     }
   },

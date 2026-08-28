@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
     root: path.join(process.cwd(), "../.."),
   },
   outputFileTracingIncludes: {
-    "/*": ["../registry/**/*.json"],
+    "/*": ["../registry/source/registry/**/*.json"],
   },
   transpilePackages: ["@local-ai/api", "@local-ai/registry", "@local-ai/sdk"],
 }

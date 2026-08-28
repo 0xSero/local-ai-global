@@ -9,9 +9,9 @@ import type {
   Recipe,
   RegistryIndex,
   SpeedSweep,
-} from "../schema/types"
+} from "../source/registry/schema/types"
 
-export type * from "../schema/types"
+export type * from "../source/registry/schema/types"
 
 export type HuggingFaceIdentity = {
   link_type: "repository" | "search"
@@ -157,9 +157,8 @@ function registryRoot(): string {
   if (cachedRoot) return cachedRoot
   const candidates = [
     process.env.LOCAL_AI_REGISTRY_DIR,
-    path.join(process.cwd(), "packages", "registry"),
-    path.join(process.cwd(), "..", "registry"),
-    path.join(process.cwd(), "registry"),
+    path.join(process.cwd(), "packages", "registry", "source", "registry"),
+    path.join(process.cwd(), "source", "registry"),
   ].filter((candidate): candidate is string => Boolean(candidate))
   const root = candidates.find((candidate) => existsSync(path.join(candidate, "index.json")))
   if (!root) throw new Error("Local AI registry not found; set LOCAL_AI_REGISTRY_DIR")
