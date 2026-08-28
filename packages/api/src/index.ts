@@ -3,6 +3,7 @@ import {
   getEntityDetail,
   getFacets,
   getRegistryIndex,
+  listBenchmarks,
   listHardware,
   listModelInstances,
   listModels,
@@ -20,6 +21,7 @@ const HEADERS = {
 }
 
 const ROUTES = {
+  benchmarks: "/api/v1/benchmarks",
   compatibility: "/api/v1/compatibility",
   facets: "/api/v1/facets",
   hardware: "/api/v1/hardware",
@@ -90,6 +92,7 @@ export function apiRoute(request: Request, path: string[]): Response {
   const page = pagination(new URL(request.url).searchParams)
   const selected = filters(new URL(request.url).searchParams)
   if (resource === "models") return list(request, listModels(selected, page), page)
+  if (resource === "benchmarks") return list(request, listBenchmarks(selected, page), page)
   if (resource === "model-instances") return list(request, listModelInstances(selected, page), page)
   if (resource === "hardware") return list(request, listHardware(selected, page), page)
   if (resource === "prices") return list(request, listPrices(selected, page), page)

@@ -10,6 +10,7 @@ import { getCompatibilityResult, getEntityDetail, listModelInstances, modelInsta
 export const dynamic = "force-dynamic"
 
 const COLLECTION_LABELS: Record<string, string> = {
+  benchmarks: "Benchmark",
   hardware: "Hardware",
   "model-instances": "Model instance",
   models: "Model",
@@ -22,10 +23,10 @@ type DetailProps = {
   params: Promise<{ collection: string; id: string }>
 }
 
-type RecordTopic = "hardware" | "models" | "prices" | "recipes" | "speed-sweeps"
+type RecordTopic = "hardware" | "models" | "prices" | "recipes" | "benchmarks" | "speed-sweeps"
 
 function recordTopic(value: string): RecordTopic | null {
-  return value === "hardware" || value === "models" || value === "prices" || value === "recipes" || value === "speed-sweeps" ? value : null
+  return value === "hardware" || value === "models" || value === "prices" || value === "recipes" || value === "benchmarks" || value === "speed-sweeps" ? value : null
 }
 
 type HuggingFaceDisplay = {

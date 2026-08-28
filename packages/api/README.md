@@ -20,7 +20,7 @@ curl 'https://local-ai-registry.vercel.app/api/v1/recipes?hardware_id=rtx-pro-60
 
 ## What it does
 
-The API exposes the immutable registry graph as JSON. Clients can list and filter hardware, models, model instances, recipes, prices, and speed sweeps, or retrieve one record by its stable ID.
+The API exposes the immutable registry graph as JSON. Clients can list and filter hardware, models, model instances, recipes, prices, raw speed sweeps, and normalized benchmark summaries, or retrieve one record by its stable ID.
 
 The API is read-only. It does not accept submissions, download weights, start inference engines, or modify the registry.
 
@@ -37,6 +37,7 @@ The API is read-only. It does not accept submissions, download weights, start in
 | `GET /api/v1/recipes` | Hardware-compatible runtime recipes |
 | `GET /api/v1/compatibility` | Alias for the recipe compatibility query |
 | `GET /api/v1/prices` | Regional market-price records |
+| `GET /api/v1/benchmarks` | Comparable benchmark summaries derived from speed sweeps |
 | `GET /api/v1/speed-sweeps` | Measured inference results |
 | `GET /api/v1/:collection/:id` | One fully resolved record |
 
@@ -48,6 +49,7 @@ List routes accept collection fields as query parameters. Filters are combined, 
 curl 'https://local-ai-registry.vercel.app/api/v1/hardware?vendor=nvidia&limit=25'
 curl 'https://local-ai-registry.vercel.app/api/v1/models?family=qwen'
 curl 'https://local-ai-registry.vercel.app/api/v1/prices?region=US'
+curl 'https://local-ai-registry.vercel.app/api/v1/benchmarks?q=qwen%20nvidia'
 curl 'https://local-ai-registry.vercel.app/api/v1/recipes?hardware_id=rtx-pro-6000-blackwell-96gb&status=validated'
 ```
 

@@ -6,8 +6,10 @@ import {
   getEntityDetail,
   getCompatibilityResult,
   getFacets,
+  getRegistryIndex,
   isLaunchable,
   listHardware,
+  listBenchmarks,
   marketPriceCount,
   listModelInstances,
   listModels,
@@ -185,6 +187,28 @@ test("speed sweeps resolve human model and hardware context", () => {
   assert.ok(detail)
   assert.equal(typeof detail.name, "string")
   assert.doesNotMatch(String(detail.name), /-sweep$/)
+})
+
+test("unfiltered speed sweep pagination reads only the requested index slice", () => {
+  const index = getRegistryIndex()
+  const result = listSpeedSweeps({}, { limit: 3, offset: 27 })
+
+  assert.equal(result.total, index.collections["speed-sweeps"].length)
+  assert.deepEqual(result.data.map((sweep) => sweep.id), index.collections["speed-sweeps"].slice(27, 30))
+})
+
+test("benchmarks normalize comparable metrics and retain raw evidence links", () => {
+  const result = listBenchmarks({}, { limit: 20, offset: 0 })
+
+  assert.equal(result.total, getRegistryIndex().collections["speed-sweeps"].length)
+  assert.equal(result.data.length, 20)
+  for (const benchmark of result.data) {
+    assert.equal(benchmark.id, benchmark.sweep_id)
+    assert.ok(benchmark.hardware.count > 0)
+    assert.equal(benchmark.hardware.total_memory_gb, benchmark.hardware.count * benchmark.hardware.memory_gb)
+    assert.equal(benchmark.links.speed_sweep, `/api/v1/speed-sweeps/${benchmark.sweep_id}`)
+    assert.ok(benchmark.metrics.point_count >= 0)
+  }
 })
 
 test("navigable topic collections expose real registry records", () => {

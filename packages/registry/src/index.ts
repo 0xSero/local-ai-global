@@ -83,6 +83,53 @@ export type CompatibilityResult = {
 
 export type PriceResult = PriceRecord
 
+export type BenchmarkResult = {
+  accepted_at: string | null
+  engine: {
+    name: string
+    version: string | null
+  }
+  hardware: {
+    count: number
+    id: string
+    memory_gb: number
+    name: string
+    total_memory_gb: number
+    vendor: Hardware["vendor"]
+  }
+  id: string
+  links: {
+    hardware: string
+    model: string
+    recipe: string
+    speed_sweep: string
+  }
+  measured_at: string | null
+  metrics: {
+    best_ttft_ms: number | null
+    max_concurrency: number | null
+    max_context_tokens: number | null
+    peak_decode_tok_s: number | null
+    peak_decode_tok_s_per_stream: number | null
+    peak_prefill_tok_s: number | null
+    peak_vram_gb: number | null
+    point_count: number
+  }
+  model: {
+    family: string
+    id: string
+    name: string
+  }
+  model_instance: {
+    format: string | null
+    id: string
+    precision: string | null
+    repository: string
+  }
+  recipe_id: string
+  sweep_id: string
+}
+
 type RegistryRecord = Record<string, unknown>
 type CompatibilityRow = RegistryIndex["recipes"][number]
 
@@ -426,6 +473,18 @@ export function listPrices(filters: Record<string, string>, pagination: Paginati
 
 export function listSpeedSweeps(filters: Record<string, string>, pagination: Pagination) {
   const ids = dataset().index.collections["speed-sweeps"]
+
+  if (!filters.q?.trim() && !filters.recipe_id?.trim()) {
+    const selected = ids.slice(pagination.offset, pagination.offset + pagination.limit)
+    return {
+      data: selected.flatMap((id) => {
+        const sweep = getSpeedSweep(id)
+        return sweep ? [sweep] : []
+      }),
+      total: ids.length,
+    }
+  }
+
   const all = ids.flatMap((id) => {
     const sweep = getSpeedSweep(id)
     if (!sweep) return []
@@ -433,6 +492,91 @@ export function listSpeedSweeps(filters: Record<string, string>, pagination: Pag
     return [sweep]
   })
   return { data: all.slice(pagination.offset, pagination.offset + pagination.limit), total: all.length }
+}
+
+function numericValues(values: Array<number | null | undefined>): number[] {
+  return values.filter((value): value is number => typeof value === "number" && Number.isFinite(value))
+}
+
+function maximum(values: Array<number | null | undefined>, fallback?: number | null): number | null {
+  const selected = numericValues(values)
+  return selected.length > 0 ? Math.max(...selected) : fallback ?? null
+}
+
+function minimum(values: Array<number | null | undefined>, fallback?: number | null): number | null {
+  const selected = numericValues(values)
+  return selected.length > 0 ? Math.min(...selected) : fallback ?? null
+}
+
+function benchmarkResult(sweep: SpeedSweep): BenchmarkResult | undefined {
+  const result = getCompatibilityResult(sweep.recipe_id)
+  if (!result) return undefined
+
+  return {
+    accepted_at: sweep.accepted_at,
+    engine: {
+      name: result.recipe.engine.name,
+      version: result.recipe.engine.version,
+    },
+    hardware: {
+      count: result.recipe.hardware_count,
+      id: result.hardware.id,
+      memory_gb: result.hardware.memory.vram_gb,
+      name: result.hardware.name,
+      total_memory_gb: result.recipe.hardware_count * result.hardware.memory.vram_gb,
+      vendor: result.hardware.vendor,
+    },
+    id: sweep.id,
+    links: {
+      hardware: `/api/v1/hardware/${result.hardware.id}`,
+      model: `/api/v1/models/${result.model.id}`,
+      recipe: `/api/v1/recipes/${result.recipe.id}`,
+      speed_sweep: `/api/v1/speed-sweeps/${sweep.id}`,
+    },
+    measured_at: sweep.measured_at,
+    metrics: {
+      best_ttft_ms: minimum(
+        sweep.rows.map((row) => row.ttft_ms_p50),
+        typeof sweep.metrics?.ttft32k_seconds === "number" ? sweep.metrics.ttft32k_seconds * 1000 : null,
+      ),
+      max_concurrency: maximum(sweep.rows.map((row) => row.concurrency), sweep.metrics?.concurrency),
+      max_context_tokens: maximum(sweep.rows.map((row) => row.context_tokens), sweep.metrics?.max_context_tokens),
+      peak_decode_tok_s: maximum(sweep.rows.map((row) => row.decode_tok_s), sweep.metrics?.peak_generation_tps),
+      peak_decode_tok_s_per_stream: maximum(sweep.rows.map((row) => row.decode_tok_s_per_stream)),
+      peak_prefill_tok_s: maximum(sweep.rows.map((row) => row.prefill_tok_s), sweep.metrics?.peak_prompt_tps),
+      peak_vram_gb: maximum(sweep.rows.map((row) => row.peak_vram_gb)),
+      point_count: sweep.rows.length || sweep.metrics?.point_count || 0,
+    },
+    model: {
+      family: result.model.family,
+      id: result.model.id,
+      name: result.model.name,
+    },
+    model_instance: {
+      format: result.model_instance.weights.format,
+      id: result.model_instance.id,
+      precision: result.model_instance.weights.precision,
+      repository: result.model_instance.repository,
+    },
+    recipe_id: result.recipe.id,
+    sweep_id: sweep.id,
+  }
+}
+
+export function getBenchmark(id: string): BenchmarkResult | undefined {
+  const sweep = getSpeedSweep(id)
+  return sweep ? benchmarkResult(sweep) : undefined
+}
+
+export function listBenchmarks(filters: Record<string, string>, pagination: Pagination) {
+  const sweeps = listSpeedSweeps(filters, pagination)
+  return {
+    data: sweeps.data.flatMap((sweep) => {
+      const benchmark = benchmarkResult(sweep)
+      return benchmark ? [benchmark] : []
+    }),
+    total: sweeps.total,
+  }
 }
 
 function recipeRowsForModel(modelId: string): CompatibilityRow[] {
@@ -575,6 +719,11 @@ export function getEntityDetail(collection: string, id: string): RegistryRecord 
         recipe: result ? recordLink("recipes", result.recipe.id, `${result.model.name} on ${result.hardware.name}`) : null,
       },
     }
+  }
+
+  if (collection === "benchmarks") {
+    const benchmark = getBenchmark(id)
+    return benchmark ? { ...benchmark } : undefined
   }
 
   return undefined

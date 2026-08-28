@@ -11,6 +11,7 @@ import {
   getFacets,
   getHardware,
   getSpeedSweep,
+  listBenchmarks,
   listHardware,
   listModelInstances,
   listModels,
@@ -20,6 +21,7 @@ import {
   queryCompatibility,
   type CompatibilityFilters,
   type CompatibilityResult,
+  type BenchmarkResult,
   type PriceResult,
 } from "@local-ai/registry"
 import type { Hardware, SpeedRow, SpeedSweep } from "@local-ai/registry/schema"
@@ -30,7 +32,7 @@ type PageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>
 }
 
-type Topic = "recipes" | "hardware" | "models" | "prices" | "speed-sweeps"
+type Topic = "recipes" | "hardware" | "models" | "prices" | "benchmarks" | "speed-sweeps"
 
 type EvidenceRow = SpeedRow & {
   sweepId: string
@@ -47,6 +49,7 @@ const TOPICS: Array<{ key: Topic; label: string; countKey: string | null; descri
   { key: "hardware", label: "Hardware", countKey: "hardware", description: "Accelerator specifications connected to compatible models, recipes, and regional prices." },
   { key: "models", label: "Models", countKey: "model", description: "Canonical models connected to artifacts, supported hardware, and recipes." },
   { key: "prices", label: "Prices", countKey: "price", description: "Fresh regional listing observations in native currency. Candidate matches remain inspectable." },
+  { key: "benchmarks", label: "Benchmarks", countKey: "speed_sweeps", description: "Comparable model × hardware results derived from raw sweep evidence." },
   { key: "speed-sweeps", label: "Speed Sweeps", countKey: "speed_sweeps", description: "Measured inference evidence connected back to the recipe that produced it." },
 ]
 
@@ -153,6 +156,10 @@ function compatibilityTitle(id: string): string | null {
 
 function recordTitle(detail: Record<string, unknown>, fallback: string, topic: Topic): string {
   if (topic === "recipes") return compatibilityTitle(fallback) ?? fallback
+  if (topic === "benchmarks") {
+    const benchmark = detail as BenchmarkResult
+    return `${benchmark.model.name} on ${benchmark.hardware.name} · benchmark`
+  }
   if (topic === "speed-sweeps") {
     const sweep = getSpeedSweep(fallback)
     const title = sweep ? compatibilityTitle(sweep.recipe_id) : null
@@ -254,6 +261,34 @@ function PriceRows({ data, state }: { data: PriceResult[]; state: URLSearchParam
   )
 }
 
+function BenchmarkRows({ data, state }: { data: BenchmarkResult[]; state: URLSearchParams }) {
+  return (
+    <div className="browser-list benchmark-list">
+      {data.map((benchmark) => {
+        const precision = benchmark.model_instance.precision ?? benchmark.model_instance.format ?? "Unknown precision"
+        const tags: RowTag[] = [
+          { label: benchmark.hardware.vendor, name: "q", value: benchmark.hardware.vendor },
+          { label: benchmark.engine.name, name: "q", value: benchmark.engine.name },
+          { label: `${benchmark.hardware.total_memory_gb} GB`, name: "q", value: `${benchmark.hardware.total_memory_gb} GB` },
+        ]
+        return (
+          <article className="browser-row benchmark-row" key={benchmark.id}>
+            <Link aria-label={`Open benchmark for ${benchmark.model.name}`} className="row-open" href={hrefWithRecord(state, benchmark.id)} scroll={false} />
+            <span className="row-primary"><strong>{benchmark.model.name}</strong><small>{precision} · {formatDate(benchmark.measured_at)}</small></span>
+            <span><strong>{benchmark.hardware.name}</strong><small>{benchmark.hardware.count} × {benchmark.hardware.memory_gb} GB</small></span>
+            <span><strong>{benchmark.engine.name}</strong><small>{benchmark.metrics.point_count} points</small></span>
+            <span><strong>{benchmark.metrics.peak_decode_tok_s === null ? "—" : `${formatRate(benchmark.metrics.peak_decode_tok_s)} tok/s`}</strong><small>peak decode</small></span>
+            <span><strong>{benchmark.metrics.peak_prefill_tok_s === null ? "—" : `${formatRate(benchmark.metrics.peak_prefill_tok_s)} tok/s`}</strong><small>peak prefill</small></span>
+            <span><strong>{formatTokens(benchmark.metrics.max_context_tokens)}</strong><small>{benchmark.metrics.best_ttft_ms === null ? "TTFT unknown" : `${formatRate(benchmark.metrics.best_ttft_ms)} ms TTFT`}</small></span>
+            <TaxonomyTags state={state} tags={tags} />
+            <svg aria-hidden="true" className="row-arrow" viewBox="0 0 20 20"><path d="m7 4 6 6-6 6" /></svg>
+          </article>
+        )
+      })}
+    </div>
+  )
+}
+
 export default async function Home({ searchParams }: PageProps) {
   const params = await searchParams
   const value = (key: string) => {
@@ -304,6 +339,7 @@ export default async function Home({ searchParams }: PageProps) {
     retailer: value("retailer"),
   }, pagination) : { data: [], total: 0 }
   const priceTotal = counts.price ?? (topic === "prices" ? priceResults.total : listPrices({}, { limit: 1, offset: 0 }).total)
+  const benchmarkResults = topic === "benchmarks" ? listBenchmarks({ q: query }, pagination) : { data: [], total: 0 }
   const sweepResults = topic === "speed-sweeps" ? listSpeedSweeps({ q: query }, pagination) : { data: [], total: 0 }
 
   const filterKeys: Partial<Record<Topic, string[]>> = {
@@ -339,7 +375,9 @@ export default async function Home({ searchParams }: PageProps) {
         ? modelResults.total
         : topic === "prices"
           ? priceResults.total
-          : topic === "speed-sweeps" ? sweepResults.total : 0
+          : topic === "benchmarks"
+            ? benchmarkResults.total
+            : topic === "speed-sweeps" ? sweepResults.total : 0
   const topicLabel = TOPICS.find((item) => item.key === topic)?.label
   const topicDescription = TOPICS.find((item) => item.key === topic)?.description
 
@@ -467,6 +505,7 @@ export default async function Home({ searchParams }: PageProps) {
             </div>
           )}
           {topic === "prices" && <PriceRows data={priceResults.data} state={viewState} />}
+          {topic === "benchmarks" && <BenchmarkRows data={benchmarkResults.data} state={viewState} />}
           {topic === "speed-sweeps" && (
             <div className="browser-list collection-list">
               {sweepResults.data.map((sweep) => {

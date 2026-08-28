@@ -10,12 +10,13 @@ import {
   getCompatibilityResult,
   getEntityDetail,
   getSpeedSweep,
+  type BenchmarkResult,
   type CompatibilityResult,
   type ModelInstanceResult,
 } from "@local-ai/registry"
 import type { Hardware, Model, PriceObservation, PriceRecord, SpeedRow, SpeedSweep } from "@local-ai/registry/schema"
 
-type RecordTopic = "recipes" | "hardware" | "models" | "prices" | "speed-sweeps"
+type RecordTopic = "recipes" | "hardware" | "models" | "prices" | "benchmarks" | "speed-sweeps"
 
 type RecordLink = {
   api?: string
@@ -386,6 +387,25 @@ function SpeedDetails({ record }: { record: Record<string, unknown> }) {
   )
 }
 
+function BenchmarkDetails({ record }: { record: Record<string, unknown> }) {
+  const benchmark = record as unknown as BenchmarkResult
+  const precision = benchmark.model_instance.precision ?? benchmark.model_instance.format ?? "Unknown"
+
+  return (
+    <Summary
+      action={<Link className="record-action" href={`/?topic=speed-sweeps&record=${encodeURIComponent(benchmark.sweep_id)}`} scroll={false}>Raw sweep</Link>}
+      description={`${benchmark.model.name} measured on ${benchmark.hardware.count > 1 ? `${benchmark.hardware.count}× ` : ""}${benchmark.hardware.name}.`}
+      facts={[
+        { label: "Peak decode", value: benchmark.metrics.peak_decode_tok_s === null ? "Unknown" : `${benchmark.metrics.peak_decode_tok_s.toLocaleString(undefined, { maximumFractionDigits: 1 })} tok/s`, detail: `${benchmark.metrics.point_count} measured points` },
+        { label: "Peak prefill", value: benchmark.metrics.peak_prefill_tok_s === null ? "Unknown" : `${benchmark.metrics.peak_prefill_tok_s.toLocaleString(undefined, { maximumFractionDigits: 1 })} tok/s`, detail: benchmark.engine.name },
+        { label: "Context", value: benchmark.metrics.max_context_tokens === null ? "Unknown" : benchmark.metrics.max_context_tokens.toLocaleString(), detail: benchmark.metrics.best_ttft_ms === null ? "TTFT unknown" : `${benchmark.metrics.best_ttft_ms.toLocaleString(undefined, { maximumFractionDigits: 1 })} ms best TTFT` },
+        { label: "Configuration", value: `${benchmark.hardware.total_memory_gb} GB`, detail: `${precision} · ${formatDate(benchmark.measured_at)}` },
+      ]}
+      label="BENCHMARK SUMMARY"
+    />
+  )
+}
+
 function RawRecord({ record }: { record: Record<string, unknown> }) {
   return (
     <details className="raw-record">
@@ -401,6 +421,7 @@ export function RecordDetails({ compatibility, modelInstances, record, selectedH
       {topic === "hardware" && <HardwareDetails record={record} />}
       {topic === "models" && <ModelDetails modelInstances={modelInstances} record={record} />}
       {topic === "prices" && <PriceDetails record={record} />}
+      {topic === "benchmarks" && <BenchmarkDetails record={record} />}
       {topic === "speed-sweeps" && <SpeedDetails record={record} />}
       {topic === "recipes" && compatibility && (
         <>
