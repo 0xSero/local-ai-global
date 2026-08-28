@@ -6,7 +6,7 @@ import { DataTree } from "@/app/components/data-tree"
 import { HuggingFaceCards } from "@/app/components/hugging-face-cards"
 import { RecordDetails } from "@/app/components/record-details"
 import { RecordSearch } from "@/app/components/record-search"
-import { getCompatibilityResult, getEntityDetail, listModelInstances, modelInstanceResult, getModelInstance } from "@local-ai/registry"
+import { getCompatibilityResult, getEntityDetail, listModelInstances, modelInstanceResult, getModelInstance, type ModelInstanceCreditIdentity, type ModelInstanceCredits } from "@local-ai/registry"
 
 export const dynamic = "force-dynamic"
 
@@ -48,6 +48,45 @@ function readHuggingFace(record: Record<string, unknown>): HuggingFaceDisplay | 
   return { linkType, status, url }
 }
 
+function creditState(identity: ModelInstanceCreditIdentity): string {
+  if (identity.status === "known" && identity.link_type === "repository") return "Exact repository"
+  if (identity.link_type === "search") return "Search fallback"
+  return "Unverified repository"
+}
+
+function CreditIdentity({ identity, label }: { identity: ModelInstanceCreditIdentity | null; label: string }) {
+  return (
+    <article className="instance-credit">
+      <span className="mono-label">{label}</span>
+      <strong>{identity?.publisher ?? "Publisher unresolved"}</strong>
+      {identity ? <a href={identity.url} rel="noreferrer" target="_blank">{identity.repository ?? identity.url} ↗</a> : <span>No linked source record</span>}
+      <small>{identity ? creditState(identity) : "Missing model relationship"}</small>
+    </article>
+  )
+}
+
+function InstanceCredits({ credits }: { credits: ModelInstanceCredits }) {
+  const sources = credits.provenance.sources.filter((source) => source.url)
+  return (
+    <section className="instance-credits" aria-label="Model instance credits and provenance">
+      <header>
+        <div><span className="mono-label">CREDITS / PROVENANCE</span><h2>Where this artifact came from</h2></div>
+        <p>Publisher names come from repository namespaces. They are source credits, not inferred claims about model authorship.</p>
+      </header>
+      <div className="instance-credit-grid">
+        <CreditIdentity identity={credits.base_model} label="BASE MODEL PUBLISHER" />
+        <CreditIdentity identity={credits.artifact} label="ARTIFACT / QUANTIZATION PUBLISHER" />
+        <article className="instance-credit instance-credit-provenance">
+          <span className="mono-label">REGISTRY PROVENANCE</span>
+          <strong>{sources.length} captured {sources.length === 1 ? "source" : "sources"}</strong>
+          {sources.map((source, index) => <a href={source.url} key={`${source.kind}-${source.url}-${index}`} rel="noreferrer" target="_blank">{source.kind ?? "source"} ↗</a>)}
+          <small>Captured {new Date(credits.provenance.captured_at).toLocaleString("en-US", { dateStyle: "medium", timeZone: "UTC" })} UTC</small>
+        </article>
+      </div>
+    </section>
+  )
+}
+
 export async function generateMetadata({ params }: DetailProps): Promise<Metadata> {
   const { collection, id } = await params
   if (!COLLECTION_LABELS[collection]) return { title: "Record not found" }
@@ -76,6 +115,7 @@ export default async function DetailPage({ params, searchParams }: DetailProps) 
       ? [getModelInstance(id)].flatMap((record) => record ? [modelInstanceResult(record)] : [])
       : []
   const huggingFace = instance ? readHuggingFace(instance) : null
+  const credits = instance?.credits as ModelInstanceCredits | undefined
   const topic = recordTopic(collection)
   const compatibility = collection === "recipes" ? getCompatibilityResult(id) : undefined
   if (instance && !huggingFace) {
@@ -101,7 +141,7 @@ export default async function DetailPage({ params, searchParams }: DetailProps) 
 
       {(collection === "hardware" || collection === "models") && <RecordSearch query={query} />}
 
-      {huggingFace && (
+      {instance && huggingFace && credits ? <InstanceCredits credits={credits} /> : huggingFace && (
         <section className="artifact-resolution" aria-label="Hugging Face identity">
           <p className="eyebrow">Authoritative Hugging Face link from this model-instance body</p>
           <a href={huggingFace.url} rel="noreferrer" target="_blank">{huggingFace.url} ↗</a>

@@ -670,6 +670,17 @@ code, pre, kbd, .mono-label, .row-status, .topic-total, .pagination { font-famil
 .artifact-fields dt { color: var(--muted); font-size: 0.64rem; text-transform: uppercase; }
 .artifact-fields dd { margin: 0; font-family: var(--font-mono); font-size: 0.68rem; }
 .link-explanation { color: var(--muted); }
+.instance-credits { margin: 20px 0 26px; }
+.instance-credits > header { display: flex; margin-bottom: 10px; align-items: flex-end; justify-content: space-between; gap: 30px; }
+.instance-credits h2 { margin: 5px 0 0; font-size: 1rem; font-weight: 550; }
+.instance-credits > header p { max-width: 490px; margin: 0; color: var(--muted); font-size: 0.65rem; line-height: 1.5; }
+.instance-credit-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line-strong); border-left: 1px solid var(--line-strong); }
+.instance-credit { display: flex; min-width: 0; min-height: 142px; padding: 16px; align-items: flex-start; flex-direction: column; border-right: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); background: var(--surface); }
+.instance-credit:nth-child(even) { background: var(--surface-row-alt); }
+.instance-credit strong { margin-top: 22px; color: var(--ink); font-size: 0.86rem; font-weight: 560; }
+.instance-credit a, .instance-credit > span:not(.mono-label) { max-width: 100%; margin-top: 6px; overflow: hidden; color: #d0cec7; font-family: var(--font-mono); font-size: 0.59rem; text-overflow: ellipsis; white-space: nowrap; }
+.instance-credit small { margin-top: auto; padding-top: 16px; color: var(--faint); font-family: var(--font-mono); font-size: 0.54rem; }
+.instance-credit-provenance a + a { margin-top: 3px; }
 .record-sheet { margin-top: 26px; padding: clamp(16px, 3vw, 30px); border: 1px solid var(--line); background: var(--surface); }
 .semantic-record-sheet { margin-top: 0; padding: 0; border: 0; background: transparent; }
 .semantic-record-sheet > .record-summary:first-child { padding-top: 22px; }
@@ -755,6 +766,9 @@ body > footer p { margin: 0; }
   .detail-header { align-items: flex-start; flex-direction: column; }
   .detail-actions { flex-wrap: wrap; }
   .record-search { grid-template-columns: 1fr; }
+  .instance-credits > header { align-items: flex-start; flex-direction: column; gap: 8px; }
+  .instance-credit-grid { grid-template-columns: 1fr; }
+  .instance-credit { min-height: 126px; }
   .registry-main { width: min(100% - 20px, 1440px); padding-top: 10px; }
   .topic-tabs { top: 6px; margin-inline: auto; }
   .topic-tabs a { padding-inline: 10px; font-size: 0.67rem; }
