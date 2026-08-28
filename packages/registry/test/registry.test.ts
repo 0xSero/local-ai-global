@@ -102,6 +102,14 @@ test("hardware filters use normalized vendor and memory fields", () => {
   }
 })
 
+test("every model publishes a positive parameter count", () => {
+  const result = listModels({}, { limit: 1000, offset: 0 })
+
+  assert.ok(result.total > 0)
+  assert.equal(result.data.length, result.total)
+  for (const model of result.data) assert.ok((model.params ?? 0) > 0, model.id)
+})
+
 test("recipe detail progressively resolves related records and speed evidence", () => {
   const detail = getEntityDetail(
     "recipes",
