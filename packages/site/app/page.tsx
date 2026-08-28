@@ -2,6 +2,7 @@ import Link from "next/link"
 
 import { HardwareMedia } from "@/app/components/hardware-media"
 import { ModalCloseButton, RecordModal } from "@/app/components/record-modal"
+import { ModelPublisherMark } from "@/app/components/model-publisher-mark"
 import { RecordDetails } from "@/app/components/record-details"
 import { RegistrySearch, type SearchFilter } from "@/app/components/registry-search"
 import {
@@ -485,6 +486,7 @@ export default async function Home({ searchParams }: PageProps) {
               {modelResults.data.map((model) => {
                 const instances = listModelInstances({ model_id: model.id }, { limit: 100, offset: 0 }).data
                 const recipeCount = queryCompatibility({ model_id: model.id }, { limit: 1, offset: 0 }).total
+                const publisher = model.huggingface.repository?.split("/")[0]
                 const tags: RowTag[] = [
                   { label: model.family, name: "family", value: model.family },
                   ...(model.architecture ? [{ label: model.architecture, name: "architecture", value: model.architecture }] : []),
@@ -492,7 +494,7 @@ export default async function Home({ searchParams }: PageProps) {
                 return (
                   <article className="browser-row model-catalog-row" key={model.id}>
                     <Link aria-label={`Open ${model.name}`} className="row-open" href={hrefWithRecord(viewState, model.id)} scroll={false} />
-                    <span className="model-row-mark"><img alt="" src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" /></span>
+                    <ModelPublisherMark fallback={model.family || model.name} publisher={publisher} />
                     <span className="row-primary"><strong>{model.name}</strong><small>{model.huggingface.repository ?? model.family}</small></span>
                     <span><strong>{formatParams(model.params)}</strong><small>{model.active_params === null ? "parameter count" : `${formatParams(model.active_params)} active`}</small></span>
                     <span><strong>{model.architecture ? model.architecture.toUpperCase() : model.family}</strong><small>{model.architecture ? "registry topology" : "model family"}</small></span>

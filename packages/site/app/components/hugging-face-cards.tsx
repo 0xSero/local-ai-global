@@ -4,6 +4,7 @@ import rehypeSanitize from "rehype-sanitize"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
 
+import { ModelPublisherMark } from "@/app/components/model-publisher-mark"
 import type { ModelInstanceResult } from "@local-ai/registry"
 import { getHuggingFaceModelCard, getHuggingFaceModelReadme, type HuggingFaceModelCard } from "@local-ai/sdk"
 
@@ -104,7 +105,7 @@ function RepositoryIdentity({ group, metadata }: { group: RepositoryGroup; metad
   const author = metadata?.author ?? group.repository.split("/")[0]
   return (
     <div className="hf-identity">
-      <span className="hf-card-brand"><span className="publisher-mark">{author.slice(0, 2).toUpperCase()}</span><img alt="Hugging Face" src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" /></span>
+      <span className="hf-card-brand"><ModelPublisherMark className="publisher-mark" fallback={author} publisher={author} /></span>
       <span><strong>{metadata?.id ?? group.repository}</strong><small>{author} · {group.instances.length === 0 ? "canonical model repository" : `${group.instances.length} published ${group.instances.length === 1 ? "variant" : "variants"}`}</small></span>
     </div>
   )

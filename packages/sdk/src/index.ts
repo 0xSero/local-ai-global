@@ -49,6 +49,12 @@ export type HuggingFaceModelCard = {
   usedStorage?: number
 }
 
+export type HuggingFacePublisherProfile = {
+  avatarUrl?: string
+  fullname?: string
+  name?: string
+}
+
 export type HuggingFaceRequest = RequestInit & {
   next?: { revalidate: number }
 }
@@ -77,6 +83,22 @@ export async function getHuggingFaceModelReadme(
   return response.text()
 }
 
+export async function getHuggingFacePublisherProfile(
+  publisher: string,
+  connection?: HuggingFaceConnection,
+  request: HuggingFaceRequest = {},
+): Promise<HuggingFacePublisherProfile | null> {
+  const headers = new Headers(request.headers)
+  if (connection) headers.set("Authorization", `Bearer ${connection.token}`)
+  const options = { ...request, headers }
+  const [organization, user] = await Promise.all([
+    fetch(`https://huggingface.co/api/organizations/${encodeURIComponent(publisher)}/overview`, options),
+    fetch(`https://huggingface.co/api/users/${encodeURIComponent(publisher)}/overview`, options),
+  ])
+  const response = organization.ok ? organization : user.ok ? user : null
+  return response ? response.json() as Promise<HuggingFacePublisherProfile> : null
+}
+
 export class HuggingFaceClient {
   constructor(private readonly connection: HuggingFaceConnection) {}
 
@@ -92,5 +114,9 @@ export class HuggingFaceClient {
 
   async modelReadme(repository: string): Promise<string> {
     return getHuggingFaceModelReadme(repository, this.connection)
+  }
+
+  async publisherProfile(publisher: string): Promise<HuggingFacePublisherProfile | null> {
+    return getHuggingFacePublisherProfile(publisher, this.connection)
   }
 }

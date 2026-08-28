@@ -308,8 +308,8 @@ code, pre, kbd, .mono-label, .row-status, .topic-total, .pagination { font-famil
 .hardware-media.hero img { padding: 14px; }
 .hardware-media.vendor-fallback > span { color: #d0cec7; font-family: var(--font-mono); font-size: 0.66rem; font-weight: 560; letter-spacing: 0.08em; }
 .hardware-media.hero.vendor-fallback > span { font-size: 1.05rem; }
-.model-row-mark { display: grid; width: 36px; height: 36px; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: #181818; }
-.model-row-mark img { width: 20px; height: 20px; }
+.model-row-mark { position: relative; display: grid; width: 36px; height: 36px; place-items: center; overflow: hidden; border: 1px solid var(--line); border-radius: 50%; background: #181818; color: var(--muted); font-family: var(--font-mono); font-size: 0.58rem; }
+.model-row-mark img { position: absolute; width: 100%; height: 100%; inset: 0; object-fit: cover; }
 .status-mark { width: 6px; height: 6px; border-radius: 50%; }
 .status-mark.validated { background: var(--green); }
 .status-mark.candidate { background: var(--amber); }
@@ -541,8 +541,8 @@ code, pre, kbd, .mono-label, .row-status, .topic-total, .pagination { font-famil
 }
 .hf-card:hover { background: var(--surface-2); }
 .hf-card-brand { display: flex; align-items: center; gap: 5px; }
-.publisher-mark { display: grid; width: 28px; height: 28px; place-items: center; border: 1px solid var(--line); border-radius: 3px; font-family: var(--font-mono); font-size: 0.58rem; }
-.hf-card-brand img { width: 18px; height: 18px; }
+.publisher-mark { position: relative; display: grid; width: 28px; height: 28px; place-items: center; overflow: hidden; border: 1px solid var(--line); border-radius: 3px; background: #1d1d1b; font-family: var(--font-mono); font-size: 0.58rem; }
+.publisher-mark img { position: absolute; width: 100%; height: 100%; inset: 0; object-fit: cover; }
 .hf-card-title { min-width: 0; }
 .hf-card-title strong, .hf-card-title small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .hf-card-title strong { font-size: 0.73rem; font-weight: 560; }
