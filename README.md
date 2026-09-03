@@ -1,3 +1,5 @@
+> **Archived 2026-09-03.** Superseded by [local-ai-registry](https://github.com/0xSero/local-ai-registry) (docs: https://0xsero.github.io/local-ai-registry/). Kept read-only for history.
+
 # Local AI Tools
 
 One monorepo for discovering local hardware, resolving compatible model artifacts, launching validated inference recipes, and preserving the evidence behind every recommendation.
